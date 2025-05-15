@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:latlong2/latlong.dart';
 
 class MapPage extends HookConsumerWidget {
@@ -8,6 +9,8 @@ class MapPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final mapController = useState(MapController());
+
     return Column(
       children: [
         Expanded(
@@ -17,6 +20,7 @@ class MapPage extends HookConsumerWidget {
               bottomRight: Radius.circular(20),
             ),
             child: FlutterMap(
+              mapController: mapController.value,
               options: MapOptions(
                 // 龍大瀬田キャンパスの緯度経度
                 initialCenter:
@@ -30,6 +34,7 @@ class MapPage extends HookConsumerWidget {
                 // 初期回転角度
                 initialRotation: 0,
                 onTap: (tapPotision, point) {},
+                
               ),
               children: [
                 TileLayer(
@@ -62,9 +67,7 @@ class MapPage extends HookConsumerWidget {
                   top: 8,
                   right: 8,
                   child: IconButton.filled(
-                    onPressed: () {
-                      
-                    },
+                    onPressed: () {},
                     icon: Icon(
                       Icons.location_searching_rounded,
                     ),

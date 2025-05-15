@@ -53,9 +53,7 @@ class PostPage extends HookConsumerWidget {
           controller.value.initialize().catchError((error) {
         debugPrint("カメラの初期化中にエラーが発生しました: $error");
       });
-      return () {
-        controller.dispose();
-      };
+      return null;
     }, [cameras]);
 
     return Padding(

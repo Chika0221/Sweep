@@ -55,9 +55,9 @@ dependencies:
   # 緯度経度を１つの値で管理
   latlong2: ^0.9.1
   # 現在地取得
-  geolocator: ^14.0.0
   # 写真を参照
   image_picker: ^1.1.2
+  location: ^8.0.0
 
 dev_dependencies:
   flutter_test:
