@@ -1,16 +1,82 @@
 # sweep
 
-A new Flutter project.
+## 概要
 
-## Getting Started
+**sweep**は、大津市の「きれいなまちづくり」を支援するFlutter製アプリです。  
+市民や観光客がゴミの情報を共有し、清掃活動に参加しやすくすることで、地域の環境改善・経済活性化・社会貢献を目指します。
 
-This project is a starting point for a Flutter application.
+---
 
-A few resources to get you started if this is your first Flutter project:
+## 主な機能
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- **イベント作成・参加**  
+  ゴミ収集イベントを企画・参加し、リマインダー通知も受信可能。
+- **ゴミの場所投稿**  
+  イベント未参加でも、ゴミの場所や種類を投稿可能。投稿でマイル（ポイント）を獲得。
+- **マップ表示**  
+  市内のゴミやゴミ箱の位置を地図上で確認でき、効率的な清掃活動をサポート。
+- **リアルタイム記録**  
+  イベント当日のゴミ収集量・種類をリアルタイムで記録。
+- **マイル付与・景品交換**  
+  活動実績に応じてマイルが付与され、大津市の特産品などと交換可能。
+- **履歴・ランキング表示**  
+  自分の活動履歴やランキングを確認でき、モチベーション向上。
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+---
+
+## 画面構成
+
+- **ホーム画面**  
+  ユーザー情報・活動履歴・マイル表示などを確認。
+- **マップ画面**  
+  ゴミやゴミ箱の位置を地図で表示。
+- **投稿画面**  
+  カメラやギャラリーから写真を投稿し、ゴミ情報を登録。
+- **イベント画面**  
+  イベントの作成・参加・詳細確認。
+
+---
+
+## 技術スタック
+
+- Flutter 3.6.1
+- Riverpod（状態管理）
+- Firebase（認証・データ管理）
+- flutter_map（地図表示）
+- camera, image_picker（写真投稿）
+- その他：freezed, json_serializable など
+
+---
+
+## セットアップ方法
+
+1. 必要なパッケージをインストール
+   ```
+   flutter pub get
+   ```
+2. Firebaseプロジェクトの設定（必要に応じて）
+3. アプリを起動
+   ```
+   flutter run
+   ```
+
+---
+
+## sweepで実現する価値
+
+- **環境改善**：ゴミの可視化と効率的な清掃で美しいまちづくり
+- **観光促進**：景観向上による観光客誘致
+- **経済循環**：マイルを地域特産品と交換し、地元経済を活性化
+- **社会貢献**：子供や高齢者も参加しやすい設計
+
+---
+
+## 今後の課題
+
+- SDGs推進・本人確認の徹底
+- イベント参加人数の適切な管理
+- 高齢者にも使いやすいUI・サポート体制
+
+---
+
+一緒にスマートな運用を実現し、地域の環境保護に貢献しましょう！
