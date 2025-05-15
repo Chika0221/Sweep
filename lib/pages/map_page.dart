@@ -1,81 +1,87 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_map_animations/flutter_map_animations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:location/location.dart';
+import 'package:sweep/widgets/currentLocationContainer.dart';
 
 // 大津市役所の緯度経度
 const otsuCityOfficePosition = LatLng(35.01889586284015, 135.85529483505871);
 
-class MapPage extends HookConsumerWidget {
+class MapPage extends StatefulHookConsumerWidget {
   const MapPage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final mapController = useState(MapController());
-    final currentLocation = useState(otsuCityOfficePosition);
+  ConsumerState<MapPage> createState() => _MapPageState();
+}
 
-    Future<void> getcurrentlocation() async {
-      Location location = new Location();
+class _MapPageState extends ConsumerState<MapPage>
+    with TickerProviderStateMixin {
+  late AnimatedMapController animatedMapController;
+  late LatLng currentLocation = otsuCityOfficePosition;
 
-      bool _serviceEnabled;
-      PermissionStatus _permissionGranted;
-      LocationData _locationData;
+  @override
+  void initState() {
+    super.initState();
+    animatedMapController = AnimatedMapController(vsync: this);
+    getCurrentLocation();
+  }
 
-      _serviceEnabled = await location.serviceEnabled();
-      if (!_serviceEnabled) {
-        _serviceEnabled = await location.requestService();
-        if (!_serviceEnabled) {
-          return;
-        }
-      }
+  Future<void> getCurrentLocation() async {
+    Location location = Location();
 
-      _permissionGranted = await location.hasPermission();
-      if (_permissionGranted == PermissionStatus.denied) {
-        _permissionGranted = await location.requestPermission();
-        if (_permissionGranted != PermissionStatus.granted) {
-          return;
-        }
-      }
-
-      final position = await location.getLocation();
-      currentLocation.value = LatLng(position.latitude!, position.longitude!);
+    bool serviceEnabled = await location.serviceEnabled();
+    if (!serviceEnabled) {
+      serviceEnabled = await location.requestService();
+      if (!serviceEnabled) return;
     }
 
-    useEffect(() {
-      getcurrentlocation();
-    }, []);
+    PermissionStatus permissionGranted = await location.hasPermission();
+    if (permissionGranted == PermissionStatus.denied) {
+      permissionGranted = await location.requestPermission();
+      if (permissionGranted != PermissionStatus.granted) return;
+    }
 
+    final locationData = await location.getLocation();
+    setState(() {
+      currentLocation = LatLng(locationData.latitude!, locationData.longitude!);
+    });
+  }
+
+  @override
+  void dispose() {
+    animatedMapController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Column(
       children: [
         Expanded(
           child: ClipRRect(
-            borderRadius: BorderRadius.only(
+            borderRadius: const BorderRadius.only(
               bottomLeft: Radius.circular(20),
               bottomRight: Radius.circular(20),
             ),
             child: FlutterMap(
-              mapController: mapController.value,
+              mapController: animatedMapController.mapController,
               options: MapOptions(
-                // 龍大瀬田キャンパスの緯度経度
                 initialCenter: otsuCityOfficePosition,
-                // 一倍は世界地図
                 initialZoom: 13.0,
-                // 拡大設定
                 maxZoom: 20.0,
-                // 縮小設定
                 minZoom: 8.0,
-                // 初期回転角度
                 initialRotation: 0,
-                onTap: (tapPotision, point) {},
+                onTap: (tapPosition, point) {},
               ),
               children: [
                 TileLayer(
-                  // オープンソースのopenStreetMap
                   urlTemplate:
                       'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
                 ),
+                // マップ上のピン
                 MarkerLayer(
                   markers: [
                     Marker(
@@ -97,14 +103,32 @@ class MapPage extends HookConsumerWidget {
                     ),
                   ],
                 ),
+                // 現在地ピン
+                MarkerLayer(
+                  markers: [
+                    Marker(
+                      point: currentLocation,
+                      child: Currentlocationcontainer(
+                        diameter: 32,
+                        backgroundColor: Theme.of(context).colorScheme.primary,
+                        lineColor: Theme.of(context).colorScheme.surface,
+                      ),
+                    ),
+                  ],
+                ),
+                // 現在地ボタン
                 Positioned(
-                  top: 64,
+                  bottom: 8,
                   right: 8,
                   child: IconButton.filled(
                     onPressed: () {
-                      mapController.value.move(currentLocation.value, 15.0);
+                      animatedMapController.animateTo(
+                        dest: currentLocation,
+                        zoom: 15.0,
+                        rotation: 0,
+                      );
                     },
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.location_searching_rounded,
                     ),
                   ),
@@ -113,7 +137,7 @@ class MapPage extends HookConsumerWidget {
             ),
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 100,
           child: Center(
             child: Text("ここでフィルターとか"),

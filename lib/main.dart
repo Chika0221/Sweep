@@ -21,7 +21,7 @@ class MyApp extends HookConsumerWidget {
       debugShowCheckedModeBanner: false,
       home: MainPage(),
       theme: ThemeData(
-        colorSchemeSeed: Colors.yellow,
+        colorSchemeSeed: Colors.red,
       ),
     );
   }
