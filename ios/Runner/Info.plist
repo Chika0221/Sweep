@@ -56,5 +56,9 @@
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>アプリ内で投稿するゴミをフォトライブラリから参照するために使用</string>
 
+	<!-- goelocatorで追加 -->
+	 <key>NSLocationWhenInUseUsageDescription</key>
+	<string>ゴミの投稿をする際に位置情報を使用するため</string>
+
 </dict>
 </plist>

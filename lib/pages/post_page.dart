@@ -103,11 +103,11 @@ class PostPage extends HookConsumerWidget {
                                           final XFile? image =
                                               await _picker.pickImage(
                                                   source: ImageSource.gallery);
-                                          ref
-                                              .read(postProvider.notifier)
-                                              ..pictureFromImagePicker(
-                                                  image!.path)
-                                              ..goNextPage(context);;
+                                          ref.read(postProvider.notifier)
+                                            ..pictureFromImagePicker(
+                                                image!.path)
+                                            ..goNextPage(context);
+                                          ;
                                         },
                                       ),
                                       ListTile(
@@ -119,11 +119,10 @@ class PostPage extends HookConsumerWidget {
                                           final XFile? photo =
                                               await _picker.pickImage(
                                                   source: ImageSource.camera);
-                                          ref
-                                              .read(postProvider.notifier)
-                                              ..pictureFromImagePicker(
-                                                  photo!.path)
-                                              ..goNextPage(context);
+                                          ref.read(postProvider.notifier)
+                                            ..pictureFromImagePicker(
+                                                photo!.path)
+                                            ..goNextPage(context);
                                         },
                                       ),
                                     ],
@@ -142,8 +141,6 @@ class PostPage extends HookConsumerWidget {
                             ref
                                 .read(postProvider.notifier)
                                 .takePicture(context, controller.value);
-
-
                           },
                           diameter: 84,
                           backgroundColor:

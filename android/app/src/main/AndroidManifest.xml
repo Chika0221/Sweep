@@ -1,8 +1,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <!-- カメラの使用 -->
     <uses-permission android:name="android.permission.CAMERA"/>
+    <!-- デバイスからのファイル取得 -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-
+    <!-- 位置情報の取得 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     
     <application
         android:label="sweep"
