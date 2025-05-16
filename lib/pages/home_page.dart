@@ -24,6 +24,7 @@ class HomePage extends HookConsumerWidget {
         //   backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
         // ),
         SliverList(
+          
           delegate: SliverChildListDelegate(
             [
               NamePlate(),
