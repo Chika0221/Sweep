@@ -115,17 +115,28 @@ class _MapPageState extends ConsumerState<MapPage>
                 Positioned(
                   bottom: 8,
                   right: 8,
-                  child: IconButton.filled(
-                    onPressed: () {
-                      animatedMapController.animateTo(
-                        dest: currentLocation,
-                        zoom: 15.0,
-                        rotation: 0,
-                      );
-                    },
-                    icon: const Icon(
-                      Icons.location_searching_rounded,
-                    ),
+                  child: Column(
+                    spacing: 4,
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      ),
+                      IconButton.filledTonal(onPressed: (){}, icon: Icon(Icons.plus_one)),
+                      IconButton.filled(
+                        onPressed: () {
+                          animatedMapController.animateTo(
+                            dest: currentLocation,
+                            zoom: 15.0,
+                            rotation: 0,
+                          );
+                        },
+                        icon: const Icon(
+                          Icons.location_searching_rounded,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],
