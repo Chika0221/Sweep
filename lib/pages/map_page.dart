@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_animations/flutter_map_animations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:location/location.dart';
 import 'package:sweep/widgets/currentLocationContainer.dart';
+import 'package:sweep/widgets/trash_maker_child.dart';
 
 // 大津市役所の緯度経度
 const otsuCityOfficePosition = LatLng(35.01889586284015, 135.85529483505871);
@@ -78,8 +78,7 @@ class _MapPageState extends ConsumerState<MapPage>
               ),
               children: [
                 TileLayer(
-                  urlTemplate:
-                      'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                  urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                 ),
                 // マップ上のピン
                 MarkerLayer(
@@ -94,11 +93,7 @@ class _MapPageState extends ConsumerState<MapPage>
                         onTap: () {
                           // タップ処理
                         },
-                        child: const Icon(
-                          Icons.location_on,
-                          color: Colors.blue,
-                          size: 50,
-                        ),
+                        child: TrashMakerChild(),
                       ),
                     ),
                   ],
