@@ -29,6 +29,7 @@ class PostModal extends HookConsumerWidget {
         ),
         body: PageView(
           controller: pageController.value,
+          physics: NeverScrollableScrollPhysics(),
           children: [
             PostCameraPage(nextPage: (){
               pageController.value.animateToPage(1, duration: Duration(milliseconds: 200), curve: Curves.easeIn);

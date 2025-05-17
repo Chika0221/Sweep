@@ -22,7 +22,7 @@ class MainPage extends HookConsumerWidget {
         pageController.value.animateToPage(
           selectedIndex.value,
           duration: Duration(milliseconds: 200),
-          curve: Curves.easeIn,
+          curve: Curves.easeInOut,
         );
       });
 
