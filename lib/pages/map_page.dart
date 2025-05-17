@@ -20,7 +20,7 @@ class MapPage extends StatefulHookConsumerWidget {
 class _MapPageState extends ConsumerState<MapPage>
     with TickerProviderStateMixin {
   late AnimatedMapController animatedMapController;
-  late LatLng currentLocation = otsuCityOfficePosition;
+  LatLng? currentLocation;
 
   @override
   void initState() {
@@ -99,10 +99,10 @@ class _MapPageState extends ConsumerState<MapPage>
                   ],
                 ),
                 // 現在地ピン
-                MarkerLayer(
+                (currentLocation != null) ? MarkerLayer(
                   markers: [
                     Marker(
-                      point: currentLocation,
+                      point: currentLocation!,
                       child: Currentlocationcontainer(
                         diameter: 32,
                         backgroundColor: Theme.of(context).colorScheme.primary,
@@ -110,7 +110,7 @@ class _MapPageState extends ConsumerState<MapPage>
                       ),
                     ),
                   ],
-                ),
+                ) : SizedBox.shrink(),
                 // 現在地ボタン
                 Positioned(
                   bottom: 8,
@@ -121,10 +121,17 @@ class _MapPageState extends ConsumerState<MapPage>
                       Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20),
+                          color: Theme.of(context).colorScheme.secondaryContainer
+                        ),
+                        child: Column(
+                          children: [
+                            IconButton.filledTonal(onPressed: () => animatedMapController.animatedZoomIn(), icon: Icon(Icons.add)),
+                            IconButton.filledTonal(onPressed: () => animatedMapController.animatedZoomOut(), icon: Icon(Icons.remove)),
+                          ],
                         ),
                       ),
-                      IconButton.filledTonal(onPressed: (){}, icon: Icon(Icons.plus_one)),
-                      IconButton.filled(
+                      (currentLocation != null) ? FloatingActionButton(
+                        shape: CircleBorder(),
                         onPressed: () {
                           animatedMapController.animateTo(
                             dest: currentLocation,
@@ -132,10 +139,10 @@ class _MapPageState extends ConsumerState<MapPage>
                             rotation: 0,
                           );
                         },
-                        icon: const Icon(
+                        child: const Icon(
                           Icons.location_searching_rounded,
                         ),
-                      ),
+                      ) : SizedBox.shrink(),
                     ],
                   ),
                 ),
