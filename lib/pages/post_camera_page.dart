@@ -6,7 +6,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../states/cameras_notiifier.dart';
-import '../states/image_provider.dart';
+import '../states/image_notifier.dart';
 import '../widgets/shutter_button.dart';
 
 class PostCameraPage extends HookConsumerWidget {
@@ -74,13 +74,7 @@ class PostCameraPage extends HookConsumerWidget {
                                   ListTile(
                                     title: Text("ギャラリーから選択"),
                                     onTap: () async {
-                                      final ImagePicker _picker =
-                                      ImagePicker();
-                                      final XFile? image =
-                                      await _picker.pickImage(
-                                          source: ImageSource.gallery);
-                                      ref.read(imagePathProvider.notifier)
-                                          .pictureFromImagePicker(image!.path);
+                                      await ref.read(imagePathProvider.notifier).pickImageFromGallery();
                                       Navigator.of(context).pop();
                                       nextPage();
                                     },
@@ -88,14 +82,7 @@ class PostCameraPage extends HookConsumerWidget {
                                   ListTile(
                                     title: Text("カメラで撮影"),
                                     onTap: () async {
-                                      final ImagePicker _picker =
-                                      ImagePicker();
-
-                                      final XFile? photo =
-                                      await _picker.pickImage(
-                                          source: ImageSource.camera);
-                                      ref.read(imagePathProvider.notifier)
-                                        .pictureFromImagePicker(photo!.path);
+                                      await ref.read(imagePathProvider.notifier).pickImageFromCamera();
                                       Navigator.of(context).pop();
                                       nextPage();
                                     },
@@ -113,9 +100,7 @@ class PostCameraPage extends HookConsumerWidget {
                     ),
                     ShutterButton(
                       onTap: () async {
-                        ref
-                            .read(imagePathProvider.notifier)
-                            .takePicture(controller.value);
+                        await ref.read(imagePathProvider.notifier).takePicture(controller.value);
                         nextPage();
                       },
                       diameter: 84,
