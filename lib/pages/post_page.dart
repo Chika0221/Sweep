@@ -2,123 +2,247 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_map_animations/flutter_map_animations.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:latlong2/latlong.dart';
+import 'package:location/location.dart';
+import 'package:sweep/classes/post.dart';
 import 'package:sweep/states/image_notifier.dart';
 import 'package:sweep/states/post_notifier.dart';
+import 'package:sweep/widgets/post_margin.dart';
 
-class PostPage extends HookConsumerWidget {
+const otsuCityOfficePosition = LatLng(35.01889586284015, 135.85529483505871);
+
+class PostPage extends StatefulHookConsumerWidget {
   const PostPage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ConsumerStatefulWidget> createState() => _PostPageState();
+}
+
+class _PostPageState extends ConsumerState<PostPage> with TickerProviderStateMixin {
+  late AnimatedMapController mapController;
+  late LatLng currentLocation = otsuCityOfficePosition;
+
+  @override
+  void initState() {
+    super.initState();
+
+    getCurrentLocation();
+  }
+
+  @override
+  void dispose() {
+    mapController.dispose();
+    super.dispose();
+  }
+
+  Future<void> getCurrentLocation() async {
+    Location location = Location();
+
+    bool serviceEnabled = await location.serviceEnabled();
+    if (!serviceEnabled) {
+      serviceEnabled = await location.requestService();
+      if (!serviceEnabled) return;
+    }
+
+    PermissionStatus permissionGranted = await location.hasPermission();
+    if (permissionGranted == PermissionStatus.denied) {
+      permissionGranted = await location.requestPermission();
+      if (permissionGranted != PermissionStatus.granted) return;
+    }
+
+    final locationData = await location.getLocation();
+    setState(() {
+      currentLocation = LatLng(locationData.latitude!, locationData.longitude!);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final imagePaths = useState([ref.watch(imagePathProvider)]);
     final textController = useState(TextEditingController());
-    final postData = ref.watch(postProvider);
+    final postTime = useState(DateTime.now());
+
+    final postData = useState(
+      Post(
+        // 現在の画像
+        imagePaths: imagePaths.value,
+        // 現在地
+        location: currentLocation,
+        // 空白
+        comment: "",
+        // 0
+        point: 0,
+        // 現在時刻
+        time: postTime.value,
+        // 0
+        nice: 0,
+      ),
+    );
 
     useEffect((){
+      postData.value = postData.value.copyWith(location: currentLocation);
+
+      return null;
+    },[currentLocation]);
+
+    useEffect(() {
       ref.read(postProvider.notifier).clear();
-      return (){
+      textController.value.text = postData.value.comment;
+
+      return () {
         textController.dispose();
       };
-    },[]);
+    }, []);
 
-    return Column(
-      spacing: 8,
-      mainAxisSize: MainAxisSize.max,
-      children: [
-        SizedBox(
-          height: 300,
-          width: double.infinity,
-          child: CarouselView.weighted(
-            itemSnapping: true,
-            backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
-            onTap: (index) async {
-              if (index < imagePaths.value.length){
-                await Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => ImagePreviewPage(imagePath: imagePaths.value[index]),
-                  ),
-                );
-              }else{
-                showDialog(
+    return SingleChildScrollView(
+      child: Column(
+        spacing: 8,
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          SizedBox(
+            height: 300,
+            width: double.infinity,
+            child: CarouselView.weighted(
+              itemSnapping: true,
+              backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
+              onTap: (index) async {
+                if (index < imagePaths.value.length) {
+                  await Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          ImagePreviewPage(imagePath: imagePaths.value[index]),
+                    ),
+                  );
+                } else {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return SimpleDialog(
+                        children: [
+                          ListTile(
+                            onTap: () async {
+                              if (await ref
+                                  .read(imagePathProvider.notifier)
+                                  .pickImageFromGallery()) {
+                                imagePaths.value
+                                    .add(ref.watch(imagePathProvider));
+                              }
+                              Navigator.of(context).pop();
+                            },
+                            title: Text("ギャラリーから選択"),
+                          ),
+                          ListTile(
+                            onTap: () async {
+                              if (await ref
+                                  .read(imagePathProvider.notifier)
+                                  .pickImageFromCamera()) {
+                                imagePaths.value
+                                    .add(ref.watch(imagePathProvider));
+                              }
+                              Navigator.of(context).pop();
+                            },
+                            title: Text("カメラで撮影"),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                }
+              },
+              flexWeights: [8, 2],
+              children: List.generate(
+                imagePaths.value.length + 1,
+                (index) {
+                  if (index < imagePaths.value.length) {
+                    return Image.file(
+                      File(imagePaths.value[index]),
+                      fit: BoxFit.cover,
+                    );
+                  } else {
+                    return Center(
+                      child: IconButton.filled(
+                          onPressed: () {}, icon: Icon(Icons.add)),
+                    );
+                  }
+                },
+              ),
+            ),
+          ),
+          PostMargin(
+            child: TextField(
+              controller: textController.value,
+              maxLength: 140,
+              maxLines: 2,
+              minLines: 1,
+              decoration:
+                  InputDecoration(hintText: "コメント", border: InputBorder.none),
+            ),
+          ),
+          PostMargin(
+            child: ListTile(
+              onTap: (){
+                showBottomSheet(
+
+                  showDragHandle: true,
+
                   context: context,
                   builder: (context){
-                    return SimpleDialog(
-                      children: [
-                        ListTile(
-                          onTap: () async {
-                            if(await ref.read(imagePathProvider.notifier).pickImageFromGallery()){
-                              imagePaths.value.add(ref.watch(imagePathProvider));
-                            }
-                            Navigator.of(context).pop();
-                          },
-                          title: Text("ギャラリーから選択"),
-                        ),
-                        ListTile(
-                          onTap: () async {
-                            if(await ref.read(imagePathProvider.notifier).pickImageFromCamera()){
-                              imagePaths.value.add(ref.watch(imagePathProvider));
-                            }
-                            Navigator.of(context).pop();
-                          },
-                          title: Text("カメラで撮影"),
-                        ),
-                      ],
+                    return SizedBox(
+                      height: 200,
+                      child: Center(
+                        child: Text("aaa"),
+                      ),
                     );
                   },
                 );
-              }
-            },
-            flexWeights: [8,2],
-            children: List.generate(
-              imagePaths.value.length + 1,
-              (index){
-                if (index < imagePaths.value.length){
-                  return Image.file(
-                    File(imagePaths.value[index]),
-                    fit: BoxFit.cover,
-                  );
-                }else{
-                  return Center(
-                    child: IconButton.filled(onPressed: (){}, icon: Icon(Icons.add)),
-                  );
-                }
-                
               },
+              leading: Icon(Icons.pin_drop_rounded),
+              title: (currentLocation == postData.value.location) ? Text("現在地") : Text("選択した地点"),
+              trailing: Icon(Icons.arrow_forward_rounded),
             ),
           ),
-        ),
-        Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(30),
-            color: Theme.of(context).colorScheme.surface,
-          ),
-          padding: EdgeInsets.symmetric(
-            horizontal: 16,
-            vertical: 8,
-          ),
-          child: TextField(
-            controller: textController.value,
-            maxLines: 2,
-            minLines: 1,
-            decoration: InputDecoration(
-              hintText: "コメント",
-              border: InputBorder.none
+          PostMargin(
+            child: ListTile(
+              onTap: () async {
+                DateTime? tempDate;
+                TimeOfDay? tempTime;
+                tempDate = await showDatePicker(
+                  context: context,
+                  firstDate: postData.value.time.add(Duration(days: -31)),
+                  lastDate: postData.value.time.add(Duration(days: 1),),
+                );
+
+                tempTime = await showTimePicker(
+                  context: context,
+                  initialTime: TimeOfDay.fromDateTime(postData.value.time),
+                );
+
+                if (tempDate != null && tempTime != null){
+                  tempDate = tempDate.copyWith(hour: tempTime.hour, minute: tempTime.minute);
+                  postData.value = postData.value.copyWith(time: tempDate);
+                }
+              },
+              leading: Icon(Icons.access_time),
+              title: Text(
+                "${postData.value.time.month}月${postData.value.time.day}日 ${postData.value.time.hour.toString().padLeft(2, "0")}:${postData.value.time.minute.toString().padLeft(2,"0")}"
+              ),
+              trailing: Icon(Icons.arrow_forward_rounded),
             ),
           ),
-        ),
-        Spacer(),
-        SizedBox(
-          height: 50,
-          width: double.infinity,
-          child: FilledButton(onPressed: (){}, child: Text("投稿する")),
-        ),
-      ],
+          SizedBox(
+            height: 50,
+            width: double.infinity,
+            child: FilledButton(onPressed: () {}, child: Text("投稿する")),
+          ),
+        ],
+      ),
     );
   }
 }
-
 
 class ImagePreviewPage extends HookConsumerWidget {
   const ImagePreviewPage({super.key, required this.imagePath});

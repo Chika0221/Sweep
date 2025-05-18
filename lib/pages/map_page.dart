@@ -17,8 +17,7 @@ class MapPage extends StatefulHookConsumerWidget {
   ConsumerState<MapPage> createState() => _MapPageState();
 }
 
-class _MapPageState extends ConsumerState<MapPage>
-    with TickerProviderStateMixin {
+class _MapPageState extends ConsumerState<MapPage> with TickerProviderStateMixin {
   late AnimatedMapController animatedMapController;
   LatLng? currentLocation;
 
