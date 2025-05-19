@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:sweep/pages/post_camera_page.dart';
-import 'package:sweep/pages/post_page.dart';
+import 'package:sweep/pages/post_page/post_camera_page.dart';
+import 'package:sweep/pages/post_page/post_page.dart';
 
 class PostModal extends HookConsumerWidget {
   const PostModal({super.key});

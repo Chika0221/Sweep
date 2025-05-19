@@ -31,6 +31,7 @@ class _MapPageState extends ConsumerState<MapPage> with TickerProviderStateMixin
   Future<void> getCurrentLocation() async {
     Location location = Location();
 
+    
     bool serviceEnabled = await location.serviceEnabled();
     if (!serviceEnabled) {
       serviceEnabled = await location.requestService();
@@ -73,7 +74,7 @@ class _MapPageState extends ConsumerState<MapPage> with TickerProviderStateMixin
                 maxZoom: 20.0,
                 minZoom: 8.0,
                 initialRotation: 0,
-                onTap: (tapPosition, point) {},
+                
               ),
               children: [
                 TileLayer(

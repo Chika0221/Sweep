@@ -3,7 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:sweep/pages/home_page.dart';
 import 'package:sweep/pages/map_page.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:sweep/pages/post_modal.dart';
+import 'package:sweep/pages/post_page/post_modal.dart';
 
 class MainPage extends HookConsumerWidget {
   const MainPage({super.key});

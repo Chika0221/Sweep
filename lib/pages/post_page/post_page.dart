@@ -1,16 +1,18 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_animations/flutter_map_animations.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:location/location.dart';
 import 'package:sweep/classes/post.dart';
+import 'package:sweep/pages/post_page/post_image_preview_page.dart';
+import 'package:sweep/pages/post_page/post_map_preview_page.dart';
 import 'package:sweep/states/image_notifier.dart';
 import 'package:sweep/states/post_notifier.dart';
+import 'package:sweep/widgets/currentLocationContainer.dart';
 import 'package:sweep/widgets/post_margin.dart';
 
 const otsuCityOfficePosition = LatLng(35.01889586284015, 135.85529483505871);
@@ -22,15 +24,16 @@ class PostPage extends StatefulHookConsumerWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => _PostPageState();
 }
 
-class _PostPageState extends ConsumerState<PostPage> with TickerProviderStateMixin {
+class _PostPageState extends ConsumerState<PostPage>
+    with TickerProviderStateMixin {
   late AnimatedMapController mapController;
   late LatLng currentLocation = otsuCityOfficePosition;
 
   @override
   void initState() {
     super.initState();
-
     getCurrentLocation();
+    mapController = AnimatedMapController(vsync: this);
   }
 
   @override
@@ -83,11 +86,11 @@ class _PostPageState extends ConsumerState<PostPage> with TickerProviderStateMix
       ),
     );
 
-    useEffect((){
+    useEffect(() {
       postData.value = postData.value.copyWith(location: currentLocation);
 
       return null;
-    },[currentLocation]);
+    }, [currentLocation]);
 
     useEffect(() {
       ref.read(postProvider.notifier).clear();
@@ -111,10 +114,12 @@ class _PostPageState extends ConsumerState<PostPage> with TickerProviderStateMix
               backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
               onTap: (index) async {
                 if (index < imagePaths.value.length) {
-                  await Navigator.of(context).push(
+                  imagePaths.value = await Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) =>
-                          ImagePreviewPage(imagePath: imagePaths.value[index]),
+                      builder: (context) => ImagePreviewPage(
+                        imagePaths: imagePaths.value,
+                        index: index,
+                      ),
                     ),
                   );
                 } else {
@@ -184,24 +189,27 @@ class _PostPageState extends ConsumerState<PostPage> with TickerProviderStateMix
           ),
           PostMargin(
             child: ListTile(
-              onTap: (){
-                showBottomSheet(
-
+              onTap: () async {
+                final LatLng? result = await showModalBottomSheet(
                   showDragHandle: true,
-
+                  backgroundColor:
+                      Theme.of(context).colorScheme.primaryContainer,
                   context: context,
-                  builder: (context){
-                    return SizedBox(
-                      height: 200,
-                      child: Center(
-                        child: Text("aaa"),
-                      ),
+                  builder: (context) {
+                    return MapPreviewPage(
+                      controller: mapController,
+                      currentLocation: currentLocation,
                     );
                   },
                 );
+                if (result != null) {
+                  postData.value = postData.value.copyWith(location: result);
+                }
               },
               leading: Icon(Icons.pin_drop_rounded),
-              title: (currentLocation == postData.value.location) ? Text("現在地") : Text("選択した地点"),
+              title: (currentLocation == postData.value.location)
+                  ? Text("現在地")
+                  : Text("選択した地点"),
               trailing: Icon(Icons.arrow_forward_rounded),
             ),
           ),
@@ -213,7 +221,9 @@ class _PostPageState extends ConsumerState<PostPage> with TickerProviderStateMix
                 tempDate = await showDatePicker(
                   context: context,
                   firstDate: postData.value.time.add(Duration(days: -31)),
-                  lastDate: postData.value.time.add(Duration(days: 1),),
+                  lastDate: postData.value.time.add(
+                    Duration(days: 1),
+                  ),
                 );
 
                 tempTime = await showTimePicker(
@@ -221,52 +231,34 @@ class _PostPageState extends ConsumerState<PostPage> with TickerProviderStateMix
                   initialTime: TimeOfDay.fromDateTime(postData.value.time),
                 );
 
-                if (tempDate != null && tempTime != null){
-                  tempDate = tempDate.copyWith(hour: tempTime.hour, minute: tempTime.minute);
+                if (tempDate != null && tempTime != null) {
+                  tempDate = tempDate.copyWith(
+                      hour: tempTime.hour, minute: tempTime.minute);
                   postData.value = postData.value.copyWith(time: tempDate);
                 }
               },
               leading: Icon(Icons.access_time),
               title: Text(
-                "${postData.value.time.month}月${postData.value.time.day}日 ${postData.value.time.hour.toString().padLeft(2, "0")}:${postData.value.time.minute.toString().padLeft(2,"0")}"
-              ),
+                  "${postData.value.time.month}月${postData.value.time.day}日 ${postData.value.time.hour.toString().padLeft(2, "0")}:${postData.value.time.minute.toString().padLeft(2, "0")}"),
               trailing: Icon(Icons.arrow_forward_rounded),
             ),
           ),
           SizedBox(
             height: 50,
             width: double.infinity,
-            child: FilledButton(onPressed: () {}, child: Text("投稿する")),
+            child: FilledButton(
+                onPressed: () {
+                  postData.value =
+                      postData.value.copyWith(imagePaths: imagePaths.value);
+                  postData.value = postData.value
+                      .copyWith(comment: textController.value.text);
+
+                  ref.read(postProvider.notifier).set(postData.value);
+                },
+                child: Text("投稿する")),
           ),
         ],
       ),
-    );
-  }
-}
-
-class ImagePreviewPage extends HookConsumerWidget {
-  const ImagePreviewPage({super.key, required this.imagePath});
-
-  final String imagePath;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return Stack(
-      children: [
-        Align(
-          child: Image.file(File(imagePath)),
-        ),
-        AppBar(
-          backgroundColor: Colors.transparent,
-          leading: IconButton(
-            onPressed: () => Navigator.of(context).pop(),
-            icon: Icon(
-              Icons.arrow_back_rounded,
-              color: Colors.white,
-            ),
-          ),
-        ),
-      ],
     );
   }
 }

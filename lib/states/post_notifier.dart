@@ -8,10 +8,10 @@ class PostNotifier extends StateNotifier<Post?> {
     state = null;
   }
 
-  void init(Post post) {
+  void set(Post post) {
     state = post;
+    print(state);
   }
-
 }
 
 final postProvider = StateNotifierProvider<PostNotifier, Post?>((ref) {
