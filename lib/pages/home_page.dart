@@ -9,27 +9,26 @@ class HomePage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return CustomScrollView(
-      slivers: [
-        SliverList(
-          delegate: SliverChildListDelegate(
-            [
-              SizedBox(
-                height: 50,
-              ),
-              NamePlate(),
-              DiaryPlate(),
-              HistoryPlate(),
-              SizedBox(
-                height: 500,
-                child: Container(
-                  color: Theme.of(context).colorScheme.secondaryContainer,
+    return SafeArea(
+      child: CustomScrollView(
+        slivers: [
+          SliverList(
+            delegate: SliverChildListDelegate(
+              [
+                NamePlate(),
+                DiaryPlate(),
+                HistoryPlate(),
+                SizedBox(
+                  height: 500,
+                  child: Container(
+                    color: Theme.of(context).colorScheme.secondaryContainer,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
