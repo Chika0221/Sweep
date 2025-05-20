@@ -43,7 +43,9 @@ dependencies:
   json_annotation: ^4.9.0
   # Firebase接続
   firebase_core: ^3.13.0
+  # Firebase_authを使えるようにする
   firebase_auth: ^5.5.3
+  # Googleでのサインイン
   google_sign_in: ^6.3.0
   # カメラ使用
   camera: ^0.11.1
