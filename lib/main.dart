@@ -20,6 +20,7 @@ class MyApp extends HookConsumerWidget {
       home: MainPage(),
       theme: ThemeData(
         colorSchemeSeed: Colors.blue,
+        fontFamily: "Zen_Maru_Gothic",
       ),
     );
   }
