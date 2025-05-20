@@ -68,6 +68,7 @@ class _PostPageState extends ConsumerState<PostPage>
     final imagePaths = useState([ref.watch(imagePathProvider)]);
     final textController = useState(TextEditingController());
     final postTime = useState(DateTime.now());
+    final segmentedButtonSelected = useState({PostType.trash});
 
     final postData = useState(
       Post(
@@ -83,6 +84,8 @@ class _PostPageState extends ConsumerState<PostPage>
         time: postTime.value,
         // 0
         nice: 0,
+        // タイプを指定
+        type: PostType.trash,
       ),
     );
 
@@ -106,6 +109,16 @@ class _PostPageState extends ConsumerState<PostPage>
         spacing: 8,
         mainAxisSize: MainAxisSize.max,
         children: [
+          SegmentedButton(
+            selected: segmentedButtonSelected.value,
+            onSelectionChanged: (selected){
+              segmentedButtonSelected.value = selected;
+            },
+            segments: [
+              ButtonSegment(label: Text("ゴミ".padLeft(3, "　")),value: PostType.trash),
+              ButtonSegment(label: Text("ゴミ箱"),value: PostType.trashCan),
+            ],
+          ),
           SizedBox(
             height: 300,
             width: double.infinity,
@@ -252,6 +265,7 @@ class _PostPageState extends ConsumerState<PostPage>
                       postData.value.copyWith(imagePaths: imagePaths.value);
                   postData.value = postData.value
                       .copyWith(comment: textController.value.text);
+                  postData.value = postData.value.copyWith(type: segmentedButtonSelected.value.first);
 
                   ref.read(postProvider.notifier).set(postData.value);
                 },

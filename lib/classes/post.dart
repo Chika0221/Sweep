@@ -13,5 +13,13 @@ class Post with _$Post {
     required int point,
     required DateTime time,
     required int nice,
+    required PostType type,
   }) = _Post;
+
+}
+
+
+enum PostType {
+  trash,
+  trashCan,
 }

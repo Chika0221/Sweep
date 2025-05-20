@@ -13,27 +13,15 @@ part of 'post.dart';
 // dart format off
 T _$identity<T>(T value) => value;
 
-// エラーのため追加
-final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
-
 /// @nodoc
 mixin _$Post {
-  // List<String> get imagePaths;
-  // LatLng get location;
-  // String get comment;
-  // int get point;
-  // DateTime get time;
-  // int get nice;
-
-  // エラーのため追加
-  List<String> get imagePaths => throw _privateConstructorUsedError;
-  LatLng get location => throw _privateConstructorUsedError;
-  String get comment => throw _privateConstructorUsedError;
-  int get point => throw _privateConstructorUsedError;
-  DateTime get time => throw _privateConstructorUsedError;
-  int get nice => throw _privateConstructorUsedError;
+  String get comment => throw UnimplementedError();
+  List<String> get imagePaths => throw UnimplementedError();
+  LatLng get location => throw UnimplementedError();
+  int get nice => throw UnimplementedError();
+  int get point => throw UnimplementedError();
+  DateTime get time => throw UnimplementedError();
+  PostType get type => throw UnimplementedError();
 
   /// Create a copy of Post
   /// with the given fields replaced by the non-null parameter values.
@@ -54,7 +42,8 @@ mixin _$Post {
             (identical(other.comment, comment) || other.comment == comment) &&
             (identical(other.point, point) || other.point == point) &&
             (identical(other.time, time) || other.time == time) &&
-            (identical(other.nice, nice) || other.nice == nice));
+            (identical(other.nice, nice) || other.nice == nice) &&
+            (identical(other.type, type) || other.type == type));
   }
 
   @override
@@ -65,11 +54,12 @@ mixin _$Post {
       comment,
       point,
       time,
-      nice);
+      nice,
+      type);
 
   @override
   String toString() {
-    return 'Post(imagePaths: $imagePaths, location: $location, comment: $comment, point: $point, time: $time, nice: $nice)';
+    return 'Post(imagePaths: $imagePaths, location: $location, comment: $comment, point: $point, time: $time, nice: $nice, type: $type)';
   }
 }
 
@@ -84,7 +74,8 @@ abstract mixin class $PostCopyWith<$Res> {
       String comment,
       int point,
       DateTime time,
-      int nice});
+      int nice,
+      PostType type});
 }
 
 /// @nodoc
@@ -105,6 +96,7 @@ class _$PostCopyWithImpl<$Res> implements $PostCopyWith<$Res> {
     Object? point = null,
     Object? time = null,
     Object? nice = null,
+    Object? type = null,
   }) {
     return _then(_self.copyWith(
       imagePaths: null == imagePaths
@@ -131,6 +123,10 @@ class _$PostCopyWithImpl<$Res> implements $PostCopyWith<$Res> {
           ? _self.nice
           : nice // ignore: cast_nullable_to_non_nullable
               as int,
+      type: null == type
+          ? _self.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as PostType,
     ));
   }
 }
@@ -144,7 +140,8 @@ class _Post implements Post {
       required this.comment,
       required this.point,
       required this.time,
-      required this.nice})
+      required this.nice,
+      required this.type})
       : _imagePaths = imagePaths;
 
   final List<String> _imagePaths;
@@ -165,6 +162,8 @@ class _Post implements Post {
   final DateTime time;
   @override
   final int nice;
+  @override
+  final PostType type;
 
   /// Create a copy of Post
   /// with the given fields replaced by the non-null parameter values.
@@ -186,7 +185,8 @@ class _Post implements Post {
             (identical(other.comment, comment) || other.comment == comment) &&
             (identical(other.point, point) || other.point == point) &&
             (identical(other.time, time) || other.time == time) &&
-            (identical(other.nice, nice) || other.nice == nice));
+            (identical(other.nice, nice) || other.nice == nice) &&
+            (identical(other.type, type) || other.type == type));
   }
 
   @override
@@ -197,11 +197,12 @@ class _Post implements Post {
       comment,
       point,
       time,
-      nice);
+      nice,
+      type);
 
   @override
   String toString() {
-    return 'Post(imagePaths: $imagePaths, location: $location, comment: $comment, point: $point, time: $time, nice: $nice)';
+    return 'Post(imagePaths: $imagePaths, location: $location, comment: $comment, point: $point, time: $time, nice: $nice, type: $type)';
   }
 }
 
@@ -217,7 +218,8 @@ abstract mixin class _$PostCopyWith<$Res> implements $PostCopyWith<$Res> {
       String comment,
       int point,
       DateTime time,
-      int nice});
+      int nice,
+      PostType type});
 }
 
 /// @nodoc
@@ -238,6 +240,7 @@ class __$PostCopyWithImpl<$Res> implements _$PostCopyWith<$Res> {
     Object? point = null,
     Object? time = null,
     Object? nice = null,
+    Object? type = null,
   }) {
     return _then(_Post(
       imagePaths: null == imagePaths
@@ -264,6 +267,10 @@ class __$PostCopyWithImpl<$Res> implements _$PostCopyWith<$Res> {
           ? _self.nice
           : nice // ignore: cast_nullable_to_non_nullable
               as int,
+      type: null == type
+          ? _self.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as PostType,
     ));
   }
 }
