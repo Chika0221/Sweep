@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:sweep/widgets/diary_plate.dart';
 import 'package:sweep/widgets/history_plate.dart';
 import 'package:sweep/widgets/name_plate.dart';
 
@@ -10,24 +11,14 @@ class HomePage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return CustomScrollView(
       slivers: [
-        // SliverAppBar(
-        //   title: Text("ユーザー名"),
-        //   actions: [
-        //     Milebox(),
-        //     SizedBox(
-        //       width: 4,
-        //     )
-        //   ],
-        //   snap: false,
-        //   floating: true,
-        //   // pinned: false,
-        //   backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
-        // ),
         SliverList(
-          
           delegate: SliverChildListDelegate(
             [
+              SizedBox(
+                height: 50,
+              ),
               NamePlate(),
+              DiaryPlate(),
               HistoryPlate(),
               SizedBox(
                 height: 500,
