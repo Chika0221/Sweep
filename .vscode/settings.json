@@ -1,4 +1,5 @@
 {
     "java.configuration.updateBuildConfiguration": "interactive",
-    "codic.case": "camelCase"
+    "codic.case": "camelCase",
+    "cmake.sourceDirectory": "C:/hackathon/ryu/sweep/linux"
 }

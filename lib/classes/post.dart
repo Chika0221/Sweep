@@ -5,7 +5,6 @@ part 'post.freezed.dart';
 
 @freezed
 class Post with _$Post {
-
   const factory Post({
     required List<String> imagePaths,
     required LatLng location,
@@ -16,8 +15,8 @@ class Post with _$Post {
     required PostType type,
   }) = _Post;
 
+  
 }
-
 
 enum PostType {
   trash,

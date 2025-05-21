@@ -3,7 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:sign_button/constants.dart';
 import 'package:sign_button/create_button.dart';
 import 'package:sweep/pages/main_page.dart';
-import 'package:sweep/states/user_provider.dart';
+import 'package:sweep/states/profile_provider.dart';
 import 'package:sweep/widgets/sign_button.dart';
 
 //ログインのページ
@@ -69,7 +69,7 @@ class LoginPage extends HookConsumerWidget {
                   Divider(),
                   SignButton(
                     onTap: () async {
-                      await ref.read(userProvider.notifier).signInWithGoogle();
+                      await ref.read(profileProvider.notifier).signInWithGoogle();
                       goNextPage();
                     },
                     type: ButtonType.google,

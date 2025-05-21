@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:sweep/states/user_provider.dart';
+import 'package:sweep/states/profile_provider.dart';
 
 class NamePlate extends HookConsumerWidget {
   const NamePlate({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final user = ref.watch(userProvider);
+    final user = ref.watch(profileProvider);
 
     return SizedBox(
       height: 100,
@@ -34,10 +34,6 @@ class NamePlate extends HookConsumerWidget {
                 ),
               ),
             ),
-            // Text(
-            //   user.displayName!,
-            //   style: Theme.of(context).textTheme.displayLarge,
-            // ),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,

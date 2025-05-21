@@ -37,12 +37,27 @@
 
 ## 技術スタック
 
-- Flutter 3.6.1
+- Flutter SDK: ^3.6.1
 - Riverpod（状態管理）
+  - flutter_riverpod: ^2.6.1
+  - hooks_riverpod: ^2.6.1
 - Firebase（認証・データ管理）
-- flutter_map（地図表示）
-- camera, image_picker（写真投稿）
-- その他：freezed, json_serializable など
+  - firebase_core: ^3.13.0
+  - firebase_auth: ^5.5.3
+  - google_sign_in: ^6.3.0
+- 地図関連
+  - flutter_map: ^8.1.1
+  - latlong2: ^0.9.1
+  - location: ^8.0.0
+  - flutter_map_animations: ^0.9.0
+- カメラ・画像関連
+  - camera: ^0.11.1
+  - image_picker: ^1.1.2
+- その他
+  - freezed: ^3.0.6
+  - json_serializable: ^6.9.5
+  - flutter_dotenv: ^5.2.1
+  - sign_button: ^2.0.6
 
 ---
 
@@ -52,8 +67,16 @@
    ```
    flutter pub get
    ```
-2. Firebaseプロジェクトの設定（必要に応じて）
-3. アプリを起動
+
+2. 環境変数の設定
+   - `.env`ファイルを作成し、必要な環境変数を設定
+
+3. Firebaseプロジェクトの設定
+   - Firebase CLIのインストール
+   - プロジェクトの初期化
+   - 必要な設定ファイルの配置
+
+4. アプリを起動
    ```
    flutter run
    ```

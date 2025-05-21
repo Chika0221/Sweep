@@ -36,7 +36,7 @@ class HomePage extends HookConsumerWidget {
                   SizedBox(
                     height: 500,
                     child: Container(
-                      color: Theme.of(context).colorScheme.surfaceContainerLow ,
+                      color: Theme.of(context).colorScheme.surfaceContainerLow,
                     ),
                   ),
                 ],

@@ -4,8 +4,8 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:path/path.dart';
 
-class UserNotifier extends StateNotifier<User?> {
-  UserNotifier() : super(null);
+class ProfileNotifier extends StateNotifier<User?> {
+  ProfileNotifier() : super(null);
 
   final FirebaseAuth auth = FirebaseAuth.instance;
 
@@ -39,8 +39,30 @@ class UserNotifier extends StateNotifier<User?> {
 
     state = user;
   }
+
+  Future<void> firebaseFirestoreSignIn() async {
+    // 謎解く
+    //     if (await checkExisting(newUser.email.toString())) {
+    //   await FirebaseFirestore.instance
+    //       .collection("user")
+    //       .where("email", isEqualTo: newUser.email.toString())
+    //       .get()
+    //       .then((QuerySnapshot snapshot) {
+    //     UserDocsId = snapshot.docs[0].id;
+    //   });
+    // } else {
+    //   final data = {
+    //     "name": newUser.displayName,
+    //     "email": newUser.email,
+    //   };
+
+    //   final UserDoc = await FirebaseFirestore.instance.collection("user").doc();
+    //   await UserDoc.set(data);
+    //   UserDocsId = UserDoc.id;
+    // }
+  }
 }
 
-final userProvider = StateNotifierProvider<UserNotifier, User?>((ref) {
-  return UserNotifier();
+final profileProvider = StateNotifierProvider<ProfileNotifier, User?>((ref) {
+  return ProfileNotifier();
 });
