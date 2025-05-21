@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:path/path.dart';
+import 'package:sweep/pages/history_page.dart';
 
 class DiaryPlate extends HookConsumerWidget {
   const DiaryPlate({super.key});
@@ -16,7 +17,11 @@ class DiaryPlate extends HookConsumerWidget {
       ),
       padding: EdgeInsets.all(16),
       child: InkWell(
-        onTap: () => print("こんにちは"),
+        onTap: () => Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => HistoryPage(),
+          ),
+        ),
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(30 - 16),
