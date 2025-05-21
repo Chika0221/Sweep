@@ -19,6 +19,7 @@ class NamePlate extends HookConsumerWidget {
         ),
         child: Row(
           spacing: 16,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Container(
               decoration: BoxDecoration(
@@ -28,14 +29,28 @@ class NamePlate extends HookConsumerWidget {
               padding: EdgeInsets.all(2),
               child: ClipOval(
                 child: Image.network(
-                  user.photoURL!,
+                  user!.photoURL!,
                   fit: BoxFit.cover,
                 ),
               ),
             ),
-            Text(
-              user.displayName!,
-              style: Theme.of(context).textTheme.headlineMedium,
+            // Text(
+            //   user.displayName!,
+            //   style: Theme.of(context).textTheme.displayLarge,
+            // ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  user.displayName!,
+                  style: Theme.of(context).textTheme.headlineMedium,
+                ),
+                Text(
+                  user.uid,
+                  style: Theme.of(context).textTheme.labelSmall,
+                ),
+              ],
             )
           ],
         ),

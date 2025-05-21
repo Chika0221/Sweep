@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:sweep/firebase_options.dart';
+import 'package:sweep/pages/login_page.dart';
 import 'package:sweep/pages/main_page.dart';
 
 Future<void> main() async {
@@ -24,7 +25,7 @@ class MyApp extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: MainPage(),
+      home: LoginPage(),
       theme: ThemeData(
         colorSchemeSeed: Colors.blue,
         fontFamily: "Zen_Maru_Gothic",

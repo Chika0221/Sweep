@@ -8,53 +8,44 @@ class DiaryPlate extends HookConsumerWidget {
   const DiaryPlate({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(30),
+    return InkWell(
+      onTap: () => Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => HistoryPage(),
         ),
-        color: Theme.of(context).colorScheme.secondaryContainer,
       ),
-      padding: EdgeInsets.all(16),
-      child: InkWell(
-        onTap: () => Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => HistoryPage(),
-          ),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(30 - 16),
+          color: Theme.of(context).colorScheme.surfaceContainerLow,
         ),
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(30 - 16),
-            color: Theme.of(context).colorScheme.surfaceContainerLow,
-          ),
-          padding: EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text("今週の報告数"),
-              Row(
-                children: [
-                  Text(
-                    "11L",
-                    style: Theme.of(context).textTheme.displayLarge,
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Spacer(),
-                  Text(
-                    "履歴の確認",
-                    style: Theme.of(context).textTheme.bodySmall,
-                  ),
-                  Icon(
-                    Icons.arrow_forward_rounded,
-                    size: 18,
-                  ),
-                ],
-              )
-            ],
-          ),
+        padding: EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text("今週の報告数"),
+            Row(
+              children: [
+                Text(
+                  "11L",
+                  style: Theme.of(context).textTheme.displayLarge,
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                Spacer(),
+                Text(
+                  "履歴の確認",
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+                Icon(
+                  Icons.arrow_forward_rounded,
+                  size: 18,
+                ),
+              ],
+            )
+          ],
         ),
       ),
     );

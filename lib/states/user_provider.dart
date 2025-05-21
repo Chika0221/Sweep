@@ -1,23 +1,46 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:path/path.dart';
 
-// final userProvider = StateProvider<User?>((ref) {
-//   return null;
-// });
+class UserNotifier extends StateNotifier<User?> {
+  UserNotifier() : super(null);
 
-// テスト版のみで使うクラスとプロバイダー
-final userProvider = StateProvider<uuuser>((ref) {
-  return uuuser(
-    displayName: "三谷　誓",
-    email: "y240159@mail.ryukoku.ac.jp",
-    photoURL: "https://picsum.photos/300/300",
-  );
-});
+  final FirebaseAuth auth = FirebaseAuth.instance;
 
-class uuuser {
-  final String? displayName;
-  final String? email;
-  final String? photoURL;
+  Future<void> signInWithGoogle() async {
+    final GoogleSignIn googleSignIn = GoogleSignIn();
+    try {
+      final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
+      if (googleUser == null) {
+        state = null;
+        return null;
+      }
 
-  uuuser({this.displayName, this.email, this.photoURL});
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
+
+      final AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
+      await firebaseSignIn(credential);
+    } catch (e) {
+      debugPrint("error:$e");
+    }
+  }
+
+  Future<void> firebaseSignIn(AuthCredential authCredential) async {
+    final UserCredential userCredential =
+        await auth.signInWithCredential(authCredential);
+    final User? user = userCredential.user;
+
+    state = user;
+  }
 }
+
+final userProvider = StateNotifierProvider<UserNotifier, User?>((ref) {
+  return UserNotifier();
+});
