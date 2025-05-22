@@ -15,6 +15,7 @@ Future<void> main() async {
 
   final app = MyApp();
   final providerScope = ProviderScope(child: app);
+
   runApp(providerScope);
 }
 
