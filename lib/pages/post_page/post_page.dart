@@ -111,12 +111,13 @@ class _PostPageState extends ConsumerState<PostPage>
         children: [
           SegmentedButton(
             selected: segmentedButtonSelected.value,
-            onSelectionChanged: (selected){
+            onSelectionChanged: (selected) {
               segmentedButtonSelected.value = selected;
             },
             segments: [
-              ButtonSegment(label: Text("ゴミ".padLeft(3, "　")),value: PostType.trash),
-              ButtonSegment(label: Text("ゴミ箱"),value: PostType.trashCan),
+              ButtonSegment(
+                  label: Text("ゴミ".padLeft(3, "　")), value: PostType.trash),
+              ButtonSegment(label: Text("ゴミ箱"), value: PostType.trashCan),
             ],
           ),
           SizedBox(
@@ -265,9 +266,12 @@ class _PostPageState extends ConsumerState<PostPage>
                       postData.value.copyWith(imagePaths: imagePaths.value);
                   postData.value = postData.value
                       .copyWith(comment: textController.value.text);
-                  postData.value = postData.value.copyWith(type: segmentedButtonSelected.value.first);
+                  postData.value = postData.value
+                      .copyWith(type: segmentedButtonSelected.value.first);
 
-                  ref.read(postProvider.notifier).set(postData.value);
+                  ref.read(postProvider.notifier)
+                    ..set(postData.value)
+                    ..submit();
                 },
                 child: Text("投稿する")),
           ),

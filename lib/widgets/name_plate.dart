@@ -8,7 +8,7 @@ class NamePlate extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final user = ref.watch(profileProvider);
+    final profile = ref.watch(profileProvider);
 
     return SizedBox(
       height: 100,
@@ -29,7 +29,7 @@ class NamePlate extends HookConsumerWidget {
               padding: EdgeInsets.all(2),
               child: ClipOval(
                 child: Image.network(
-                  user!.photoURL!,
+                  profile!.photoURL,
                   fit: BoxFit.cover,
                 ),
               ),
@@ -39,11 +39,11 @@ class NamePlate extends HookConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  user.displayName!,
+                  profile.displayName!,
                   style: Theme.of(context).textTheme.headlineMedium,
                 ),
                 Text(
-                  user.uid,
+                  profile.uid,
                   style: Theme.of(context).textTheme.labelSmall,
                 ),
               ],

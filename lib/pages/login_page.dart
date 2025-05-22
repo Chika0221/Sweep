@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:sign_button/constants.dart';
 import 'package:sign_button/create_button.dart';
+import 'package:sweep/pages/login_auth_page.dart';
 import 'package:sweep/pages/main_page.dart';
 import 'package:sweep/states/profile_provider.dart';
 import 'package:sweep/widgets/sign_button.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 
 //ログインのページ
 class LoginPage extends HookConsumerWidget {
@@ -12,6 +14,10 @@ class LoginPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final phoneNumberController = useState(TextEditingController(
+      text: "+81",
+    ));
+
     Future<void> goNextPage() async {
       await Navigator.of(context).pushReplacement(
         MaterialPageRoute(
@@ -20,70 +26,96 @@ class LoginPage extends HookConsumerWidget {
       );
     }
 
+    Future<void> goAuthPage() async {
+      await Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => VerificationCodePage(),
+        ),
+      );
+    }
+
     return Scaffold(
-      body: Column(
-        children: [
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    Theme.of(context).colorScheme.primaryContainer,
-                    Theme.of(context).colorScheme.tertiaryContainer,
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Theme.of(context).colorScheme.primaryContainer,
+              Theme.of(context).colorScheme.tertiaryContainer,
+            ],
+          ),
+        ),
+        child: Column(
+          children: [
+            Expanded(
+              child: SizedBox(),
+            ),
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(30),
+                    ),
+                    color: Theme.of(context).colorScheme.surface),
+                padding: EdgeInsets.all(16),
+                child: Column(
+                  spacing: 8,
+                  children: [
+                    Spacer(),
+                    TextField(
+                        controller: phoneNumberController.value,
+                        decoration: InputDecoration(
+                          hintText: "電話番号",
+                          border: OutlineInputBorder(),
+                        ),
+                        keyboardType: TextInputType.phone),
+                    Spacer(),
+                    SizedBox(
+                      width: double.infinity,
+                      child: FilledButton(
+                        onPressed: () {
+                          ref
+                              .read(profileProvider.notifier)
+                              .signInWithPhoneNumber(
+                                context,
+                                phoneNumberController.value.text,
+                              );
+                          goAuthPage();
+                        },
+                        child: Text("ログイン"),
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () {},
+                      child: Text("アカウント作成"),
+                    ),
+                    Spacer(),
+                    Divider(),
+                    SignButton(
+                      onTap: () async {
+                        await ref
+                            .read(profileProvider.notifier)
+                            .signInWithGoogle();
+                        goNextPage();
+                      },
+                      type: ButtonType.google,
+                    ),
+                    SignButton(
+                      onTap: () {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text("Appleの年間1万のサブスク必須むずいです"),
+                          ),
+                        );
+                      },
+                      type: ButtonType.apple,
+                    ),
+                    Spacer(),
                   ],
                 ),
               ),
             ),
-          ),
-          Expanded(
-            child: Container(
-              padding: EdgeInsets.all(16),
-              child: Column(
-                spacing: 8,
-                children: [
-                  TextField(
-                    decoration: InputDecoration(
-                      hintText: "メールアドレス",
-                      border: OutlineInputBorder(),
-                    ),
-                  ),
-                  TextField(
-                    decoration: InputDecoration(
-                      labelText: "パスワード",
-                      border: OutlineInputBorder(),
-                    ),
-                  ),
-                  Spacer(),
-                  SizedBox(
-                    width: double.infinity,
-                    child: FilledButton(
-                      onPressed: () {},
-                      child: Text("ログイン"),
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () {},
-                    child: Text("アカウント作成"),
-                  ),
-                  Spacer(),
-                  Divider(),
-                  SignButton(
-                    onTap: () async {
-                      await ref.read(profileProvider.notifier).signInWithGoogle();
-                      goNextPage();
-                    },
-                    type: ButtonType.google,
-                  ),
-                  SignButton(
-                    onTap: () {},
-                    type: ButtonType.apple,
-                  ),
-                  Spacer(),
-                ],
-              ),
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
