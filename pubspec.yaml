@@ -67,6 +67,7 @@ dependencies:
   cloud_firestore: ^5.6.8
   firebase_storage: ^12.4.6
   image: ^4.5.4
+  uuid: ^4.5.1
   
 
   

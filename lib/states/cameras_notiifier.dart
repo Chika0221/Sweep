@@ -2,8 +2,9 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class CamerasNotifier extends StateNotifier<List<CameraDescription>> {
-  CamerasNotifier() : super([]);
+class CamerasNotifier extends Notifier<List<CameraDescription>> {
+  @override
+  List<CameraDescription> build() => [];
 
   Future<void> init(BuildContext context) async {
     final cameras = await availableCameras();
@@ -19,6 +20,6 @@ class CamerasNotifier extends StateNotifier<List<CameraDescription>> {
 }
 
 final camerasProvider =
-    StateNotifierProvider.autoDispose<CamerasNotifier, List<CameraDescription>>((ref) {
-  return CamerasNotifier();
-});
+    NotifierProvider<CamerasNotifier, List<CameraDescription>>(
+  CamerasNotifier.new,
+);

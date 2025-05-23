@@ -7,8 +7,9 @@ import 'package:path/path.dart';
 import 'package:sweep/classes/profile.dart';
 import 'package:sweep/pages/main_page.dart';
 
-class ProfileNotifier extends StateNotifier<Profile?> {
-  ProfileNotifier() : super(null);
+class ProfileNotifier extends Notifier<Profile?> {
+  @override
+  Profile? build() => null;
 
   final FirebaseAuth auth = FirebaseAuth.instance;
   late User? tempUser;
@@ -136,6 +137,5 @@ class ProfileNotifier extends StateNotifier<Profile?> {
   }
 }
 
-final profileProvider = StateNotifierProvider<ProfileNotifier, Profile?>((ref) {
-  return ProfileNotifier();
-});
+final profileProvider =
+    NotifierProvider<ProfileNotifier, Profile?>(ProfileNotifier.new);

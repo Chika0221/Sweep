@@ -12,6 +12,7 @@ import 'package:sweep/pages/post_page/post_image_preview_page.dart';
 import 'package:sweep/pages/post_page/post_map_preview_page.dart';
 import 'package:sweep/states/image_notifier.dart';
 import 'package:sweep/states/post_notifier.dart';
+import 'package:sweep/states/profile_provider.dart';
 import 'package:sweep/widgets/currentLocationContainer.dart';
 import 'package:sweep/widgets/post_margin.dart';
 
@@ -86,6 +87,8 @@ class _PostPageState extends ConsumerState<PostPage>
         nice: 0,
         // タイプを指定
         type: PostType.trash,
+        // uid取得,
+        uid: ref.watch(profileProvider)!.uid,
       ),
     );
 
@@ -96,7 +99,6 @@ class _PostPageState extends ConsumerState<PostPage>
     }, [currentLocation]);
 
     useEffect(() {
-      ref.read(postProvider.notifier).clear();
       textController.value.text = postData.value.comment;
 
       return () {
@@ -272,6 +274,9 @@ class _PostPageState extends ConsumerState<PostPage>
                   ref.read(postProvider.notifier)
                     ..set(postData.value)
                     ..submit();
+
+                  Navigator.of(context).pop();
+                  // この後にAlertDialogでも表示する
                 },
                 child: Text("投稿する")),
           ),
