@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:sweep/classes/post.dart';
 
 class TrashMakerChild extends HookConsumerWidget {
-  const TrashMakerChild({super.key});
+  const TrashMakerChild({super.key, required this.type});
+
+  final PostType type;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Container(
@@ -13,6 +16,12 @@ class TrashMakerChild extends HookConsumerWidget {
         image: DecorationImage(
           image: AssetImage("assets/images/markers/trash.png"),
           fit: BoxFit.cover,
+        ),
+      ),
+      child: Center(
+        child: Icon(
+          (type == PostType.trash) ? Icons.star :
+          Icons.delete_rounded,
         ),
       ),
     );
