@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:path/path.dart';
 import 'package:sweep/pages/history_page.dart';
+import 'package:wave/wave.dart';
 
 class DiaryPlate extends HookConsumerWidget {
   const DiaryPlate({super.key});
@@ -16,7 +17,7 @@ class DiaryPlate extends HookConsumerWidget {
       ),
       child: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(30 - 16),
+          borderRadius: BorderRadius.circular(16),
           color: Theme.of(context).colorScheme.surfaceContainerLow,
         ),
         padding: EdgeInsets.all(16),

@@ -27,8 +27,12 @@ class MyApp extends HookConsumerWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: LoginPage(),
-      theme: ThemeData(
+      darkTheme: ThemeData(
         colorSchemeSeed: Colors.blue,
+        fontFamily: "Zen_Maru_Gothic",
+      ),
+      theme: ThemeData(
+        colorSchemeSeed: Colors.blue.shade600,
         fontFamily: "Zen_Maru_Gothic",
       ),
     );

@@ -62,13 +62,21 @@ dependencies:
   flutter_map_animations: ^0.9.0
   # 写真を参照
   image_picker: ^1.1.2
+  # サインインボタン
   sign_button: ^2.0.6
+  # 環境変数
   flutter_dotenv: ^5.2.1
+  # firestore
   cloud_firestore: ^5.6.8
+  # firebaseStorage
   firebase_storage: ^12.4.6
+  # 画像圧縮
   image: ^4.5.4
+  # UUID生成
   uuid: ^4.5.1
+  # 波型
   wave: ^0.2.2
+  # SVG表示
   flutter_svg: ^2.1.0
   
 
