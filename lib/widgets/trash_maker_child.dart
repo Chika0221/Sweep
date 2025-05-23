@@ -13,15 +13,15 @@ class TrashMakerChild extends HookConsumerWidget {
       width: 30,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        image: DecorationImage(
-          image: AssetImage("assets/images/markers/trash.png"),
-          fit: BoxFit.cover,
-        ),
+        // image: DecorationImage(
+        //   image: AssetImage("assets/images/markers/trash.png"),
+        //   fit: BoxFit.cover,
+        // ),
+        color: Colors.lightBlue,
       ),
       child: Center(
         child: Icon(
-          (type == PostType.trash) ? Icons.star :
-          Icons.delete_rounded,
+          (type == PostType.trash) ? Icons.star : Icons.delete_rounded,
         ),
       ),
     );

@@ -109,7 +109,9 @@ class _MapPageState extends ConsumerState<MapPage>
                                   },
                                 );
                               },
-                              child: TrashMakerChild(),
+                              child: TrashMakerChild(
+                                type: post.type,
+                              ),
                             ),
                           );
                         },
