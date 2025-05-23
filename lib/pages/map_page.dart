@@ -6,11 +6,10 @@ import 'package:latlong2/latlong.dart';
 import 'package:location/location.dart';
 import 'package:sweep/classes/post.dart';
 import 'package:sweep/states/get_posts_notifier.dart';
+import 'package:sweep/states/location_notifier.dart';
 import 'package:sweep/widgets/currentLocationContainer.dart';
 import 'package:sweep/widgets/trash_maker_child.dart';
-
-// 大津市役所の緯度経度
-const otsuCityOfficePosition = LatLng(35.01889586284015, 135.85529483505871);
+import 'package:flutter_hooks/flutter_hooks.dart';
 
 class MapPage extends StatefulHookConsumerWidget {
   const MapPage({super.key});
@@ -22,34 +21,12 @@ class MapPage extends StatefulHookConsumerWidget {
 class _MapPageState extends ConsumerState<MapPage>
     with TickerProviderStateMixin {
   late AnimatedMapController animatedMapController;
-  LatLng? currentLocation;
 
   @override
   void initState() {
     super.initState();
     animatedMapController = AnimatedMapController(vsync: this);
-    getCurrentLocation();
-  }
-
-  Future<void> getCurrentLocation() async {
-    Location location = Location();
-
-    bool serviceEnabled = await location.serviceEnabled();
-    if (!serviceEnabled) {
-      serviceEnabled = await location.requestService();
-      if (!serviceEnabled) return;
-    }
-
-    PermissionStatus permissionGranted = await location.hasPermission();
-    if (permissionGranted == PermissionStatus.denied) {
-      permissionGranted = await location.requestPermission();
-      if (permissionGranted != PermissionStatus.granted) return;
-    }
-
-    final locationData = await location.getLocation();
-    setState(() {
-      currentLocation = LatLng(locationData.latitude!, locationData.longitude!);
-    });
+    // ref.read(location)
   }
 
   @override
@@ -61,6 +38,11 @@ class _MapPageState extends ConsumerState<MapPage>
   @override
   Widget build(BuildContext context) {
     final postData = ref.watch(postStreamProvider);
+    final currentLocation = ref.watch(locationProvider);
+
+    useEffect(() {
+      ref.read(locationProvider.notifier).getCurrentLocation();
+    }, []);
 
     return Column(
       children: [
@@ -92,8 +74,8 @@ class _MapPageState extends ConsumerState<MapPage>
                           final post = data[index];
                           return Marker(
                             point: post.location,
-                            width: 30,
-                            height: 30,
+                            width: 50,
+                            height: 50,
                             alignment: Alignment.center,
                             rotate: true,
                             child: GestureDetector(
