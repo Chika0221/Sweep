@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:path/path.dart';
 import 'package:sweep/classes/profile.dart';
 import 'package:sweep/pages/main_page.dart';
 
@@ -95,7 +94,6 @@ class ProfileNotifier extends Notifier<Profile?> {
       return Future<bool>.value(check);
     }
 
-    // 謎解く
     if (await checkExisting(newUser!.email.toString())) {
       await FirebaseFirestore.instance
           .collection("user")
@@ -110,9 +108,11 @@ class ProfileNotifier extends Notifier<Profile?> {
             uid: data.get("uid").toString(),
             point: int.parse(data.get("point").toString()),
             continuousCount: int.parse(data.get("continuousCount").toString()),
+            cumulativePoint: int.parse(data.get("cumulativePoint").toString()),
           );
         },
       );
+      print("TEST1:${state}");
     } else {
       // init
       final data = {
@@ -122,6 +122,7 @@ class ProfileNotifier extends Notifier<Profile?> {
         "uid": newUser.uid,
         "point": 0,
         "continuousCount": 0,
+        "cumulativePoint": 0,
       };
 
       final UserDoc = await FirebaseFirestore.instance.collection("user").doc();
@@ -132,7 +133,9 @@ class ProfileNotifier extends Notifier<Profile?> {
         uid: newUser.uid,
         point: 0,
         continuousCount: 0,
+        cumulativePoint: 0,
       );
+      print("TEST2:${state}");
     }
   }
 }

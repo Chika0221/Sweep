@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:sweep/classes/profile.dart';
 import 'package:sweep/states/profile_provider.dart';
 import 'package:wave/config.dart';
 import 'package:wave/wave.dart';
@@ -10,7 +11,7 @@ class NamePlate extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final profile = ref.watch(profileProvider);
+    final Profile? profile = ref.watch(profileProvider);
 
     return SizedBox(
       height: 150,
@@ -66,7 +67,7 @@ class NamePlate extends HookConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        profile.displayName!,
+                        profile.displayName,
                         style: Theme.of(context).textTheme.headlineMedium,
                       ),
                       Text(
