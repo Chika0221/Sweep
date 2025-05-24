@@ -1,6 +1,6 @@
 # sweep
 
-# ホストアプリはこちら
+## ホストアプリはこちら
 https://github.com/Chika0221/Sweep-host
 
 ## 概要
