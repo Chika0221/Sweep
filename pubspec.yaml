@@ -78,6 +78,7 @@ dependencies:
   wave: ^0.2.2
   # SVG表示
   flutter_svg: ^2.1.0
+  qr_flutter: ^4.1.0
   
 
   
