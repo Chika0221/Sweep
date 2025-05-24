@@ -4,6 +4,8 @@ import 'package:sweep/pages/home_page.dart';
 import 'package:sweep/pages/map_page.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:sweep/pages/post_page/post_modal.dart';
+import 'package:sweep/pages/qr_page.dart';
+import 'package:sweep/pages/timeline_page.dart';
 
 class MainPage extends HookConsumerWidget {
   const MainPage({super.key});
@@ -36,11 +38,13 @@ class MainPage extends HookConsumerWidget {
         physics: NeverScrollableScrollPhysics(),
         children: [
           HomePage(),
+          QRPage(),
+          TimelinePage(),
           MapPage(),
         ],
         onPageChanged: (value) {},
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => showModalBottomSheet(
           context: context,
@@ -58,7 +62,8 @@ class MainPage extends HookConsumerWidget {
         selectedIndex: selectedIndex.value,
         destinations: [
           NavigationDestination(icon: Icon(Icons.home_rounded), label: "ホーム"),
-          SizedBox(),
+          NavigationDestination(icon: Icon(Icons.qr_code), label: "QR"),
+          NavigationDestination(icon: Icon(Icons.access_time_rounded), label: "タイムライン"),
           NavigationDestination(icon: Icon(Icons.map_rounded), label: "マップ"),
         ],
         onDestinationSelected: (selected) {

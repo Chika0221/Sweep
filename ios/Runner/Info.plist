@@ -61,7 +61,7 @@
 	<string>ゴミの投稿をする際に位置情報を使用するため</string>
 	
 	<!-- X API 合ってるかわからん -->
-	<key>CFBundleURLTypes</key>
+	<!-- <key>CFBundleURLTypes</key>
 	<array>
 	<dict>
 		<key>CFBundleTypeRole</key>
@@ -70,10 +70,22 @@
 		<string></string>
 		<key>CFBundleURLSchemes</key>
 		<array>
-		<!-- Registered Callback URLs in TwitterApp -->
+		Registered Callback URLs in TwitterApp
 		<string>socialauth</string>
 		</array>
 	</dict>
+	</array> -->
+
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editer</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.978051291639-lva1ce1sqn6n3i31bhss674hg8mvt9g4</string>
+			</array>
+		</dict>
 	</array>
 
 </dict>

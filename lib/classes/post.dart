@@ -1,7 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:latlong2/latlong.dart';
 
 part 'post.freezed.dart';
+
+part 'post.g.dart';
 
 @freezed
 class Post with _$Post {
@@ -13,8 +16,16 @@ class Post with _$Post {
     required DateTime time,
     required int nice,
     required PostType type,
+    required String uid,
   }) = _Post;
 
+  factory Post.fromJson(Map<String, dynamic> json) =>_$PostFromJson(json);
+  
+  @override
+  Map<String, dynamic> toJson() {
+    // TODO: implement toJson
+    throw UnimplementedError();
+  }
   
 }
 

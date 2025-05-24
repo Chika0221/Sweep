@@ -3,6 +3,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:sweep/widgets/diary_plate.dart';
 import 'package:sweep/widgets/history_plate.dart';
 import 'package:sweep/widgets/name_plate.dart';
+import 'package:wave/config.dart';
+import 'package:wave/wave.dart';
 
 class HomePage extends HookConsumerWidget {
   const HomePage({super.key});
@@ -15,28 +17,25 @@ class HomePage extends HookConsumerWidget {
           children: [
             NamePlate(),
             Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.vertical(
-                  top: Radius.circular(30),
-                ),
-                // color: Theme.of(context).colorScheme.secondaryContainer,
-                gradient: LinearGradient(
-                  colors: [
-                    Theme.of(context).colorScheme.primaryContainer,
-                    Theme.of(context).colorScheme.tertiaryContainer,
-                  ],
-                ),
-              ),
-              padding: EdgeInsets.all(16),
+              color: Theme.of(context).colorScheme.primaryContainer,
+              padding: const EdgeInsets.all(16.0),
               child: Column(
-                spacing: 16,
                 children: [
                   DiaryPlate(),
-                  HistoryPlate(),
+                  SizedBox(height: 16),
+                  // HistoryPlate(),
+                  // SizedBox(height: 16),
                   SizedBox(
-                    height: 500,
+                    height: 800,
                     child: Container(
-                      color: Theme.of(context).colorScheme.surfaceContainerLow,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                        color:
+                            Theme.of(context).colorScheme.surfaceContainerLow,
+                      ),
+                      child: Center(
+                        child: Text("まだないよ"),
+                      ),
                     ),
                   ),
                 ],

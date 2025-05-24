@@ -15,11 +15,11 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$Profile {
-  int get continuousCount => throw UnimplementedError();
   String get displayName => throw UnimplementedError();
   String get photoURL => throw UnimplementedError();
-  int get point => throw UnimplementedError();
   String get uid => throw UnimplementedError();
+  int get point => throw UnimplementedError();
+  int get continuousCount => throw UnimplementedError();
 
   /// Create a copy of Profile
   /// with the given fields replaced by the non-null parameter values.
@@ -27,6 +27,9 @@ mixin _$Profile {
   @pragma('vm:prefer-inline')
   $ProfileCopyWith<Profile> get copyWith =>
       _$ProfileCopyWithImpl<Profile>(this as Profile, _$identity);
+
+  /// Serializes this Profile to a JSON map.
+  Map<String, dynamic> toJson();
 
   @override
   bool operator ==(Object other) {
@@ -43,6 +46,7 @@ mixin _$Profile {
                 other.continuousCount == continuousCount));
   }
 
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType, displayName, photoURL, uid, point, continuousCount);
@@ -110,7 +114,7 @@ class _$ProfileCopyWithImpl<$Res> implements $ProfileCopyWith<$Res> {
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _Profile implements Profile {
   const _Profile(
       {required this.displayName,
@@ -118,6 +122,8 @@ class _Profile implements Profile {
       required this.uid,
       required this.point,
       required this.continuousCount});
+  factory _Profile.fromJson(Map<String, dynamic> json) =>
+      _$ProfileFromJson(json);
 
   @override
   final String displayName;
@@ -139,6 +145,13 @@ class _Profile implements Profile {
       __$ProfileCopyWithImpl<_Profile>(this, _$identity);
 
   @override
+  Map<String, dynamic> toJson() {
+    return _$ProfileToJson(
+      this,
+    );
+  }
+
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
@@ -153,6 +166,7 @@ class _Profile implements Profile {
                 other.continuousCount == continuousCount));
   }
 
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType, displayName, photoURL, uid, point, continuousCount);

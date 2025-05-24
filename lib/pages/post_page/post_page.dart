@@ -11,11 +11,11 @@ import 'package:sweep/classes/post.dart';
 import 'package:sweep/pages/post_page/post_image_preview_page.dart';
 import 'package:sweep/pages/post_page/post_map_preview_page.dart';
 import 'package:sweep/states/image_notifier.dart';
+import 'package:sweep/states/location_notifier.dart';
 import 'package:sweep/states/post_notifier.dart';
+import 'package:sweep/states/profile_provider.dart';
 import 'package:sweep/widgets/currentLocationContainer.dart';
 import 'package:sweep/widgets/post_margin.dart';
-
-const otsuCityOfficePosition = LatLng(35.01889586284015, 135.85529483505871);
 
 class PostPage extends StatefulHookConsumerWidget {
   const PostPage({super.key});
@@ -27,12 +27,10 @@ class PostPage extends StatefulHookConsumerWidget {
 class _PostPageState extends ConsumerState<PostPage>
     with TickerProviderStateMixin {
   late AnimatedMapController mapController;
-  late LatLng currentLocation = otsuCityOfficePosition;
 
   @override
   void initState() {
     super.initState();
-    getCurrentLocation();
     mapController = AnimatedMapController(vsync: this);
   }
 
@@ -42,33 +40,13 @@ class _PostPageState extends ConsumerState<PostPage>
     super.dispose();
   }
 
-  Future<void> getCurrentLocation() async {
-    Location location = Location();
-
-    bool serviceEnabled = await location.serviceEnabled();
-    if (!serviceEnabled) {
-      serviceEnabled = await location.requestService();
-      if (!serviceEnabled) return;
-    }
-
-    PermissionStatus permissionGranted = await location.hasPermission();
-    if (permissionGranted == PermissionStatus.denied) {
-      permissionGranted = await location.requestPermission();
-      if (permissionGranted != PermissionStatus.granted) return;
-    }
-
-    final locationData = await location.getLocation();
-    setState(() {
-      currentLocation = LatLng(locationData.latitude!, locationData.longitude!);
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     final imagePaths = useState([ref.watch(imagePathProvider)]);
     final textController = useState(TextEditingController());
     final postTime = useState(DateTime.now());
     final segmentedButtonSelected = useState({PostType.trash});
+    final currentLocation = ref.watch(locationProvider);
 
     final postData = useState(
       Post(
@@ -85,7 +63,9 @@ class _PostPageState extends ConsumerState<PostPage>
         // 0
         nice: 0,
         // タイプを指定
-        type: PostType.trash,
+        type: segmentedButtonSelected.value.first,
+        // uid取得,
+        uid: ref.watch(profileProvider)!.uid,
       ),
     );
 
@@ -96,8 +76,8 @@ class _PostPageState extends ConsumerState<PostPage>
     }, [currentLocation]);
 
     useEffect(() {
-      ref.read(postProvider.notifier).clear();
       textController.value.text = postData.value.comment;
+      ref.read(locationProvider.notifier).getCurrentLocation();
 
       return () {
         textController.dispose();
@@ -111,12 +91,13 @@ class _PostPageState extends ConsumerState<PostPage>
         children: [
           SegmentedButton(
             selected: segmentedButtonSelected.value,
-            onSelectionChanged: (selected){
+            onSelectionChanged: (selected) {
               segmentedButtonSelected.value = selected;
             },
             segments: [
-              ButtonSegment(label: Text("ゴミ".padLeft(3, "　")),value: PostType.trash),
-              ButtonSegment(label: Text("ゴミ箱"),value: PostType.trashCan),
+              ButtonSegment(
+                  label: Text("ゴミ".padLeft(3, "　")), value: PostType.trash),
+              ButtonSegment(label: Text("ゴミ箱"), value: PostType.trashCan),
             ],
           ),
           SizedBox(
@@ -265,9 +246,15 @@ class _PostPageState extends ConsumerState<PostPage>
                       postData.value.copyWith(imagePaths: imagePaths.value);
                   postData.value = postData.value
                       .copyWith(comment: textController.value.text);
-                  postData.value = postData.value.copyWith(type: segmentedButtonSelected.value.first);
+                  postData.value = postData.value
+                      .copyWith(type: segmentedButtonSelected.value.first);
 
-                  ref.read(postProvider.notifier).set(postData.value);
+                  ref.read(postProvider.notifier)
+                    ..set(postData.value)
+                    ..submit();
+
+                  Navigator.of(context).pop();
+                  // この後にAlertDialogでも表示する
                 },
                 child: Text("投稿する")),
           ),

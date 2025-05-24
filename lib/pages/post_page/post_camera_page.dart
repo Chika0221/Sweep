@@ -72,7 +72,9 @@ class PostCameraPage extends HookConsumerWidget {
                                   ListTile(
                                     title: Text("ギャラリーから選択"),
                                     onTap: () async {
-                                      await ref.read(imagePathProvider.notifier).pickImageFromGallery();
+                                      await ref
+                                          .read(imagePathProvider.notifier)
+                                          .pickImageFromGallery();
                                       Navigator.of(context).pop();
                                       nextPage();
                                     },
@@ -80,7 +82,9 @@ class PostCameraPage extends HookConsumerWidget {
                                   ListTile(
                                     title: Text("カメラで撮影"),
                                     onTap: () async {
-                                      await ref.read(imagePathProvider.notifier).pickImageFromCamera();
+                                      await ref
+                                          .read(imagePathProvider.notifier)
+                                          .pickImageFromCamera();
                                       Navigator.of(context).pop();
                                       nextPage();
                                     },
@@ -98,12 +102,13 @@ class PostCameraPage extends HookConsumerWidget {
                     ),
                     ShutterButton(
                       onTap: () async {
-                        await ref.read(imagePathProvider.notifier).takePicture(controller.value);
+                        await ref
+                            .read(imagePathProvider.notifier)
+                            .takePicture(controller.value);
                         nextPage();
                       },
                       diameter: 84,
-                      backgroundColor:
-                      Theme.of(context).colorScheme.primary,
+                      backgroundColor: Theme.of(context).colorScheme.primary,
                       lineColor: Theme.of(context).colorScheme.surface,
                     ),
                     SizedBox(
