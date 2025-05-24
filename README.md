@@ -1,5 +1,8 @@
 # sweep
 
+# ホストアプリはこちら
+https://github.com/Chika0221/Sweep-host
+
 ## 概要
 
 **sweep**は、大津市の「きれいなまちづくり」を支援するFlutter製アプリです。
