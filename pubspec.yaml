@@ -112,6 +112,7 @@ flutter:
   assets:
     - assets/images/markers/trash.svg
     - assets/images/markers/trashCan.svg
+    - assets/images/coin.png
     - assets/icons/
     # - assets/fonts
 
