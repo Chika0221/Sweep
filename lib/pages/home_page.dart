@@ -22,10 +22,6 @@ class HomePage extends HookConsumerWidget {
               padding: const EdgeInsets.all(16.0),
               child: Column(
                 children: [
-                  PointPlate(),
-                  SizedBox(
-                    height: 16,
-                  ),
                   DiaryPlate(),
                   SizedBox(height: 16),
                   // HistoryPlate(),

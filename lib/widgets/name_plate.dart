@@ -3,6 +3,7 @@ import 'package:flutter/rendering.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:sweep/classes/profile.dart';
 import 'package:sweep/pages/profile_page.dart';
+import 'package:sweep/states/login_notifier.dart';
 import 'package:sweep/states/profile_provider.dart';
 import 'package:wave/config.dart';
 import 'package:wave/wave.dart';
