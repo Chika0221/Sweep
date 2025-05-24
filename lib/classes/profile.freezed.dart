@@ -20,6 +20,7 @@ mixin _$Profile {
   String get uid => throw UnimplementedError();
   int get point => throw UnimplementedError();
   int get continuousCount => throw UnimplementedError();
+  int get cumulativePoint => throw UnimplementedError();
 
   /// Create a copy of Profile
   /// with the given fields replaced by the non-null parameter values.
@@ -43,17 +44,19 @@ mixin _$Profile {
             (identical(other.uid, uid) || other.uid == uid) &&
             (identical(other.point, point) || other.point == point) &&
             (identical(other.continuousCount, continuousCount) ||
-                other.continuousCount == continuousCount));
+                other.continuousCount == continuousCount) &&
+            (identical(other.cumulativePoint, cumulativePoint) ||
+                other.cumulativePoint == cumulativePoint));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, displayName, photoURL, uid, point, continuousCount);
+  int get hashCode => Object.hash(runtimeType, displayName, photoURL, uid,
+      point, continuousCount, cumulativePoint);
 
   @override
   String toString() {
-    return 'Profile(displayName: $displayName, photoURL: $photoURL, uid: $uid, point: $point, continuousCount: $continuousCount)';
+    return 'Profile(displayName: $displayName, photoURL: $photoURL, uid: $uid, point: $point, continuousCount: $continuousCount, cumulativePoint: $cumulativePoint)';
   }
 }
 
@@ -67,7 +70,8 @@ abstract mixin class $ProfileCopyWith<$Res> {
       String photoURL,
       String uid,
       int point,
-      int continuousCount});
+      int continuousCount,
+      int cumulativePoint});
 }
 
 /// @nodoc
@@ -87,6 +91,7 @@ class _$ProfileCopyWithImpl<$Res> implements $ProfileCopyWith<$Res> {
     Object? uid = null,
     Object? point = null,
     Object? continuousCount = null,
+    Object? cumulativePoint = null,
   }) {
     return _then(_self.copyWith(
       displayName: null == displayName
@@ -109,6 +114,10 @@ class _$ProfileCopyWithImpl<$Res> implements $ProfileCopyWith<$Res> {
           ? _self.continuousCount
           : continuousCount // ignore: cast_nullable_to_non_nullable
               as int,
+      cumulativePoint: null == cumulativePoint
+          ? _self.cumulativePoint
+          : cumulativePoint // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -121,7 +130,8 @@ class _Profile implements Profile {
       required this.photoURL,
       required this.uid,
       required this.point,
-      required this.continuousCount});
+      required this.continuousCount,
+      required this.cumulativePoint});
   factory _Profile.fromJson(Map<String, dynamic> json) =>
       _$ProfileFromJson(json);
 
@@ -135,6 +145,8 @@ class _Profile implements Profile {
   final int point;
   @override
   final int continuousCount;
+  @override
+  final int cumulativePoint;
 
   /// Create a copy of Profile
   /// with the given fields replaced by the non-null parameter values.
@@ -163,17 +175,19 @@ class _Profile implements Profile {
             (identical(other.uid, uid) || other.uid == uid) &&
             (identical(other.point, point) || other.point == point) &&
             (identical(other.continuousCount, continuousCount) ||
-                other.continuousCount == continuousCount));
+                other.continuousCount == continuousCount) &&
+            (identical(other.cumulativePoint, cumulativePoint) ||
+                other.cumulativePoint == cumulativePoint));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, displayName, photoURL, uid, point, continuousCount);
+  int get hashCode => Object.hash(runtimeType, displayName, photoURL, uid,
+      point, continuousCount, cumulativePoint);
 
   @override
   String toString() {
-    return 'Profile(displayName: $displayName, photoURL: $photoURL, uid: $uid, point: $point, continuousCount: $continuousCount)';
+    return 'Profile(displayName: $displayName, photoURL: $photoURL, uid: $uid, point: $point, continuousCount: $continuousCount, cumulativePoint: $cumulativePoint)';
   }
 }
 
@@ -188,7 +202,8 @@ abstract mixin class _$ProfileCopyWith<$Res> implements $ProfileCopyWith<$Res> {
       String photoURL,
       String uid,
       int point,
-      int continuousCount});
+      int continuousCount,
+      int cumulativePoint});
 }
 
 /// @nodoc
@@ -208,6 +223,7 @@ class __$ProfileCopyWithImpl<$Res> implements _$ProfileCopyWith<$Res> {
     Object? uid = null,
     Object? point = null,
     Object? continuousCount = null,
+    Object? cumulativePoint = null,
   }) {
     return _then(_Profile(
       displayName: null == displayName
@@ -229,6 +245,10 @@ class __$ProfileCopyWithImpl<$Res> implements _$ProfileCopyWith<$Res> {
       continuousCount: null == continuousCount
           ? _self.continuousCount
           : continuousCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      cumulativePoint: null == cumulativePoint
+          ? _self.cumulativePoint
+          : cumulativePoint // ignore: cast_nullable_to_non_nullable
               as int,
     ));
   }

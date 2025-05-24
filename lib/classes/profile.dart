@@ -11,6 +11,7 @@ class Profile with _$Profile {
     required String uid,
     required int point,
     required int continuousCount,
+    required int cumulativePoint,
   }) = _Profile;
 
   factory Profile.fromJson(Map<String, dynamic> json) => _$ProfileFromJson(json);

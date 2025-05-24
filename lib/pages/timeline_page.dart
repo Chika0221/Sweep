@@ -14,6 +14,7 @@ class TimelinePage extends HookConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('タイムライン'),
+        centerTitle: true,
       ),
       body: postData.when(
         loading: () =>
