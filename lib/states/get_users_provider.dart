@@ -6,7 +6,8 @@ import 'package:sweep/classes/profile.dart';
 final userStreamProvider = StreamProvider.autoDispose<List<Profile>>((ref) {
   final collection = FirebaseFirestore.instance.collection("user");
 
-  final stream = collection.snapshots().map((e) {
+  final stream =
+      collection.orderBy("point", descending: true).snapshots().map((e) {
     return e.docs.map((e) => Profile.fromJson(e.data())).toList();
   });
 

@@ -13,19 +13,25 @@ class RankingIcons extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Container(
-      width: ranking.size,
-      height: ranking.size,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: ranking.color,
-      ),
+    return SizedBox(
+      width: 64,
+      height: 64,
       child: Center(
-        child: Text(
-          (ranking.index + 1).toString(),
-          style: TextStyle(
-            fontSize: 26,
-            color: Colors.white,
+        child: Container(
+          width: ranking.size,
+          height: ranking.size,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: ranking.color,
+          ),
+          child: Center(
+            child: Text(
+              (ranking.index + 1).toString(),
+              style: TextStyle(
+                fontSize: 26,
+                color: Colors.white,
+              ),
+            ),
           ),
         ),
       ),

@@ -20,12 +20,17 @@ class RankingPage extends HookConsumerWidget {
         padding: const EdgeInsets.all(16.0),
         child: userStream.when(
           data: (users) {
-            return ListView.builder(
+            return ListView.separated(
               itemCount: users.length,
               itemBuilder: (context, index) {
                 return RankingItem(
                   profile: users[index],
                   index: index,
+                );
+              },
+              separatorBuilder: (BuildContext context, int index) {
+                return SizedBox(
+                  height: 8,
                 );
               },
             );

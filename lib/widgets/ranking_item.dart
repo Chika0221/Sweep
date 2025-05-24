@@ -31,7 +31,7 @@ class RankingItem extends HookConsumerWidget {
           style: Theme.of(context).textTheme.headlineMedium,
         ),
         trailing: Text(
-          "99P",
+          "${profile.point.toString()}P",
           style: Theme.of(context).textTheme.headlineLarge,
         ),
       ),
