@@ -1,8 +1,13 @@
 // ignore_for_file: unused_import
 
-import 'package:firebase_core/firebase_core.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:firebase_core/firebase_core.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+// Project imports:
 import 'package:sweep/firebase_options.dart';
 import 'package:sweep/pages/login_page/login_page.dart';
 import 'package:sweep/pages/main_page.dart';

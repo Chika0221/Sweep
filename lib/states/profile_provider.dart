@@ -1,4 +1,7 @@
+// Package imports:
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+// Project imports:
 import 'package:sweep/classes/profile.dart';
 import 'package:sweep/states/get_users_provider.dart';
 import 'package:sweep/states/login_notifier.dart';

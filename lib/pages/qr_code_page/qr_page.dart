@@ -1,6 +1,11 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+
+// Project imports:
 import 'package:sweep/states/login_notifier.dart';
 import 'package:sweep/states/profile_provider.dart';
 

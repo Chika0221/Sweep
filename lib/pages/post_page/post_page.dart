@@ -1,21 +1,27 @@
+// Dart imports:
 import 'dart:io';
 
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_animations/flutter_map_animations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:location/location.dart';
+
+// Project imports:
 import 'package:sweep/classes/post.dart';
+import 'package:sweep/pages/map_page/currentLocationContainer.dart';
 import 'package:sweep/pages/post_page/post_image_preview_page.dart';
 import 'package:sweep/pages/post_page/post_map_preview_page.dart';
+import 'package:sweep/pages/post_page/post_margin.dart';
 import 'package:sweep/states/image_notifier.dart';
 import 'package:sweep/states/location_notifier.dart';
-import 'package:sweep/states/post_notifier.dart';
 import 'package:sweep/states/login_notifier.dart';
-import 'package:sweep/pages/map_page/currentLocationContainer.dart';
-import 'package:sweep/pages/post_page/post_margin.dart';
+import 'package:sweep/states/post_notifier.dart';
 
 class PostPage extends StatefulHookConsumerWidget {
   const PostPage({super.key});

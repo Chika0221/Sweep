@@ -1,8 +1,13 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+// Project imports:
+import 'package:sweep/pages/ranking_page/ranking_item.dart';
 import 'package:sweep/states/get_users_provider.dart';
 import 'package:sweep/states/login_notifier.dart';
-import 'package:sweep/pages/ranking_page/ranking_item.dart';
 
 class RankingPage extends HookConsumerWidget {
   const RankingPage({super.key});

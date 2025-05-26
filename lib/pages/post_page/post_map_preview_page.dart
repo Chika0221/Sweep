@@ -1,9 +1,14 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_animations/flutter_map_animations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
+
+// Project imports:
 import 'package:sweep/pages/map_page/currentLocationContainer.dart';
 
 class MapPreviewPage extends HookConsumerWidget {

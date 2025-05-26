@@ -1,5 +1,8 @@
-import 'package:camera/camera.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:camera/camera.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class CamerasNotifier extends Notifier<List<CameraDescription>> {

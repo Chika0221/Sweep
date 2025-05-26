@@ -1,11 +1,17 @@
+// Dart imports:
 import 'dart:io';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:image/image.dart' as img;
+
+// Package imports:
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:sweep/classes/post.dart';
-import 'package:flutter/foundation.dart'; // debugPrintを使用するためにインポート
+import 'package:image/image.dart' as img;
 import 'package:uuid/uuid.dart';
+
+// Project imports:
+import 'package:sweep/classes/post.dart';
+
+import 'package:flutter/foundation.dart'; // debugPrintを使用するためにインポート
 import 'package:path/path.dart' as p; // pathパッケージをインポート
 
 class PostNotifier extends AutoDisposeNotifier<Post?> {

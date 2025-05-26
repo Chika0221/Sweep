@@ -1,12 +1,17 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+
+// Package imports:
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:wave/config.dart';
+import 'package:wave/wave.dart';
+
+// Project imports:
 import 'package:sweep/classes/profile.dart';
 import 'package:sweep/pages/profile_page/profile_page.dart';
 import 'package:sweep/states/login_notifier.dart';
 import 'package:sweep/states/profile_provider.dart';
-import 'package:wave/config.dart';
-import 'package:wave/wave.dart';
 
 class NamePlate extends HookConsumerWidget {
   const NamePlate({super.key});

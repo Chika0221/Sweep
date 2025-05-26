@@ -1,5 +1,12 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:wave/config.dart';
+import 'package:wave/wave.dart';
+
+// Project imports:
 import 'package:sweep/pages/home_page/continuous_login_plate.dart';
 import 'package:sweep/pages/home_page/daily_task_plate.dart';
 import 'package:sweep/pages/home_page/diary_plate.dart';
@@ -7,8 +14,6 @@ import 'package:sweep/pages/home_page/history_plate.dart';
 import 'package:sweep/pages/home_page/name_plate.dart';
 import 'package:sweep/pages/home_page/point_plate.dart';
 import 'package:sweep/pages/home_page/weekly_task_plate.dart';
-import 'package:wave/config.dart';
-import 'package:wave/wave.dart';
 
 class HomePage extends HookConsumerWidget {
   const HomePage({super.key});

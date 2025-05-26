@@ -1,12 +1,17 @@
+// Flutter imports:
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:path/path.dart';
+import 'package:wave/wave.dart';
+
+// Project imports:
 import 'package:sweep/pages/history_page/history_page.dart';
+import 'package:sweep/pages/home_page/point_plate.dart';
 import 'package:sweep/states/login_notifier.dart';
 import 'package:sweep/states/profile_provider.dart';
-import 'package:sweep/pages/home_page/point_plate.dart';
-import 'package:wave/wave.dart';
 
 class DiaryPlate extends HookConsumerWidget {
   const DiaryPlate({super.key});
