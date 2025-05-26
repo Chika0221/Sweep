@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -28,6 +30,7 @@ class MyApp extends HookConsumerWidget {
       debugShowCheckedModeBanner: false,
       home: LoginPage(),
       themeMode: ThemeMode.light,
+      // darkTheme: ThemeData.dark(),
       theme: ThemeData(
         colorSchemeSeed: Colors.blue.shade600,
         fontFamily: "Zen_Maru_Gothic",

@@ -49,11 +49,6 @@ class ProfilePage extends HookConsumerWidget {
                     title: const Text('連続ログイン日数'),
                     subtitle: Text('${profile.continuousCount} 日'),
                   ),
-                  ListTile(
-                    leading: const Icon(Icons.star),
-                    title: const Text('累計ポイント'),
-                    subtitle: Text('${profile.cumulativePoint} ポイント'),
-                  ),
                 ],
               ),
             ),

@@ -8,7 +8,7 @@ class QRPage extends HookConsumerWidget {
   const QRPage({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final widget_size = MediaQuery.of(context).size.width * 0.9;
+    final widget_size = MediaQuery.of(context).size.width * 0.6;
     final profile = ref.watch(profileProvider);
 
     return Scaffold(
@@ -17,17 +17,27 @@ class QRPage extends HookConsumerWidget {
           centerTitle: true,
         ),
         body: Center(
-          child: Container(
-            width: widget_size,
-            height: widget_size,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(30),
-              color: Theme.of(context).colorScheme.surfaceContainer,
-            ),
-            padding: EdgeInsets.all(16),
-            child: QrImageView(
-              data: profile!.uid,
-            ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Text(
+                "ゴミ箱に表示して接続する",
+                style: Theme.of(context).textTheme.headlineMedium,
+              ),
+              Container(
+                width: widget_size,
+                height: widget_size,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(30),
+                  color: Colors.white,
+                ),
+                padding: EdgeInsets.all(16),
+                child: QrImageView(
+                  data: profile!.uid,
+                ),
+              ),
+              SizedBox.shrink(),
+            ],
           ),
         ));
   }
