@@ -3,12 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:path/path.dart';
 import 'package:sweep/pages/history_page.dart';
+import 'package:sweep/states/login_notifier.dart';
+import 'package:sweep/states/profile_provider.dart';
+import 'package:sweep/widgets/point_plate.dart';
 import 'package:wave/wave.dart';
 
 class DiaryPlate extends HookConsumerWidget {
   const DiaryPlate({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final profile = ref.watch(profileProvider);
+
     return InkWell(
       onTap: () => Navigator.of(context).push(
         MaterialPageRoute(
@@ -21,31 +26,51 @@ class DiaryPlate extends HookConsumerWidget {
           color: Theme.of(context).colorScheme.surfaceContainerLow,
         ),
         padding: EdgeInsets.all(16),
-        child: Column(
+        child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.max,
           children: [
-            Text("今週の報告数"),
-            Row(
-              children: [
-                Text(
-                  "11L",
-                  style: Theme.of(context).textTheme.displayLarge,
-                ),
-              ],
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("今週の獲得ポイント"),
+                  Text(
+                    "+${profile?.continuousCount}P",
+                    style: Theme.of(context).textTheme.displayLarge,
+                  ),
+                  SizedBox(
+                    height: 16,
+                  ),
+                ],
+              ),
             ),
-            Row(
-              children: [
-                Spacer(),
-                Text(
-                  "履歴の確認",
-                  style: Theme.of(context).textTheme.bodySmall,
-                ),
-                Icon(
-                  Icons.arrow_forward_rounded,
-                  size: 18,
-                ),
-              ],
-            )
+            Expanded(
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  PointPlate(),
+                  SizedBox(
+                    height: 32,
+                  ),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        "履歴の確認",
+                        style: Theme.of(context).textTheme.bodySmall,
+                      ),
+                      Icon(
+                        Icons.arrow_forward_rounded,
+                        size: 18,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),

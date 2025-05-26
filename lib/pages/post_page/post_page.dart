@@ -13,7 +13,7 @@ import 'package:sweep/pages/post_page/post_map_preview_page.dart';
 import 'package:sweep/states/image_notifier.dart';
 import 'package:sweep/states/location_notifier.dart';
 import 'package:sweep/states/post_notifier.dart';
-import 'package:sweep/states/profile_provider.dart';
+import 'package:sweep/states/login_notifier.dart';
 import 'package:sweep/widgets/currentLocationContainer.dart';
 import 'package:sweep/widgets/post_margin.dart';
 
@@ -57,7 +57,7 @@ class _PostPageState extends ConsumerState<PostPage>
         // 空白
         comment: "",
         // 0
-        point: 0,
+        point: 1,
         // 現在時刻
         time: postTime.value,
         // 0
@@ -65,7 +65,7 @@ class _PostPageState extends ConsumerState<PostPage>
         // タイプを指定
         type: segmentedButtonSelected.value.first,
         // uid取得,
-        uid: ref.watch(profileProvider)!.uid,
+        uid: ref.watch(loginProvider),
       ),
     );
 

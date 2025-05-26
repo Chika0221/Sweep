@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:sweep/pages/main_page.dart';
-import 'package:sweep/states/profile_provider.dart';
+import 'package:sweep/states/login_notifier.dart';
 
 class VerificationCodePage extends HookConsumerWidget {
   const VerificationCodePage({super.key});
@@ -16,7 +16,7 @@ class VerificationCodePage extends HookConsumerWidget {
       isLoading.value = true;
 
       ref
-          .read(profileProvider.notifier)
+          .read(loginProvider.notifier)
           .verifyCodePhoneNumber(codeController.text);
       Navigator.of(context).push(
         MaterialPageRoute(

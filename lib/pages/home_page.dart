@@ -3,6 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:sweep/widgets/diary_plate.dart';
 import 'package:sweep/widgets/history_plate.dart';
 import 'package:sweep/widgets/name_plate.dart';
+import 'package:sweep/widgets/point_plate.dart';
 import 'package:wave/config.dart';
 import 'package:wave/wave.dart';
 

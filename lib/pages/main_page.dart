@@ -65,7 +65,8 @@ class MainPage extends HookConsumerWidget {
         destinations: [
           NavigationDestination(icon: Icon(Icons.home_rounded), label: "ホーム"),
           NavigationDestination(icon: Icon(Icons.star_rounded), label: "ランキング"),
-          NavigationDestination(icon: Icon(Icons.qr_code_rounded), label: "QR"),
+          NavigationDestination(
+              icon: Icon(Icons.qr_code_rounded), label: "ゴミ箱"),
           NavigationDestination(
               icon: Icon(Icons.access_time_rounded), label: "タイムライン"),
           NavigationDestination(icon: Icon(Icons.map_rounded), label: "マップ"),

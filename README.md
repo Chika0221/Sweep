@@ -1,11 +1,11 @@
-# sweep
+# Sweep
 
 ## ホストアプリはこちら
-https://github.com/Chika0221/Sweep-host
+https://github.com/Chika0221/sweep-host
 
 ## 概要
 
-**sweep**は、大津市の「きれいなまちづくり」を支援するFlutter製アプリです。
+**Sweep**は、大津市の「きれいなまちづくり」を支援するFlutter製アプリです。
 市民や観光客がゴミの情報を共有し、清掃活動に参加しやすくすることで、地域の環境改善・経済活性化・社会貢献を目指します。
 
 ---
@@ -86,7 +86,7 @@ https://github.com/Chika0221/Sweep-host
 
 ---
 
-## sweepで実現する価値
+## Sweepで実現する価値
 
 - **環境改善**：ゴミの可視化と効率的な清掃で美しいまちづくり
 - **観光促進**：景観向上による観光客誘致

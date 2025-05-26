@@ -4,7 +4,7 @@ import 'package:sign_button/constants.dart';
 import 'package:sign_button/create_button.dart';
 import 'package:sweep/pages/login_auth_page.dart';
 import 'package:sweep/pages/main_page.dart';
-import 'package:sweep/states/profile_provider.dart';
+import 'package:sweep/states/login_notifier.dart';
 import 'package:sweep/widgets/sign_button.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
@@ -74,7 +74,7 @@ class LoginPage extends HookConsumerWidget {
                       child: FilledButton(
                         onPressed: () {
                           ref
-                              .read(profileProvider.notifier)
+                              .read(loginProvider.notifier)
                               .signInWithPhoneNumber(
                                 context,
                                 phoneNumberController.value.text,
@@ -93,7 +93,7 @@ class LoginPage extends HookConsumerWidget {
                     SignButton(
                       onTap: () async {
                         await ref
-                            .read(profileProvider.notifier)
+                            .read(loginProvider.notifier)
                             .signInWithGoogle();
                         goNextPage();
                       },

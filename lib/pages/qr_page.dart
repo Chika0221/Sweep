@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:sweep/states/login_notifier.dart';
 import 'package:sweep/states/profile_provider.dart';
 
 class QRPage extends HookConsumerWidget {

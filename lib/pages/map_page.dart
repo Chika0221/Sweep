@@ -5,7 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:location/location.dart';
 import 'package:sweep/classes/post.dart';
-import 'package:sweep/states/get_posts_notifier.dart';
+import 'package:sweep/states/get_posts_provider.dart';
 import 'package:sweep/states/location_notifier.dart';
 import 'package:sweep/widgets/currentLocationContainer.dart';
 import 'package:sweep/widgets/trash_maker_child.dart';

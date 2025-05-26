@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:cloud_firestore/cloud_firestore.dart'; // Firestoreを使用する場合
 import 'package:sweep/classes/post.dart'; // Postモデルのインポート
-import 'package:sweep/states/get_posts_notifier.dart';
+import 'package:sweep/states/get_posts_provider.dart';
 import 'package:sweep/widgets/post_item.dart'; // 各投稿を表示するウィジェット (別途作成が必要)
 
 class TimelinePage extends HookConsumerWidget {

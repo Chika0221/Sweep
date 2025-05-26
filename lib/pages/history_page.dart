@@ -5,6 +5,14 @@ class HistoryPage extends HookConsumerWidget {
   const HistoryPage({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Container();
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("一週間の報告"),
+        centerTitle: true,
+      ),
+      body: Center(
+        child: Text("まだないよ"),
+      ),
+    );
   }
 }
