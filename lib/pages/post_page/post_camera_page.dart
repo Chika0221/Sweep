@@ -5,7 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../states/cameras_notiifier.dart';
 import '../../states/image_notifier.dart';
-import '../../widgets/shutter_button.dart';
+import 'shutter_button.dart';
 
 class PostCameraPage extends HookConsumerWidget {
   const PostCameraPage({super.key, required this.nextPage});

@@ -14,8 +14,8 @@ import 'package:sweep/states/image_notifier.dart';
 import 'package:sweep/states/location_notifier.dart';
 import 'package:sweep/states/post_notifier.dart';
 import 'package:sweep/states/login_notifier.dart';
-import 'package:sweep/widgets/currentLocationContainer.dart';
-import 'package:sweep/widgets/post_margin.dart';
+import 'package:sweep/pages/map_page/currentLocationContainer.dart';
+import 'package:sweep/pages/post_page/post_margin.dart';
 
 class PostPage extends StatefulHookConsumerWidget {
   const PostPage({super.key});

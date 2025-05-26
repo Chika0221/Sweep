@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:sweep/classes/profile.dart';
-import 'package:sweep/widgets/ranking_icons.dart';
+import 'package:sweep/pages/ranking_page/ranking_icons.dart';
 
 class RankingItem extends HookConsumerWidget {
   const RankingItem({

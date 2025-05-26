@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:sweep/pages/home_page.dart';
-import 'package:sweep/pages/map_page.dart';
+import 'package:sweep/pages/home_page/home_page.dart';
+import 'package:sweep/pages/map_page/map_page.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:sweep/pages/post_page/post_modal.dart';
-import 'package:sweep/pages/qr_page.dart';
-import 'package:sweep/pages/ranking_page.dart';
-import 'package:sweep/pages/timeline_page.dart';
+import 'package:sweep/pages/qr_code_page/qr_page.dart';
+import 'package:sweep/pages/ranking_page/ranking_page.dart';
+import 'package:sweep/pages/timaline_page/timeline_page.dart';
 
 class MainPage extends HookConsumerWidget {
   const MainPage({super.key});

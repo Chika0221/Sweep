@@ -7,8 +7,8 @@ import 'package:location/location.dart';
 import 'package:sweep/classes/post.dart';
 import 'package:sweep/states/get_posts_provider.dart';
 import 'package:sweep/states/location_notifier.dart';
-import 'package:sweep/widgets/currentLocationContainer.dart';
-import 'package:sweep/widgets/trash_maker_child.dart';
+import 'package:sweep/pages/map_page/currentLocationContainer.dart';
+import 'package:sweep/pages/map_page/trash_maker_child.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 class MapPage extends StatefulHookConsumerWidget {

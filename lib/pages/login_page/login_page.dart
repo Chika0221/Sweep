@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:sign_button/constants.dart';
 import 'package:sign_button/create_button.dart';
-import 'package:sweep/pages/login_auth_page.dart';
+import 'package:sweep/pages/login_page/login_auth_page.dart';
 import 'package:sweep/pages/main_page.dart';
 import 'package:sweep/states/login_notifier.dart';
-import 'package:sweep/widgets/sign_button.dart';
+import 'package:sweep/pages/login_page/sign_button.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 //ログインのページ
