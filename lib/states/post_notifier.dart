@@ -18,7 +18,6 @@ class PostNotifier extends AutoDisposeNotifier<Post?> {
   @override
   Post? build() => null;
 
-
   void set(Post post) {
     state = post;
   }
@@ -64,7 +63,9 @@ class PostNotifier extends AutoDisposeNotifier<Post?> {
     data["imageURLs"] = imageStorageURLs;
     data["imagePaths"] = imageStoragePaths;
 
-    final postDocs = FirebaseFirestore.instance.collection("post").doc();
+    final postDocs = FirebaseFirestore.instance
+        .collection("post")
+        .doc(data["postId"].toString());
     postDocs.set(data);
   }
 }

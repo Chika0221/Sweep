@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class CamerasNotifier extends Notifier<List<CameraDescription>> {
+class CamerasNotifier extends AutoDisposeNotifier<List<CameraDescription>> {
   @override
   List<CameraDescription> build() => [];
 
@@ -23,6 +23,6 @@ class CamerasNotifier extends Notifier<List<CameraDescription>> {
 }
 
 final camerasProvider =
-    NotifierProvider<CamerasNotifier, List<CameraDescription>>(
+    AutoDisposeNotifierProvider<CamerasNotifier, List<CameraDescription>>(
   CamerasNotifier.new,
 );

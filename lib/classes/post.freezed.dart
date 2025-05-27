@@ -15,14 +15,15 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$Post {
-  List<String> get imagePaths => throw UnimplementedError();
-  LatLng get location => throw UnimplementedError();
-  String get comment => throw UnimplementedError();
-  int get point => throw UnimplementedError();
-  DateTime get time => throw UnimplementedError();
-  int get nice => throw UnimplementedError();
-  PostType get type => throw UnimplementedError();
-  String get uid => throw UnimplementedError();
+  List<String> get imagePaths;
+  LatLng get location;
+  String get comment;
+  int get point;
+  DateTime get time;
+  int get nice;
+  PostType get type;
+  String get uid;
+  String get postId;
 
   /// Create a copy of Post
   /// with the given fields replaced by the non-null parameter values.
@@ -48,7 +49,8 @@ mixin _$Post {
             (identical(other.time, time) || other.time == time) &&
             (identical(other.nice, nice) || other.nice == nice) &&
             (identical(other.type, type) || other.type == type) &&
-            (identical(other.uid, uid) || other.uid == uid));
+            (identical(other.uid, uid) || other.uid == uid) &&
+            (identical(other.postId, postId) || other.postId == postId));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -62,11 +64,12 @@ mixin _$Post {
       time,
       nice,
       type,
-      uid);
+      uid,
+      postId);
 
   @override
   String toString() {
-    return 'Post(imagePaths: $imagePaths, location: $location, comment: $comment, point: $point, time: $time, nice: $nice, type: $type, uid: $uid)';
+    return 'Post(imagePaths: $imagePaths, location: $location, comment: $comment, point: $point, time: $time, nice: $nice, type: $type, uid: $uid, postId: $postId)';
   }
 }
 
@@ -83,7 +86,8 @@ abstract mixin class $PostCopyWith<$Res> {
       DateTime time,
       int nice,
       PostType type,
-      String uid});
+      String uid,
+      String postId});
 }
 
 /// @nodoc
@@ -106,6 +110,7 @@ class _$PostCopyWithImpl<$Res> implements $PostCopyWith<$Res> {
     Object? nice = null,
     Object? type = null,
     Object? uid = null,
+    Object? postId = null,
   }) {
     return _then(_self.copyWith(
       imagePaths: null == imagePaths
@@ -140,6 +145,10 @@ class _$PostCopyWithImpl<$Res> implements $PostCopyWith<$Res> {
           ? _self.uid
           : uid // ignore: cast_nullable_to_non_nullable
               as String,
+      postId: null == postId
+          ? _self.postId
+          : postId // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -155,7 +164,8 @@ class _Post implements Post {
       required this.time,
       required this.nice,
       required this.type,
-      required this.uid})
+      required this.uid,
+      required this.postId})
       : _imagePaths = imagePaths;
   factory _Post.fromJson(Map<String, dynamic> json) => _$PostFromJson(json);
 
@@ -181,6 +191,8 @@ class _Post implements Post {
   final PostType type;
   @override
   final String uid;
+  @override
+  final String postId;
 
   /// Create a copy of Post
   /// with the given fields replaced by the non-null parameter values.
@@ -211,7 +223,8 @@ class _Post implements Post {
             (identical(other.time, time) || other.time == time) &&
             (identical(other.nice, nice) || other.nice == nice) &&
             (identical(other.type, type) || other.type == type) &&
-            (identical(other.uid, uid) || other.uid == uid));
+            (identical(other.uid, uid) || other.uid == uid) &&
+            (identical(other.postId, postId) || other.postId == postId));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -225,11 +238,12 @@ class _Post implements Post {
       time,
       nice,
       type,
-      uid);
+      uid,
+      postId);
 
   @override
   String toString() {
-    return 'Post(imagePaths: $imagePaths, location: $location, comment: $comment, point: $point, time: $time, nice: $nice, type: $type, uid: $uid)';
+    return 'Post(imagePaths: $imagePaths, location: $location, comment: $comment, point: $point, time: $time, nice: $nice, type: $type, uid: $uid, postId: $postId)';
   }
 }
 
@@ -247,7 +261,8 @@ abstract mixin class _$PostCopyWith<$Res> implements $PostCopyWith<$Res> {
       DateTime time,
       int nice,
       PostType type,
-      String uid});
+      String uid,
+      String postId});
 }
 
 /// @nodoc
@@ -270,6 +285,7 @@ class __$PostCopyWithImpl<$Res> implements _$PostCopyWith<$Res> {
     Object? nice = null,
     Object? type = null,
     Object? uid = null,
+    Object? postId = null,
   }) {
     return _then(_Post(
       imagePaths: null == imagePaths
@@ -303,6 +319,10 @@ class __$PostCopyWithImpl<$Res> implements _$PostCopyWith<$Res> {
       uid: null == uid
           ? _self.uid
           : uid // ignore: cast_nullable_to_non_nullable
+              as String,
+      postId: null == postId
+          ? _self.postId
+          : postId // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }

@@ -1,5 +1,3 @@
-// ignore_for_file: unused_import
-
 // Flutter imports:
 import 'package:flutter/material.dart';
 
@@ -10,7 +8,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 // Project imports:
 import 'package:sweep/firebase_options.dart';
 import 'package:sweep/pages/login_page/login_page.dart';
-import 'package:sweep/pages/main_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

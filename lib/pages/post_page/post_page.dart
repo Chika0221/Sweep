@@ -11,6 +11,7 @@ import 'package:flutter_map_animations/flutter_map_animations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:location/location.dart';
+import 'package:uuid/uuid.dart';
 
 // Project imports:
 import 'package:sweep/classes/post.dart';
@@ -72,8 +73,11 @@ class _PostPageState extends ConsumerState<PostPage>
         type: segmentedButtonSelected.value.first,
         // uid取得,
         uid: ref.watch(loginProvider),
+        postId: Uuid().v4(),
       ),
     );
+
+    print(postData.value);
 
     useEffect(() {
       postData.value = postData.value.copyWith(location: currentLocation);
@@ -114,14 +118,19 @@ class _PostPageState extends ConsumerState<PostPage>
               backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
               onTap: (index) async {
                 if (index < imagePaths.value.length) {
-                  imagePaths.value = await Navigator.of(context).push(
+                  final List<String>? resultValue =
+                      await Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) => ImagePreviewPage(
                         imagePaths: imagePaths.value,
                         index: index,
+                        showDelete: true,
                       ),
                     ),
                   );
+                  if (resultValue != null) {
+                    imagePaths.value = resultValue;
+                  }
                 } else {
                   showDialog(
                     context: context,

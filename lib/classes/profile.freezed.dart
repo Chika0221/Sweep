@@ -15,12 +15,12 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$Profile {
-  String get displayName => throw UnimplementedError();
-  String get photoURL => throw UnimplementedError();
-  String get uid => throw UnimplementedError();
-  int get point => throw UnimplementedError();
-  int get continuousCount => throw UnimplementedError();
-  int get cumulativePoint => throw UnimplementedError();
+  String get displayName;
+  String get photoURL;
+  String get uid;
+  int get point;
+  int get continuousCount;
+  int get cumulativePoint;
 
   /// Create a copy of Profile
   /// with the given fields replaced by the non-null parameter values.

@@ -39,7 +39,7 @@ class WeekIndicatorBar extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final device_width = MediaQuery.of(context).size.width;
+    final deviceWidth = MediaQuery.of(context).size.width;
 
     Color disbleColor;
     if (sunday) {
@@ -51,7 +51,7 @@ class WeekIndicatorBar extends HookConsumerWidget {
     }
 
     return Container(
-      width: device_width / 9,
+      width: deviceWidth / 9,
       height: 10,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(100),

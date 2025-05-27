@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 
 // Package imports:
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 // Project imports:
@@ -19,9 +18,9 @@ class ContinuousLoginPlate extends HookConsumerWidget {
     int max_index = 0;
     if (continuousCount! <= 7) {
       max_index = 1;
-    } else if (continuousCount! <= 14) {
+    } else if (continuousCount <= 14) {
       max_index = 2;
-    } else if (continuousCount! <= 21) {
+    } else if (continuousCount <= 21) {
       max_index = 3;
     }
 

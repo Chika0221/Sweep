@@ -8,7 +8,6 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 // Project imports:
-import 'package:sweep/classes/profile.dart';
 import 'package:sweep/pages/main_page.dart';
 
 class LoginNotifier extends Notifier<String> {
@@ -121,7 +120,8 @@ class LoginNotifier extends Notifier<String> {
         "cumulativePoint": 0,
       };
 
-      final UserDoc = await FirebaseFirestore.instance.collection("user").doc();
+      final UserDoc =
+          await FirebaseFirestore.instance.collection("user").doc(newUser.uid);
       await UserDoc.set(data);
       state = newUser.uid;
     }

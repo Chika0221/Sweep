@@ -8,7 +8,8 @@ import 'package:sweep/classes/post.dart';
 final postStreamProvider = StreamProvider.autoDispose<List<Post>>((ref) {
   final collection = FirebaseFirestore.instance.collection("post");
 
-  final stream = collection.snapshots().map((e) {
+  final stream =
+      collection.orderBy("time", descending: true).snapshots().map((e) {
     return e.docs.map((e) => Post.fromJson(e.data())).toList();
   });
 

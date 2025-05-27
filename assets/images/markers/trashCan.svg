@@ -24,14 +24,14 @@
      inkscape:deskcolor="#ffffff"
      inkscape:document-units="px"
      inkscape:zoom="1.4142136"
-     inkscape:cx="136.82516"
+     inkscape:cx="137.53227"
      inkscape:cy="145.66399"
      inkscape:window-width="1440"
      inkscape:window-height="890"
      inkscape:window-x="-6"
      inkscape:window-y="-6"
      inkscape:window-maximized="1"
-     inkscape:current-layer="layer1" /><defs
+     inkscape:current-layer="layer2" /><defs
      id="defs1"><inkscape:path-effect
        effect="fillet_chamfer"
        id="path-effect26"
@@ -62,7 +62,7 @@
      inkscape:groupmode="layer"
      id="layer2"
      inkscape:label="Layer 2"><rect
-       style="opacity:0.92340426;fill:#aaeeff;fill-opacity:1;stroke:#55ddff;stroke-width:0.99986;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
+       style="opacity:0.92340426;fill:#afdde9;fill-opacity:1;stroke:#d7eef4;stroke-width:0.99986;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
        id="rect42"
        width="53.133183"
        height="52.946095"
