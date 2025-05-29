@@ -6,7 +6,10 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <!-- 位置情報の取得 -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    
+
+    <!-- firebaseとの通信エラー -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+        
     <application
         android:label="sweep"
         android:name="${applicationName}"
