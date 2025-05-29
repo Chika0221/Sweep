@@ -88,6 +88,12 @@ class _PostPageState extends ConsumerState<PostPage>
     }, [currentLocation]);
 
     useEffect(() {
+      if (imagePaths.value.length > 3) {
+        imagePaths.value = imagePaths.value.sublist(0, 3);
+      }
+    }, [imagePaths.value.length]);
+
+    useEffect(() {
       textController.value.text = postData.value.comment;
       ref.read(locationProvider.notifier).getCurrentLocation();
 
@@ -277,7 +283,6 @@ class _PostPageState extends ConsumerState<PostPage>
                       context: context,
                       builder: (context) =>
                           PointDialog(point: postData.value.point));
-                  // この後にAlertDialogでも表示する
                 },
                 child: Text("投稿する")),
           ),
