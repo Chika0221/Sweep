@@ -30,10 +30,16 @@ class PostItem extends HookConsumerWidget {
           // コメントを表示
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                post.comment,
-                style: Theme.of(context).textTheme.headlineSmall,
+              Expanded(
+                child: Text(
+                  post.comment,
+                  style: Theme.of(context).textTheme.headlineSmall,
+                ),
+              ),
+              SizedBox(
+                width: 8,
               ),
               Chip(
                 label: Text(post.type.displayName),
