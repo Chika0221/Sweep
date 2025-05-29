@@ -13,6 +13,7 @@ import 'package:location/location.dart';
 import 'package:sweep/classes/post.dart';
 import 'package:sweep/pages/map_page/currentLocationContainer.dart';
 import 'package:sweep/pages/map_page/trash_maker_child.dart';
+import 'package:sweep/pages/timaline_page/post_item.dart';
 import 'package:sweep/states/get_posts_provider.dart';
 import 'package:sweep/states/location_notifier.dart';
 
@@ -87,13 +88,9 @@ class _MapPageState extends ConsumerState<MapPage>
                               onTapDown: (details) {
                                 showDialog(
                                   context: context,
-                                  builder: (context) {
-                                    return AlertDialog(
-                                      title: Text(post.comment),
-                                      content:
-                                          Image.network(post.imagePaths[0]),
-                                    );
-                                  },
+                                  builder: (context) => Dialog(
+                                    child: PostItem(post: post),
+                                  ),
                                 );
                               },
                               child: TrashMakerChild(

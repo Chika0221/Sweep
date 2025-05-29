@@ -19,10 +19,12 @@ import 'package:sweep/pages/map_page/currentLocationContainer.dart';
 import 'package:sweep/pages/post_page/post_image_preview_page.dart';
 import 'package:sweep/pages/post_page/post_map_preview_page.dart';
 import 'package:sweep/pages/post_page/post_margin.dart';
+import 'package:sweep/scripts/firebase_update_script.dart';
 import 'package:sweep/states/image_notifier.dart';
 import 'package:sweep/states/location_notifier.dart';
 import 'package:sweep/states/login_notifier.dart';
 import 'package:sweep/states/post_notifier.dart';
+import 'package:sweep/widgets/point_dialog.dart';
 
 class PostPage extends StatefulHookConsumerWidget {
   const PostPage({super.key});
@@ -268,7 +270,13 @@ class _PostPageState extends ConsumerState<PostPage>
                     ..set(postData.value)
                     ..submit();
 
+                  updateUserPoint(context, ref, postData.value.point);
+
                   Navigator.of(context).pop();
+                  showDialog(
+                      context: context,
+                      builder: (context) =>
+                          PointDialog(point: postData.value.point));
                   // この後にAlertDialogでも表示する
                 },
                 child: Text("投稿する")),

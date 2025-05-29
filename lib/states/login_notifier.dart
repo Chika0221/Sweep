@@ -120,7 +120,8 @@ class LoginNotifier extends Notifier<String> {
         "cumulativePoint": 0,
       };
 
-      final UserDoc = await FirebaseFirestore.instance.collection("user").doc();
+      final UserDoc =
+          await FirebaseFirestore.instance.collection("user").doc(newUser.uid);
       await UserDoc.set(data);
       state = newUser.uid;
     }

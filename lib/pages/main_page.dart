@@ -6,12 +6,14 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 // Project imports:
+import 'package:sweep/pages/home_page/bottom_action_button.dart';
 import 'package:sweep/pages/home_page/home_page.dart';
 import 'package:sweep/pages/map_page/map_page.dart';
 import 'package:sweep/pages/post_page/post_modal.dart';
 import 'package:sweep/pages/qr_code_page/qr_page.dart';
 import 'package:sweep/pages/ranking_page/ranking_page.dart';
 import 'package:sweep/pages/timaline_page/timeline_page.dart';
+import 'package:sweep/widgets/point_dialog.dart';
 
 class MainPage extends HookConsumerWidget {
   const MainPage({super.key});
@@ -51,7 +53,7 @@ class MainPage extends HookConsumerWidget {
         ],
         onPageChanged: (value) {},
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => showModalBottomSheet(
           context: context,
@@ -65,6 +67,10 @@ class MainPage extends HookConsumerWidget {
         label: Text("投稿する"),
         icon: Icon(Icons.add),
       ),
+      // floatingActionButton: BottomActionButton(
+      //   rightOnTap: () {},
+      //   leftOnTap: () {},
+      // ),
       bottomNavigationBar: NavigationBar(
         selectedIndex: selectedIndex.value,
         destinations: [

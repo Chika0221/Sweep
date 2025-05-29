@@ -7,9 +7,8 @@ part of 'post.dart';
 // **************************************************************************
 
 _Post _$PostFromJson(Map<String, dynamic> json) => _Post(
-      imagePaths: (json['imagePaths'] as List<dynamic>)
-          .map((e) => e as String)
-          .toList(),
+      imagePaths:
+          (json['imageURLs'] as List<dynamic>).map((e) => e as String).toList(),
       location: LatLng((json['location'] as GeoPoint).latitude,
           (json['location'] as GeoPoint).longitude),
       comment: json['comment'] as String,
@@ -23,7 +22,8 @@ _Post _$PostFromJson(Map<String, dynamic> json) => _Post(
 
 Map<String, dynamic> _$PostToJson(_Post instance) => <String, dynamic>{
       'imagePaths': instance.imagePaths,
-      'location': instance.location,
+      'location':
+          GeoPoint(instance.location.latitude, instance.location.longitude),
       'comment': instance.comment,
       'point': instance.point,
       'time': Timestamp.fromDate(instance.time),

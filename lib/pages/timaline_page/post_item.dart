@@ -2,29 +2,43 @@
 import 'package:flutter/material.dart';
 
 // Package imports:
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 // Project imports:
 import 'package:sweep/classes/post.dart';
+import 'package:sweep/pages/post_page/post_image_preview_page.dart';
 
-import 'package:sweep/pages/post_page/post_image_preview_page.dart'; // Postモデルをインポート
+import 'package:sweep/scripts/firebase_update_script.dart'; // Postモデルをインポート
 
 class PostItem extends HookConsumerWidget {
-  const PostItem({super.key, required this.post});
+  const PostItem({super.key, required this.post, this.showNiceButton = true});
 
   final Post post;
+  final bool showNiceButton;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final tapNice = useState(false);
+
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: [
           // コメントを表示
-          Text(
-            post.comment,
-            style: Theme.of(context).textTheme.headlineSmall,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                post.comment,
+                style: Theme.of(context).textTheme.headlineSmall,
+              ),
+              Chip(
+                label: Text(post.type.displayName),
+              ),
+            ],
           ),
           const SizedBox(height: 16.0),
           // 画像を表示 (Firebase StorageのURLを使用)
@@ -48,18 +62,20 @@ class PostItem extends HookConsumerWidget {
                                 ),
                               ),
                             ),
-                            child: Image.network(
-                              post.imagePaths.first, // 最初の画像を表示
-                              fit: BoxFit.cover,
-                              width: double.infinity,
-                              // height: 200,
-                              errorBuilder: (context, error, stackTrace) =>
-                                  Container(
-                                height: 200,
-                                color: Colors.grey[300],
-                                child:
-                                    Icon(Icons.error, color: Colors.grey[600]),
-                              ), // エラー時の表示
+                            child: Expanded(
+                              child: Image.network(
+                                post.imagePaths[index], // 最初の画像を表示
+                                fit: BoxFit.cover,
+                                width: double.infinity,
+
+                                errorBuilder: (context, error, stackTrace) =>
+                                    Container(
+                                  height: 200,
+                                  color: Colors.grey[300],
+                                  child: Icon(Icons.error,
+                                      color: Colors.grey[600]),
+                                ), // エラー時の表示
+                              ),
                             ),
                           ),
                         );
@@ -80,16 +96,31 @@ class PostItem extends HookConsumerWidget {
                 '${post.time.toString().split(' ')[0]} ${post.time.toString().split(' ')[1].split(".")[0]}',
                 style: Theme.of(context).textTheme.bodyLarge,
               ),
-              Row(
-                children: [
-                  IconButton(
-                    onPressed: () {},
-                    icon: Icon(Icons.favorite_rounded),
-                  ),
-                  const SizedBox(width: 4.0),
-                  Text('${post.nice}'),
-                ],
-              ),
+              (showNiceButton)
+                  ? Row(
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            tapNice.value = !tapNice.value;
+                            updateFirestoreField(
+                              CollectionName.post,
+                              post.postId,
+                              "nice",
+                              post.nice + (tapNice.value ? 1 : -1),
+                            );
+                          },
+                          icon: Icon(
+                            Icons.favorite_rounded,
+                            color: (tapNice.value)
+                                ? Colors.pink
+                                : Theme.of(context).colorScheme.onSurface,
+                          ),
+                        ),
+                        const SizedBox(width: 4.0),
+                        Text('${post.nice}'),
+                      ],
+                    )
+                  : SizedBox.shrink(),
             ],
           ),
         ],

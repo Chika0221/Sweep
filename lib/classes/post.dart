@@ -21,52 +21,56 @@ class Post with _$Post {
     required String postId,
   }) = _Post;
 
-  factory Post.fromJson(Map<String, dynamic> json) =>_$PostFromJson(json);
-  
-  @override
-  Map<String, dynamic> toJson() {
-    throw UnimplementedError();
-  }
-  
+  factory Post.fromJson(Map<String, dynamic> json) => _$PostFromJson(json);
+
   @override
   // TODO: implement comment
   String get comment => throw UnimplementedError();
-  
+
   @override
   // TODO: implement imagePaths
   List<String> get imagePaths => throw UnimplementedError();
-  
+
   @override
   // TODO: implement location
   LatLng get location => throw UnimplementedError();
-  
+
   @override
   // TODO: implement nice
   int get nice => throw UnimplementedError();
-  
+
   @override
   // TODO: implement point
   int get point => throw UnimplementedError();
-  
+
   @override
   // TODO: implement postId
   String get postId => throw UnimplementedError();
-  
+
   @override
   // TODO: implement time
   DateTime get time => throw UnimplementedError();
-  
+
+  @override
+  Map<String, dynamic> toJson() {
+    // TODO: implement toJson
+    throw UnimplementedError();
+  }
+
   @override
   // TODO: implement type
   PostType get type => throw UnimplementedError();
-  
+
   @override
   // TODO: implement uid
   String get uid => throw UnimplementedError();
-  
 }
 
 enum PostType {
-  trash,
-  trashCan,
+  trash(displayName: "ゴミ"),
+  trashCan(displayName: "ゴミ箱");
+
+  const PostType({required this.displayName});
+
+  final String displayName;
 }

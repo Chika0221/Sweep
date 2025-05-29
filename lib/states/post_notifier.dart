@@ -63,7 +63,9 @@ class PostNotifier extends AutoDisposeNotifier<Post?> {
     data["imageURLs"] = imageStorageURLs;
     data["imagePaths"] = imageStoragePaths;
 
-    final postDocs = FirebaseFirestore.instance.collection("post").doc();
+    final postDocs = FirebaseFirestore.instance
+        .collection("post")
+        .doc(data["postId"].toString());
     postDocs.set(data);
   }
 }
