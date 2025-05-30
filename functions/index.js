@@ -1,19 +1,27 @@
-/**
- * Import function triggers from their respective submodules:
- *
- * const {onCall} = require("firebase-functions/v2/https");
- * const {onDocumentWritten} = require("firebase-functions/v2/firestore");
- *
- * See a full list of supported triggers at https://firebase.google.com/docs/functions
- */
 
-const {onRequest} = require("firebase-functions/v2/https");
-const logger = require("firebase-functions/logger");
+import {
+  onDocumentWritten,
+  onDocumentCreated,
+  onDocumentUpdated,
+  onDocumentDeleted,
+  Change,
+  FirestoreEvent
+} from "firebase-functions/v2/firestore";
 
-// Create and deploy your first functions
-// https://firebase.google.com/docs/functions/get-started
+exports.mewUserCreateTasks = onDocumentCreated("user/{userId}", (event) => {
+    // userの新規登録があったとき
+    const snapshot = event.data;
+    if (!snapshot) {
+        console.log("No data associated with the event");
+        return;
+    }
+    const data = snapshot.data();
 
-// exports.helloWorld = onRequest((request, response) => {
-//   logger.info("Hello logs!", {structuredData: true});
-//   response.send("Hello from Firebase!");
-// });
+    // access a particular field as you would any JS property
+    const name = data.displayName;
+
+    data.collection("daily_task").doc("task1").set
+});
+
+
+// まだデプロイしていない
