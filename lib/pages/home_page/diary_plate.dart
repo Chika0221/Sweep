@@ -9,6 +9,7 @@ import 'package:wave/wave.dart';
 
 // Project imports:
 import 'package:sweep/pages/history_page/history_page.dart';
+import 'package:sweep/pages/home_page/plate_magin.dart';
 import 'package:sweep/pages/home_page/point_plate.dart';
 import 'package:sweep/states/login_notifier.dart';
 import 'package:sweep/states/profile_provider.dart';
@@ -25,12 +26,7 @@ class DiaryPlate extends HookConsumerWidget {
           builder: (context) => HistoryPage(),
         ),
       ),
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16),
-          color: Theme.of(context).colorScheme.surfaceContainerLow,
-        ),
-        padding: EdgeInsets.all(16),
+      child: PlateMagin(
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.max,
@@ -41,7 +37,7 @@ class DiaryPlate extends HookConsumerWidget {
                 children: [
                   Text("今週の獲得ポイント"),
                   Text(
-                    "+${profile?.continuousCount}P",
+                    "+${profile?.cumulativePoint}P",
                     style: Theme.of(context).textTheme.displayLarge,
                   ),
                   SizedBox(

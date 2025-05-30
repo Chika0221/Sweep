@@ -7,11 +7,17 @@ part 'profile.g.dart';
 @freezed
 class Profile with _$Profile {
   const factory Profile({
+    // ユーザー名
     required String displayName,
+    // 写真のURL
     required String photoURL,
+    // UID
     required String uid,
+    // 今の保持ポイント
     required int point,
+    // 連続記録
     required int continuousCount,
+    // 今週の取得ポイント
     required int cumulativePoint,
   }) = _Profile;
 
