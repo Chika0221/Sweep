@@ -9,6 +9,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 // Project imports:
 import 'package:sweep/firebase_options.dart';
 import 'package:sweep/pages/login_page/login_page.dart';
+import 'package:sweep/states/analytics_provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,7 +20,6 @@ Future<void> main() async {
   );
 
   final fid = await FirebaseInstallations.instance.getId();
-  print("FIDを取得 $fid");
 
   final app = MyApp();
   final providerScope = ProviderScope(child: app);
@@ -32,6 +32,13 @@ class MyApp extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final analytics = ref.watch(analyticsProvider);
+    final analyticsObserver = ref.watch(analyticsObserverProvider);
+
+    // FirebaseAnalyticsに送信
+    analytics.logAppOpen();
+
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: LoginPage(),
@@ -41,6 +48,7 @@ class MyApp extends HookConsumerWidget {
         colorSchemeSeed: Colors.blue.shade600,
         fontFamily: "Zen_Maru_Gothic",
       ),
+      navigatorObservers: [analyticsObserver],
     );
   }
 }

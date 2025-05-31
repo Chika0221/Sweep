@@ -20,6 +20,7 @@ import 'package:sweep/pages/post_page/post_image_preview_page.dart';
 import 'package:sweep/pages/post_page/post_map_preview_page.dart';
 import 'package:sweep/pages/post_page/post_margin.dart';
 import 'package:sweep/scripts/firebase_update_script.dart';
+import 'package:sweep/states/analytics_provider.dart';
 import 'package:sweep/states/image_notifier.dart';
 import 'package:sweep/states/location_notifier.dart';
 import 'package:sweep/states/login_notifier.dart';
@@ -276,13 +277,9 @@ class _PostPageState extends ConsumerState<PostPage>
                     ..set(postData.value)
                     ..submit();
 
-                  updateUserPoint(context, ref, postData.value.point);
-
+                  // firebaseanaluticsにpostを送信
+                  ref.watch(analyticsProvider).logEvent(name: "post");
                   Navigator.of(context).pop();
-                  showDialog(
-                      context: context,
-                      builder: (context) =>
-                          PointDialog(point: postData.value.point));
                 },
                 child: Text("投稿する")),
           ),
