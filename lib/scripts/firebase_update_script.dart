@@ -36,7 +36,10 @@ Future<void> updateUserPoint(
   }
 }
 
+
 enum CollectionName {
   user,
   post,
+  daily_task,
+  weekly_task,
 }

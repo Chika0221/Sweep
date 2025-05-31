@@ -7,20 +7,14 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 // Project imports:
 import 'package:sweep/pages/home_page/plate_magin.dart';
+import 'package:sweep/states/tasks_provider.dart';
 
 class WeeklyTaskPlate extends HookConsumerWidget {
   const WeeklyTaskPlate({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final tasks = [
-      "ゴミを拾う",
-      "新しい場所を開拓する",
-      "フレンドに挨拶する",
-    ];
-
-    // Placeholder for checkbox states
-    final checkboxStates = useState(List.generate(tasks.length, (_) => false));
+    final tasks = ref.watch(weeklyTaskProvider);
 
     return PlateMagin(
       child: Column(
@@ -31,23 +25,74 @@ class WeeklyTaskPlate extends HookConsumerWidget {
             style: Theme.of(context).textTheme.titleMedium,
           ),
           const SizedBox(height: 8),
-          ListView.builder(
-            shrinkWrap: true, // Important to prevent unbounded height
-            physics:
-                const NeverScrollableScrollPhysics(), // Disable scrolling for the ListView
-            itemCount: tasks.length,
-            itemBuilder: (context, index) {
-              return ListTile(
-                title: Text(tasks[index]),
-                trailing: Checkbox(
-                  value: checkboxStates.value[index],
-                  onChanged: (bool? newValue) {
-                    // This will be implemented in a later step
-                    // For now, we just update the local state
-                    final newStates = List<bool>.from(checkboxStates.value);
-                    newStates[index] = newValue ?? false;
-                    checkboxStates.value = newStates;
-                  },
+          tasks.when(
+            data: (data) {
+              return ListView.separated(
+                shrinkWrap: true, // Important to prevent unbounded height
+                physics:
+                    const NeverScrollableScrollPhysics(), // Disable scrolling for the ListView
+                itemCount: data.length,
+                itemBuilder: (context, index) {
+                  final task = data[index];
+
+                  return Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color: (!task.isComplete)
+                          ? Theme.of(context).colorScheme.tertiaryContainer
+                          : Theme.of(context).colorScheme.surfaceContainerHigh,
+                    ),
+                    child: Column(
+                      children: [
+                        ListTile(
+                          title: Text(
+                            task.name,
+                            style: TextStyle(
+                              decoration: (task.isComplete)
+                                  ? TextDecoration.lineThrough
+                                  : TextDecoration.none,
+                              fontWeight: (!task.isComplete)
+                                  ? FontWeight.bold
+                                  : FontWeight.normal,
+                            ),
+                          ),
+                          trailing: (task.isComplete)
+                              ? Icon(Icons.check_rounded)
+                              : SizedBox.shrink(),
+                        ),
+                        LinearProgressIndicator(
+                          minHeight: 8,
+                          borderRadius: BorderRadius.vertical(
+                            bottom: Radius.circular(8),
+                          ),
+                          value: task.progress,
+                        ),
+                      ],
+                    ),
+                  );
+                },
+                separatorBuilder: (context, index) {
+                  return SizedBox(
+                    height: 4,
+                  );
+                },
+              );
+            },
+            error: (error, stackTrace) {
+              return SizedBox(
+                width: double.infinity,
+                height: 100,
+                child: Center(
+                  child: Text("エラーです"),
+                ),
+              );
+            },
+            loading: () {
+              return SizedBox(
+                width: double.infinity,
+                height: 100,
+                child: Center(
+                  child: CircularProgressIndicator(),
                 ),
               );
             },

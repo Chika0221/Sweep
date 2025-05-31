@@ -1,3 +1,4 @@
+// Package imports:
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'task.freezed.dart';
@@ -9,6 +10,7 @@ class Task with _$Task {
     required String name,
     @Default(1) int point,
     @Default(false) bool isComplete,
+    @Default(0.0) double progress,
   }) = _Task;
 
   factory Task.fromJson(Map<String, dynamic> json) => _$TaskFromJson(json);
@@ -26,10 +28,12 @@ class Task with _$Task {
   int get point => throw UnimplementedError();
   
   @override
+  // TODO: implement progress
+  double get progress => throw UnimplementedError();
+  
+  @override
   Map<String, dynamic> toJson() {
     // TODO: implement toJson
     throw UnimplementedError();
   }
 }
-
-  

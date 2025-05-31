@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Task {
 
- String get name; int get point; bool get isComplete;
+ String get name; int get point; bool get isComplete; double get progress;
 /// Create a copy of Task
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -29,16 +29,16 @@ $TaskCopyWith<Task> get copyWith => _$TaskCopyWithImpl<Task>(this as Task, _$ide
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Task&&(identical(other.name, name) || other.name == name)&&(identical(other.point, point) || other.point == point)&&(identical(other.isComplete, isComplete) || other.isComplete == isComplete));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Task&&(identical(other.name, name) || other.name == name)&&(identical(other.point, point) || other.point == point)&&(identical(other.isComplete, isComplete) || other.isComplete == isComplete)&&(identical(other.progress, progress) || other.progress == progress));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,name,point,isComplete);
+int get hashCode => Object.hash(runtimeType,name,point,isComplete,progress);
 
 @override
 String toString() {
-  return 'Task(name: $name, point: $point, isComplete: $isComplete)';
+  return 'Task(name: $name, point: $point, isComplete: $isComplete, progress: $progress)';
 }
 
 
@@ -49,7 +49,7 @@ abstract mixin class $TaskCopyWith<$Res>  {
   factory $TaskCopyWith(Task value, $Res Function(Task) _then) = _$TaskCopyWithImpl;
 @useResult
 $Res call({
- String name, int point, bool isComplete
+ String name, int point, bool isComplete, double progress
 });
 
 
@@ -66,12 +66,13 @@ class _$TaskCopyWithImpl<$Res>
 
 /// Create a copy of Task
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? name = null,Object? point = null,Object? isComplete = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? name = null,Object? point = null,Object? isComplete = null,Object? progress = null,}) {
   return _then(_self.copyWith(
 name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,point: null == point ? _self.point : point // ignore: cast_nullable_to_non_nullable
 as int,isComplete: null == isComplete ? _self.isComplete : isComplete // ignore: cast_nullable_to_non_nullable
-as bool,
+as bool,progress: null == progress ? _self.progress : progress // ignore: cast_nullable_to_non_nullable
+as double,
   ));
 }
 
@@ -82,12 +83,13 @@ as bool,
 @JsonSerializable()
 
 class _Task implements Task {
-  const _Task({required this.name, this.point = 1, this.isComplete = false});
+  const _Task({required this.name, this.point = 1, this.isComplete = false, this.progress = 0.0});
   factory _Task.fromJson(Map<String, dynamic> json) => _$TaskFromJson(json);
 
 @override final  String name;
 @override@JsonKey() final  int point;
 @override@JsonKey() final  bool isComplete;
+@override@JsonKey() final  double progress;
 
 /// Create a copy of Task
 /// with the given fields replaced by the non-null parameter values.
@@ -102,16 +104,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Task&&(identical(other.name, name) || other.name == name)&&(identical(other.point, point) || other.point == point)&&(identical(other.isComplete, isComplete) || other.isComplete == isComplete));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Task&&(identical(other.name, name) || other.name == name)&&(identical(other.point, point) || other.point == point)&&(identical(other.isComplete, isComplete) || other.isComplete == isComplete)&&(identical(other.progress, progress) || other.progress == progress));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,name,point,isComplete);
+int get hashCode => Object.hash(runtimeType,name,point,isComplete,progress);
 
 @override
 String toString() {
-  return 'Task(name: $name, point: $point, isComplete: $isComplete)';
+  return 'Task(name: $name, point: $point, isComplete: $isComplete, progress: $progress)';
 }
 
 
@@ -122,7 +124,7 @@ abstract mixin class _$TaskCopyWith<$Res> implements $TaskCopyWith<$Res> {
   factory _$TaskCopyWith(_Task value, $Res Function(_Task) _then) = __$TaskCopyWithImpl;
 @override @useResult
 $Res call({
- String name, int point, bool isComplete
+ String name, int point, bool isComplete, double progress
 });
 
 
@@ -139,12 +141,13 @@ class __$TaskCopyWithImpl<$Res>
 
 /// Create a copy of Task
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? name = null,Object? point = null,Object? isComplete = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? name = null,Object? point = null,Object? isComplete = null,Object? progress = null,}) {
   return _then(_Task(
 name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,point: null == point ? _self.point : point // ignore: cast_nullable_to_non_nullable
 as int,isComplete: null == isComplete ? _self.isComplete : isComplete // ignore: cast_nullable_to_non_nullable
-as bool,
+as bool,progress: null == progress ? _self.progress : progress // ignore: cast_nullable_to_non_nullable
+as double,
   ));
 }
 

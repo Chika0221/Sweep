@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 
 // Package imports:
+import 'package:firebase_app_installations/firebase_app_installations.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -16,6 +17,9 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  final fid = await FirebaseInstallations.instance.getId();
+  print("FIDを取得 $fid");
 
   final app = MyApp();
   final providerScope = ProviderScope(child: app);
