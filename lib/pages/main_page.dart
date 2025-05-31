@@ -15,6 +15,7 @@ import 'package:sweep/pages/ranking_page/ranking_page.dart';
 import 'package:sweep/pages/timaline_page/timeline_page.dart';
 import 'package:sweep/scripts/firebase_update_script.dart';
 import 'package:sweep/states/analytics_provider.dart';
+import 'package:sweep/states/fcmtoken_provider.dart';
 import 'package:sweep/states/tasks_provider.dart';
 import 'package:sweep/widgets/point_dialog.dart';
 
@@ -34,6 +35,7 @@ class MainPage extends HookConsumerWidget {
 
     // FIrebaseAnalyticsにログインしたことを送信
     analytics.logLogin();
+
 
     useEffect(() {
       WidgetsBinding.instance.addPostFrameCallback((_) {

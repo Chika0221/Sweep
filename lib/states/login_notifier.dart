@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -97,6 +98,8 @@ class LoginNotifier extends Notifier<String> {
       return Future<bool>.value(check);
     }
 
+    final token = await FirebaseMessaging.instance.getToken() ?? "";
+
     if (await checkExisting(newUser!.email.toString())) {
       await FirebaseFirestore.instance
           .collection("user")
@@ -125,6 +128,11 @@ class LoginNotifier extends Notifier<String> {
       await UserDoc.set(data);
       state = newUser.uid;
     }
+
+    FirebaseFirestore.instance
+        .collection("user")
+        .doc(state)
+        .update({"fcmToken": token});
   }
 }
 
