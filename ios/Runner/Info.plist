@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>CADisableMinimumFrameDurationOnPhone</key>
+	<true/>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
@@ -20,10 +22,36 @@
 	<string>$(FLUTTER_BUILD_NAME)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editer</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.978051291639-lva1ce1sqn6n3i31bhss674hg8mvt9g4</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>アプリ内で投稿するゴミを撮影するために使用</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>ゴミの投稿をする際に位置情報を使用するため</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>アプリ内で投稿するゴミを撮影するために使用</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>アプリ内で投稿するゴミをフォトライブラリから参照するために使用</string>
+	<key>UIApplicationSupportsIndirectInputEvents</key>
+	<true/>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>remote-notification</string>
+		<string>fetch</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
@@ -41,52 +69,5 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>CADisableMinimumFrameDurationOnPhone</key>
-	<true/>
-	<key>UIApplicationSupportsIndirectInputEvents</key>
-	<true/>
-
-	<!-- ここからがカメラを使うための権限関係 -->
-	<key>NSCameraUsageDescription</key>
-	<string>アプリ内で投稿するゴミを撮影するために使用</string>
-	<!-- おそらく必要 -->
-	<key>NSMicrophoneUsageDescription</key>
-	<string>アプリ内で投稿するゴミを撮影するために使用</string>
-
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>アプリ内で投稿するゴミをフォトライブラリから参照するために使用</string>
-
-	<!-- goelocatorで追加 -->
-	 <key>NSLocationWhenInUseUsageDescription</key>
-	<string>ゴミの投稿をする際に位置情報を使用するため</string>
-	
-	<!-- X API 合ってるかわからん -->
-	<!-- <key>CFBundleURLTypes</key>
-	<array>
-	<dict>
-		<key>CFBundleTypeRole</key>
-		<string>Editor</string>
-		<key>CFBundleURLName</key>
-		<string></string>
-		<key>CFBundleURLSchemes</key>
-		<array>
-		Registered Callback URLs in TwitterApp
-		<string>socialauth</string>
-		</array>
-	</dict>
-	</array> -->
-
-	<key>CFBundleURLTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editer</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>com.googleusercontent.apps.978051291639-lva1ce1sqn6n3i31bhss674hg8mvt9g4</string>
-			</array>
-		</dict>
-	</array>
-
 </dict>
 </plist>
