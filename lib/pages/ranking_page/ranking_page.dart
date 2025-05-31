@@ -18,13 +18,16 @@ class RankingPage extends HookConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("ランキング"),
+        title: Text("週間ポイントランキング"),
         centerTitle: true,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: userStream.when(
           data: (users) {
+            users
+                .sort((a, b) => b.cumulativePoint.compareTo(a.cumulativePoint));
+
             return ListView.separated(
               itemCount: users.length,
               itemBuilder: (context, index) {

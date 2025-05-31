@@ -8,9 +8,11 @@ class RankingIcons extends HookConsumerWidget {
   const RankingIcons({
     super.key,
     required this.ranking,
+    required this.index,
   });
 
   final Rankings ranking;
+  final int index;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -27,7 +29,7 @@ class RankingIcons extends HookConsumerWidget {
           ),
           child: Center(
             child: Text(
-              (ranking.index + 1).toString(),
+              (index + 1).toString(),
               style: TextStyle(
                 fontSize: 26,
                 color: Colors.white,
