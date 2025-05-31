@@ -6,6 +6,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 // Project imports:
 import 'package:sweep/classes/profile.dart';
+import 'package:sweep/pages/home_page/plate_magin.dart';
 import 'package:sweep/states/profile_provider.dart';
 
 class ProfilePage extends HookConsumerWidget {
@@ -26,33 +27,43 @@ class ProfilePage extends HookConsumerWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  ListTile(
-                    leading: profile.photoURL.isNotEmpty
-                        ? CircleAvatar(
-                            backgroundImage: NetworkImage(profile.photoURL),
-                            radius: 30,
-                          )
-                        : const Icon(Icons.person, size: 60),
-                    title: Text(
-                      profile.displayName,
-                      style: Theme.of(context).textTheme.headlineSmall,
+                  PlateMagin(
+                    child: ListTile(
+                      leading: profile.photoURL.isNotEmpty
+                          ? CircleAvatar(
+                              backgroundImage: NetworkImage(profile.photoURL),
+                              radius: 30,
+                            )
+                          : const Icon(Icons.person, size: 60),
+                      title: Text(
+                        profile.displayName,
+                        style: Theme.of(context).textTheme.headlineSmall,
+                      ),
                     ),
                   ),
                   const SizedBox(height: 20),
-                  ListTile(
-                    leading: const Icon(Icons.badge),
-                    title: const Text('UID'),
-                    subtitle: Text(profile.uid),
+                  PlateMagin(
+                    child: ListTile(
+                      leading: const Icon(Icons.badge),
+                      title: const Text('UID'),
+                      subtitle: Text(profile.uid),
+                    ),
                   ),
-                  ListTile(
-                    leading: const Icon(Icons.monetization_on),
-                    title: const Text('保有ポイント'),
-                    subtitle: Text('${profile.point} ポイント'),
+                  const SizedBox(height: 8),
+                  PlateMagin(
+                    child: ListTile(
+                      leading: const Icon(Icons.monetization_on),
+                      title: const Text('保有ポイント'),
+                      subtitle: Text('${profile.point} ポイント'),
+                    ),
                   ),
-                  ListTile(
-                    leading: const Icon(Icons.calendar_today),
-                    title: const Text('連続ログイン日数'),
-                    subtitle: Text('${profile.continuousCount} 日'),
+                  const SizedBox(height: 8),
+                  PlateMagin(
+                    child: ListTile(
+                      leading: const Icon(Icons.calendar_today),
+                      title: const Text('連続ログイン日数'),
+                      subtitle: Text('${profile.continuousCount} 日'),
+                    ),
                   ),
                 ],
               ),

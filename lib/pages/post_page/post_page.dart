@@ -197,7 +197,7 @@ class _PostPageState extends ConsumerState<PostPage>
           PostMargin(
             child: TextField(
               controller: textController.value,
-              maxLength: 140,
+              maxLength: 50,
               maxLines: 2,
               minLines: 1,
               decoration:
