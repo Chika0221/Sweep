@@ -1,12 +1,9 @@
 
-import {
-  onDocumentWritten,
-  onDocumentCreated,
-  onDocumentUpdated,
-  onDocumentDeleted,
-  Change,
-  FirestoreEvent
-} from "firebase-functions/v2/firestore";
+const { onDocumentUpdated } = require("firebase-functions/v2/firestore");
+
+function sendNotification(){
+
+}
 
 // exports.mewUserCreateTasks = onDocumentCreated("user/{userId}", (event) => {
 //     // userの新規登録があったとき
@@ -23,8 +20,21 @@ import {
 //     data.collection("daily_task").doc("task1").set
 // });
 
-exports.updatePoint = onDocumentUpdated("user/{userId}", (event) => {
-  
+exports.userUpdate = onDocumentUpdated(
+  {
+    document : "user/{userId}",
+    region : "asia-northeast2",
+  }, 
+  (event) => {
+  const newValue = event.data.after.data();
+  const previousValue = event.data.before.data();
+
+  if(newValue.point != previousValue.point){
+
+  }
+
+  console.log(newValue.uid);
+  console.log(newValue.displayName);
 });
 
 
