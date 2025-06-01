@@ -8,6 +8,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:sweep/classes/profile.dart';
 import 'package:sweep/pages/home_page/plate_magin.dart';
 import 'package:sweep/states/profile_provider.dart';
+import 'package:sweep/widgets/achievements_list.dart'; // Added import
 
 class ProfilePage extends HookConsumerWidget {
   const ProfilePage({super.key});
@@ -64,6 +65,16 @@ class ProfilePage extends HookConsumerWidget {
                       title: const Text('連続ログイン日数'),
                       subtitle: Text('${profile.continuousCount} 日'),
                     ),
+                  ),
+                  const SizedBox(height: 20), // Added space before achievements section
+                  // Achievements Section
+                  Text(
+                    'アチーブメント', // Achievements Title
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                  const SizedBox(height: 8),
+                  const Expanded( // Added Expanded to allow ListView to scroll
+                    child: AchievementsList(),
                   ),
                 ],
               ),
