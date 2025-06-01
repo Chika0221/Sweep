@@ -1,4 +1,6 @@
 // lib/classes/achievement.dart
+
+// Package imports:
 import 'package:meta/meta.dart';
 
 class Achievement {

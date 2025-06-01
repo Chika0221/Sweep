@@ -1,5 +1,9 @@
 // lib/widgets/achievement_item.dart
+
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Project imports:
 import 'package:sweep/classes/achievement.dart';
 
 class AchievementItem extends StatelessWidget {

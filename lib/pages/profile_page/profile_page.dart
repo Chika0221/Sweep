@@ -8,6 +8,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:sweep/classes/profile.dart';
 import 'package:sweep/pages/home_page/plate_magin.dart';
 import 'package:sweep/states/profile_provider.dart';
+
 import 'package:sweep/widgets/achievements_list.dart'; // Added import
 
 class ProfilePage extends HookConsumerWidget {

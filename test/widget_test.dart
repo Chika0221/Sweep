@@ -12,8 +12,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 // Project imports:
-import 'package:sweep/main.dart';
 import 'package:sweep/classes/achievement.dart';
+import 'package:sweep/main.dart';
 import 'package:sweep/widgets/achievement_item.dart';
 
 void main() {
