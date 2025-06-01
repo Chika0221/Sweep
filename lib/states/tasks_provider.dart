@@ -13,7 +13,7 @@ final dailyTaskProvider = StreamProvider((ref) {
   final stream = FirebaseFirestore.instance
       .collection(CollectionName.user.name)
       .doc((profile != null) ? profile.uid : "")
-      .collection(CollectionName.daily_task.name)
+      .collection(CollectionName.dailyTask.name)
       .orderBy("isComplete")
       .snapshots()
       .map(
@@ -31,7 +31,7 @@ final weeklyTaskProvider = StreamProvider((ref) {
   final stream = FirebaseFirestore.instance
       .collection(CollectionName.user.name)
       .doc((profile != null) ? profile.uid : "")
-      .collection(CollectionName.weekly_task.name)
+      .collection(CollectionName.weeklyTask.name)
       .orderBy("isComplete")
       .snapshots()
       .map(

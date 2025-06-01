@@ -10,10 +10,14 @@ import 'package:sweep/themes/app_theme.dart';
 class PointDialog extends HookConsumerWidget {
   const PointDialog({
     super.key,
+    required this.text,
+    required this.title,
     required this.point,
   });
 
-  final int point;
+  final String text;
+  final String title;
+  final String point;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -33,17 +37,24 @@ class PointDialog extends HookConsumerWidget {
               width: 4,
             ),
           ),
+          padding: EdgeInsets.all(16),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                "ポイント獲得！",
+                title,
                 style: Theme.of(context).textTheme.headlineLarge,
+              ),
+              Text(
+                text,
+                style: Theme.of(context).textTheme.bodyLarge,
+              ),
+              Spacer(
+                flex: 2,
               ),
               Wrap(
                 children: List.generate(
-                  point,
+                  int.parse(point),
                   (index) {
                     return SizedBox(
                       height: 48,
@@ -55,6 +66,9 @@ class PointDialog extends HookConsumerWidget {
                     );
                   },
                 ),
+              ),
+              Spacer(
+                flex: 2,
               ),
               OutlinedButton.icon(
                 onPressed: () => Navigator.of(context).pop(),

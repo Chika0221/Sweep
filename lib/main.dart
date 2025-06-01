@@ -1,3 +1,6 @@
+// Dart imports:
+import 'dart:io';
+
 // Flutter imports:
 import 'package:flutter/material.dart';
 
@@ -11,8 +14,11 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 // Project imports:
 import 'package:sweep/firebase_options.dart';
 import 'package:sweep/pages/login_page/login_page.dart';
+import 'package:sweep/scripts/notification_script.dart';
 import 'package:sweep/states/analytics_provider.dart';
 import 'package:sweep/states/fcmtoken_provider.dart';
+
+GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -34,7 +40,9 @@ Future<void> main() async {
     sound: true,
   );
 
-  final fid = await FirebaseInstallations.instance.getId();
+  NotificationScript().msgListener();
+
+  // final fid = await FirebaseInstallations.instance.getId();
 
   final app = MyApp();
   final providerScope = ProviderScope(child: app);
@@ -63,6 +71,7 @@ class MyApp extends HookConsumerWidget {
         fontFamily: "Zen_Maru_Gothic",
       ),
       navigatorObservers: [analyticsObserver],
+      navigatorKey: navigatorKey,
     );
   }
 }

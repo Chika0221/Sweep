@@ -108,7 +108,7 @@ class PostItem extends HookConsumerWidget {
                         IconButton(
                           onPressed: () {
                             tapNice.value = !tapNice.value;
-                            updateFirestoreField(
+                            FirebaseUpdateScript().updateField(
                               CollectionName.post,
                               post.postId,
                               "nice",
