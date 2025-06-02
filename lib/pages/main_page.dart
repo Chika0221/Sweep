@@ -31,12 +31,6 @@ class MainPage extends HookConsumerWidget {
       initialPage: 0,
     ));
 
-    final analytics = ref.watch(analyticsProvider);
-
-    // FIrebaseAnalyticsにログインしたことを送信
-    analytics.logLogin();
-
-
     useEffect(() {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         pageController.value.animateToPage(

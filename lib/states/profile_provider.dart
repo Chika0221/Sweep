@@ -23,7 +23,7 @@ final profileProvider = StateProvider<Profile?>((ref) {
       return Profile(
         displayName: "読込エラー",
         photoURL: "https://placehold.jp/200x200.png",
-        uid: "読込エラー",
+        uid: "",
         point: 0,
         continuousCount: 0,
         cumulativePoint: 0,
@@ -33,7 +33,7 @@ final profileProvider = StateProvider<Profile?>((ref) {
       return Profile(
         displayName: "読込中...",
         photoURL: "https://placehold.jp/200x200.png",
-        uid: "読込中...",
+        uid: "",
         point: 0,
         continuousCount: 0,
         cumulativePoint: 0,
