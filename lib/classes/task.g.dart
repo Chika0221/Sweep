@@ -11,6 +11,7 @@ _Task _$TaskFromJson(Map<String, dynamic> json) => _Task(
   point: (json['point'] as num?)?.toInt() ?? 1,
   isComplete: json['isComplete'] as bool? ?? false,
   progress: (json['progress'] as num?)?.toDouble() ?? 0.0,
+  step: (json['step'] as num?)?.toDouble() ?? 0,
 );
 
 Map<String, dynamic> _$TaskToJson(_Task instance) => <String, dynamic>{
@@ -18,4 +19,5 @@ Map<String, dynamic> _$TaskToJson(_Task instance) => <String, dynamic>{
   'point': instance.point,
   'isComplete': instance.isComplete,
   'progress': instance.progress,
+  'step': instance.step,
 };

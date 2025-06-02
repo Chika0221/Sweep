@@ -58,14 +58,17 @@ class WeeklyTaskPlate extends HookConsumerWidget {
                           ),
                           trailing: (task.isComplete)
                               ? Icon(Icons.check_rounded)
-                              : SizedBox.shrink(),
+                              : Text(
+                                  "${task.progress.toInt()}/${task.step.toInt()}",
+                                  style: Theme.of(context).textTheme.labelLarge,
+                                ),
                         ),
                         LinearProgressIndicator(
                           minHeight: 8,
                           borderRadius: BorderRadius.vertical(
                             bottom: Radius.circular(8),
                           ),
-                          value: task.progress,
+                          value: (task.progress / task.step),
                         ),
                       ],
                     ),

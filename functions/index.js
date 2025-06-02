@@ -1,23 +1,53 @@
 
+const {onSchedule} = require("firebase-functions/v2/scheduler");
 const { onDocumentUpdated, onDocumentCreated } = require("firebase-functions/v2/firestore");
 const admin = require('firebase-admin');
+const { FieldValue } = require("firebase-admin/firestore");
+const { tasks } = require("firebase-functions/v1");
 admin.initializeApp();
+const fs = admin.firestore();
+
+function updateTask(type, step, uid, doc = null){
+
+  if(doc != null){
+    dailyTask = doc.collection("dailyTask");
+    weeklyTask = doc.collection("weeklyTask");
+  }else{
+    dailyTask = fs.collection("user").doc(uid).collection("dailyTask");
+    weeklyTask = fs.collection("user").doc(uid).collection("weeklyTask")
+  }
+
+  if(type != "get_point"){
+    dailyTask.doc(type).update({isComplete: true});
+    addPoint(uid, 1);
+  }
+  if(type != "box"){
+    (taskDoc = weeklyTask.doc(type)).update({progress: FieldValue.increment(step)});
+  
+    if (taskDoc.get("progress") == taskDoc.get("step")){
+      taskDOc.update({isComplete: true})
+      addPoint(uid, taskDoc.get("point"));
+    }
+  }
+  
+}
 
 
 // userにポイント追加
-function addPoint(uid, point){
-  const doc = admin.firestore().collection("user").doc(uid);
+async function addPoint(uid, point){
+  const doc = fs.collection("user").doc(uid);
 
-  const snapshot = doc.get();
-  const data = snapshot.data();
-  const token = data.fcmToken;
-  const previousPoint = data.point;
-  const PreviousCumulativePoint = data.cumulativePoint;
+  const docRef = await doc.get();
+  const token = docRef.get("fcmToken");
+  // const previousPoint = docRef.get("point");
+  // const PreviousCumulativePoint = docRef.get("cumulativePoint");
+
+  console.log(`fcmtoken:${token}`);
 
   doc.update({
-    point: previousPoint + point,
-    cumulativePoint: PreviousCumulativePoint + point
-  });
+    point: FieldValue.increment(point),
+    cumulativePoint: FieldValue.increment(point),
+  });  
 
   sendPointUpNotification(token, point);
 }
@@ -59,6 +89,7 @@ function sendPointUpNotification(token, point){
 // 通知を送信
 function pushToDevice(token, payload){
   admin.messaging().send(payload);
+  console.log("通知送信");
 }
 
 
@@ -78,7 +109,46 @@ function pushToDevice(token, payload){
   
 // });
 
-// postされたとき
+// デイリータスクリセット
+exports.dailyTaskReset = onSchedule(
+  {
+    schedule: "every day 00:00",
+    timeZone: "Asia/Tokyo",
+    region: "asia-northeast2"
+  },
+  async (event) => {
+    const snapshot = await fs.collection("user").get();
+    snapshot.forEach(async (userDoc) => {
+      const dailyTaskSnapshot = await userDoc.ref.collection("dailyTask").get();
+      dailyTaskSnapshot.forEach(taskDoc => {
+        taskDoc.ref.update({ isComplete: false });
+      });
+    });
+  }
+);
+
+// ウィークリータスクリセット
+exports.weeklyTaskReset = onSchedule(
+  {
+    schedule: "0 0 * * 0",
+    timeZone: "Asia/Tokyo",
+    region: "asia-northeast2"
+  },
+  async (event) => {
+    const snapshot = await fs.collection("user").get();
+    snapshot.forEach(async (userDoc) => {
+      const dailyTaskSnapshot = await userDoc.ref.collection("weeklyTask").get();
+      dailyTaskSnapshot.forEach(taskDoc => {
+        taskDoc.ref.update({
+          isComplete: false,
+          progress: 0,
+        });
+      });
+    }); 
+  }
+);
+
+// ユーザー投稿のトリガー関数
 exports.trashPost = onDocumentCreated(
   {
     document: "post/{postId}", 
@@ -88,11 +158,15 @@ exports.trashPost = onDocumentCreated(
     const userId = event.data.data()["uid"];
     const point = event.data.data()["point"];
 
+    console.log(`UID:${userId}, 獲得ポイント:${point}`);
+
+    // ユーザーにポイント追加
     addPoint(userId, point);
+    updateTask("post", 1, userId);
   },
 );
 
-
+// ユーザー登録のトリガー関数
 exports.userRegister = onDocumentCreated(
   {
     document: "user/{userId}", 
@@ -101,7 +175,7 @@ exports.userRegister = onDocumentCreated(
   (event) => {
     const userId = event.data.data()["uid"];
 
-    doc = admin.firestore().collection("user").doc(userId);
+    doc = fs.collection("user").doc(userId);
     dailyTask = doc.collection("dailyTask");
     dailyTask.doc("login")
       .set({
@@ -147,4 +221,16 @@ exports.userRegister = onDocumentCreated(
         progress: 0,
         step: 30,
       });
-});
+  },
+);
+
+// // タスクの完了
+// exports.taskComplete = onDocumentUpdated(
+//   {
+//     document: "user/{userId}/{subCollectionId}/{subDocId}", 
+//     region: "asia-northeast2",
+//   }
+//   ,(event){
+
+
+// });

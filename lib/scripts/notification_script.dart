@@ -17,7 +17,9 @@ class NotificationScript {
       final notification = message.notification;
       final title = notification?.title;
       final text = notification?.body;
-      final point = message.data["point"] as String;
+      final point = (message.data["point"] as String);
+
+      debugPrint("$title, $text, $point");
 
       final context = navigatorKey.currentContext;
       if (context != null) {

@@ -11,6 +11,7 @@ class Task with _$Task {
     @Default(1) int point,
     @Default(false) bool isComplete,
     @Default(0.0) double progress,
+    @Default(0) double step,
   }) = _Task;
 
   factory Task.fromJson(Map<String, dynamic> json) => _$TaskFromJson(json);
@@ -32,8 +33,13 @@ class Task with _$Task {
   double get progress => throw UnimplementedError();
   
   @override
+  // TODO: implement step
+  double get step => throw UnimplementedError();
+  
+  @override
   Map<String, dynamic> toJson() {
     // TODO: implement toJson
     throw UnimplementedError();
   }
+  
 }
