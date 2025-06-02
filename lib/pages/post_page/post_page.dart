@@ -278,7 +278,7 @@ class _PostPageState extends ConsumerState<PostPage>
                     ..submit();
 
                   // firebaseanaluticsにpostを送信
-                  ref.watch(analyticsProvider).logEvent(name: "post");
+                  ref.watch(analyticsProvider).logEvent(name: "post",parameters: {});
                   Navigator.of(context).pop();
                 },
                 child: Text("投稿する")),

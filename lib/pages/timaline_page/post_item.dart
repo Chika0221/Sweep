@@ -68,20 +68,18 @@ class PostItem extends HookConsumerWidget {
                                 ),
                               ),
                             ),
-                            child: Expanded(
-                              child: Image.network(
-                                post.imagePaths[index], // 最初の画像を表示
-                                fit: BoxFit.cover,
-                                width: double.infinity,
+                            child: Image.network(
+                              post.imagePaths[index], // 最初の画像を表示
+                              fit: BoxFit.cover,
+                              width: double.infinity,
 
-                                errorBuilder: (context, error, stackTrace) =>
-                                    Container(
-                                  height: 200,
-                                  color: Colors.grey[300],
-                                  child: Icon(Icons.error,
-                                      color: Colors.grey[600]),
-                                ), // エラー時の表示
-                              ),
+                              errorBuilder: (context, error, stackTrace) =>
+                                  Container(
+                                height: 200,
+                                color: Colors.grey[300],
+                                child:
+                                    Icon(Icons.error, color: Colors.grey[600]),
+                              ), // エラー時の表示
                             ),
                           ),
                         );
