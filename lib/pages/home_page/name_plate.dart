@@ -23,13 +23,17 @@ import 'package:sweep/widgets/point_dialog.dart';
 class NamePlate extends HookConsumerWidget {
   const NamePlate({super.key});
 
-  Future<void> fireFunctionLogin(Profile profile) async {
+  Future<void> fireFunctionLogin(WidgetRef ref) async {
+    Future.delayed(Duration(seconds: 1));
     try {
-      await FirebaseFunctions.instance
-          .httpsCallable("userLogin")
-          .call({"uid": profile.uid});
+      await FirebaseFunctions.instance.httpsCallable("userLogin").call(
+        {
+          "uid": ref.watch(profileProvider)?.uid,
+        },
+      );
     } on FirebaseFunctionsException catch (error) {
       debugPrint(error.code);
+      debugPrint("むりぽ");
     }
   }
 
@@ -40,12 +44,10 @@ class NamePlate extends HookConsumerWidget {
     final analytics = ref.watch(analyticsProvider);
 
     // FIrebaseAnalyticsにログインしたことを送信
-    analytics.logEvent(
-      name: "login",
-      parameters: {
-        "uid": profile!.uid,
-      },
-    );
+    analytics.logLogin();
+    useEffect(() {
+      fireFunctionLogin(ref);
+    }, []);
 
     // useEffect(() {
     //   if (profile?.uid != "") {

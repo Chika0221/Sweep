@@ -1,8 +1,8 @@
 
 const {onSchedule} = require("firebase-functions/v2/scheduler");
 const { onDocumentUpdated, onDocumentCreated } = require("firebase-functions/v2/firestore");
+const {onCall, HttpsError, onRequest } = require("firebase-functions/v2/https");
 const admin = require('firebase-admin');
-const analytics = require("firebase-functions/v1/analytics");
 admin.initializeApp();
 const fs = admin.firestore();
 
@@ -17,15 +17,13 @@ function updateTask(type, step, uid, doc = null){
   }
 
   if(type != "get_point"){
-    dailyTask.doc(type).update({isComplete: true});
-    addPoint(uid, 1);
+    const taskDoc = dailyTask.doc(type);
+    taskDoc.update({isComplete: true});
   }
   if(type != "box"){
     (taskDoc = weeklyTask.doc(type)).update({progress: admin.firestore.FieldValue.increment(step)});
-  
-    if (taskDoc.get("progress") == taskDoc.get("step")){
-      taskDOc.update({isComplete: true})
-      addPoint(uid, taskDoc.get("point"));
+    if (taskDoc.get("progress") >= taskDoc.get("step")){
+      taskDoc.update({isComplete: true})
     }
   }
   
@@ -34,12 +32,13 @@ function updateTask(type, step, uid, doc = null){
 
 // userにポイント追加
 async function addPoint(uid, point){
+
+  console.log("ポイント付与");
+
   const doc = fs.collection("user").doc(uid);
 
   const docRef = await doc.get();
   const token = docRef.get("fcmToken");
-  // const previousPoint = docRef.get("point");
-  // const PreviousCumulativePoint = docRef.get("cumulativePoint");
 
   console.log(`fcmtoken:${token}`);
 
@@ -47,6 +46,11 @@ async function addPoint(uid, point){
     point: admin.firestore.FieldValue.increment(point),
     cumulativePoint: admin.firestore.FieldValue.increment(point),
   });  
+
+  // weeklyタスク更新
+  doc.collection("weeklyTask").doc("get_point").update({ 
+    progress: admin.firestore.FieldValue.increment(point) 
+  });
 
   sendPointUpNotification(token, point);
 }
@@ -90,23 +94,6 @@ function pushToDevice(token, payload){
   admin.messaging().send(payload);
   console.log("通知送信");
 }
-
-
-// user更新があった場合実行
-// exports.userUpdate = onDocumentUpdated(
-//   {
-//     document : "user/{userId}",
-//     region : "asia-northeast2",
-//   }, 
-//   (event) => {
-//     const newValue = event.data.after.data();
-//     const previousValue = event.data.before.data();
-
-//     if(newValue.point != previousValue.point){
-//       sendPointUpNotification(newValue.fcmToken, (newValue.point - previousValue.point));
-//     }
-  
-// });
 
 // デイリータスクリセット
 exports.dailyTaskReset = onSchedule(
@@ -223,38 +210,71 @@ exports.userRegister = onDocumentCreated(
   },
 );
 
+exports.userTaskUpdate = onDocumentUpdated(
+  {
+    document: "user/{userId}/{userTask}/{taskId}", 
+    region: "asia-northeast2",
+  },
+  (event) => {
+    console.log("userUpdate:実行された");
+    const beforeValue = event.data.before.data();
+    const afterValue = event.data.after.data();
+    const uid = event.params.userId;
+    const point = afterValue.point;
+    if(beforeValue.isComplete == false && afterValue.isComplete == true){
+      addPoint(uid,point);
+    }else{
+      console.log("falseです");
+    }
+  }
+);
 
-// exports.userLogin = analytics.event("login")
-//   .onLog(
-//     async (event) => {
-//     const uid = event.data.params["uid"]; 
 
-//     if (!uid) {
-//       console.log("No userId found in the analytics event. Event data:", JSON.stringify(event.data));
-//       return;
-//     }
+exports.userLogin = onCall(
+  {
+    region: "asia-northeast2",
+  },
+  async (event) =>{
+    const uid = event.data.uid; 
 
-//     const userDocRef = fs.collection("user").doc(uid);
-//     const loginTaskRef = userDocRef.collection("dailyTask").doc("login");
+    if (!uid) {
+      console.log("No userId found in the analytics event. Event data:", JSON.stringify(event.data));
+      return;
+    }
 
-//     try {
-//       const loginSnap = await loginTaskRef.get();
+    const userDocRef = fs.collection("user").doc(uid);
+    const loginTaskRef = userDocRef.collection("dailyTask").doc("login");
 
-//       if (!loginSnap.exists) {
-//         console.log(`User ${uid} のデイリータスク 'login' が存在しません。`);
-//         return;
-//       }
+    try {
+      const loginSnap = await loginTaskRef.get();
 
-//       const taskData = loginSnap.data();
-//       const isComplete = taskData.isComplete;
+      if (!loginSnap.exists) {
+        console.log(`User ${uid} のデイリータスク 'login' が存在しません。`);
+        return;
+      }
 
-//       if (isComplete === false) {
-//         console.log(`User ${uid} のログインデイリータスクを更新します。`);
-//         updateTask("login", 1, uid, userDocRef);
-//       } else {
-//         console.log(`User ${uid} は既にログインデイリータスクを完了しています。`);
-//       }
-//     } catch (error) {
-//       console.error(`User ${uid} のログイン処理中にエラーが発生しました:`, error);
-//     }
-//   });
+      const taskData = loginSnap.data();
+      const isComplete = taskData.isComplete;
+
+      if (isComplete == false) {
+        console.log(`User ${uid} のログインデイリータスクを更新します。`);
+        updateTask("login", 1, uid, userDocRef);
+      } else {
+        console.log(`User ${uid} は既にログインデイリータスクを完了しています。`);
+      }
+    } catch (error) {
+      console.error(`User ${uid} のログイン処理中にエラーが発生しました:`, error);
+    }
+  }
+);
+
+
+exports.communicationFromTrashbox = onRequest(
+  {
+    region: "asia-northeast2",
+    cors: false,
+  },
+  (request, response) => {
+    response.status(200).send("communicationSuccessful!");
+  }
+);
