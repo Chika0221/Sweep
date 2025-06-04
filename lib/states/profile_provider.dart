@@ -6,8 +6,8 @@ import 'package:sweep/classes/profile.dart';
 import 'package:sweep/states/get_users_provider.dart';
 import 'package:sweep/states/login_notifier.dart';
 
-final profileProvider = StateProvider<Profile?>((ref) {
-  final users = ref.watch(userStreamProvider);
+final profileProvider = StateProvider<Profile>((ref) {
+  final users = ref.watch(getUsersProvider);
   final uid = ref.watch(loginProvider);
 
   return users.when(
@@ -17,7 +17,14 @@ final profileProvider = StateProvider<Profile?>((ref) {
           return user;
         }
       }
-      return null; // Add a return statement for the case where no user is found
+      return Profile(
+        displayName: "ユーザーが存在しません",
+        photoURL: "",
+        uid: "",
+        point: 0,
+        continuousCount: 0,
+        cumulativePoint: 0,
+      );
     },
     error: (object, stackTrace) {
       return Profile(

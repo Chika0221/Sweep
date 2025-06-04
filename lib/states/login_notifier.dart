@@ -10,6 +10,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 // Project imports:
 import 'package:sweep/pages/main_page.dart';
+import 'package:sweep/states/analytics_provider.dart';
 
 class LoginNotifier extends Notifier<String> {
   @override
@@ -133,6 +134,8 @@ class LoginNotifier extends Notifier<String> {
         .collection("user")
         .doc(state)
         .update({"fcmToken": token});
+
+    ref.watch(analyticsProvider).logLogin();
   }
 }
 

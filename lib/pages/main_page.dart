@@ -31,6 +31,8 @@ class MainPage extends HookConsumerWidget {
       initialPage: 0,
     ));
 
+    
+
     useEffect(() {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         pageController.value.animateToPage(

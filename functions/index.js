@@ -3,6 +3,7 @@ const {onSchedule} = require("firebase-functions/v2/scheduler");
 const { onDocumentUpdated, onDocumentCreated } = require("firebase-functions/v2/firestore");
 const {onCall, HttpsError, onRequest } = require("firebase-functions/v2/https");
 const admin = require('firebase-admin');
+const functionsV1 = require("firebase-functions/v1");
 admin.initializeApp();
 const fs = admin.firestore();
 
@@ -105,6 +106,7 @@ exports.dailyTaskReset = onSchedule(
   async (event) => {
     const snapshot = await fs.collection("user").get();
     snapshot.forEach(async (userDoc) => {
+
       const dailyTaskSnapshot = await userDoc.ref.collection("dailyTask").get();
       dailyTaskSnapshot.forEach(taskDoc => {
         taskDoc.ref.update({ isComplete: false });
@@ -123,6 +125,9 @@ exports.weeklyTaskReset = onSchedule(
   async (event) => {
     const snapshot = await fs.collection("user").get();
     snapshot.forEach(async (userDoc) => {
+      userDoc.ref.update({
+        cumulativePoint: 0,
+      });
       const dailyTaskSnapshot = await userDoc.ref.collection("weeklyTask").get();
       dailyTaskSnapshot.forEach(taskDoc => {
         taskDoc.ref.update({
@@ -230,44 +235,81 @@ exports.userTaskUpdate = onDocumentUpdated(
 );
 
 
-exports.userLogin = onCall(
-  {
-    region: "asia-northeast2",
-  },
-  async (event) =>{
-    const uid = event.data.uid; 
+// exports.userLogin = onCall(
+//   {
+//     region: "asia-northeast2",
+//   },
+//   async (event) =>{
+//     const uid = event.data.uid; 
 
-    if (!uid) {
-      console.log("No userId found in the analytics event. Event data:", JSON.stringify(event.data));
-      return;
-    }
+//     if (!uid) {
+//       console.log("No userId found in the analytics event. Event data:", JSON.stringify(event.data));
+//       return;
+//     }
 
-    const userDocRef = fs.collection("user").doc(uid);
-    const loginTaskRef = userDocRef.collection("dailyTask").doc("login");
+//     const userDocRef = fs.collection("user").doc(uid);
+//     const loginTaskRef = userDocRef.collection("dailyTask").doc("login");
 
-    try {
-      const loginSnap = await loginTaskRef.get();
+//     try {
+//       const loginSnap = await loginTaskRef.get();
 
-      if (!loginSnap.exists) {
-        console.log(`User ${uid} のデイリータスク 'login' が存在しません。`);
-        return;
-      }
+//       if (!loginSnap.exists) {
+//         console.log(`User ${uid} のデイリータスク 'login' が存在しません。`);
+//         return;
+//       }
 
-      const taskData = loginSnap.data();
-      const isComplete = taskData.isComplete;
+//       const taskData = loginSnap.data();
+//       const isComplete = taskData.isComplete;
 
-      if (isComplete == false) {
-        console.log(`User ${uid} のログインデイリータスクを更新します。`);
-        updateTask("login", 1, uid, userDocRef);
-      } else {
-        console.log(`User ${uid} は既にログインデイリータスクを完了しています。`);
-      }
-    } catch (error) {
-      console.error(`User ${uid} のログイン処理中にエラーが発生しました:`, error);
-    }
-  }
-);
+//       if (isComplete == false) {
+//         console.log(`User ${uid} のログインデイリータスクを更新します。`);
+//         updateTask("login", 1, uid, userDocRef);
+//       } else {
+//         console.log(`User ${uid} は既にログインデイリータスクを完了しています。`);
+//       }
+//     } catch (error) {
+//       console.error(`User ${uid} のログイン処理中にエラーが発生しました:`, error);
+//     }
+//   }
+// );
 
+// exports.userLogin = functionsV1.region("asia-northeast2").analytics.event("login").onLog(
+//   async (event) => {
+//     const uid = event.user.userId;
+
+//     console.log("Login");
+//     console.log(`uid: ${uid}`);
+
+//     if (!uid) {
+//       console.log("No userId found in the analytics event. Event data:", JSON.stringify(event.data));
+//       return;
+//     }
+
+//     const userDocRef = fs.collection("user").doc(uid);
+//     const loginTaskRef = userDocRef.collection("dailyTask").doc("login");
+
+//     try {
+//       const loginSnap = await loginTaskRef.get();
+
+//       if (!loginSnap.exists) {
+//         console.log(`User ${uid} のデイリータスク 'login' が存在しません。`);
+//         return;
+//       }
+
+//       const taskData = loginSnap.data();
+//       const isComplete = taskData.isComplete;
+
+//       if (isComplete == false) {
+//         console.log(`User ${uid} のログインデイリータスクを更新します。`);
+//         updateTask("login", 1, uid, userDocRef);
+//       } else {
+//         console.log(`User ${uid} は既にログインデイリータスクを完了しています。`);
+//       }
+//     } catch (error) {
+//       console.error(`User ${uid} のログイン処理中にエラーが発生しました:`, error);
+//     }
+//   }
+// );
 
 exports.communicationFromTrashbox = onRequest(
   {

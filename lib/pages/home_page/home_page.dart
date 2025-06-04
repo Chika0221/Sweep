@@ -15,6 +15,7 @@ import 'package:sweep/pages/home_page/name_plate.dart';
 import 'package:sweep/pages/home_page/point_plate.dart';
 import 'package:sweep/pages/home_page/weekly_task_plate.dart';
 import 'package:sweep/states/fcmtoken_provider.dart';
+import 'package:sweep/states/get_users_provider.dart';
 import 'package:sweep/states/profile_provider.dart';
 
 class HomePage extends HookConsumerWidget {
@@ -22,29 +23,31 @@ class HomePage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-
     return SafeArea(
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            NamePlate(),
-            Container(
-              color: Theme.of(context).colorScheme.primaryContainer,
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                children: [
-                  DiaryPlate(),
-                  SizedBox(height: 16),
-                  ContinuousLoginPlate(),
-                  SizedBox(height: 16),
-                  DailyTaskPlate(),
-                  SizedBox(height: 16),
-                  WeeklyTaskPlate(),
-                  SizedBox(height: 16),
-                ],
+      child: RefreshIndicator(
+        onRefresh: () async => ref.read(getUsersProvider.notifier).refresh(),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              NamePlate(),
+              Container(
+                color: Theme.of(context).colorScheme.primaryContainer,
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  children: [
+                    DiaryPlate(),
+                    SizedBox(height: 16),
+                    ContinuousLoginPlate(),
+                    SizedBox(height: 16),
+                    DailyTaskPlate(),
+                    SizedBox(height: 16),
+                    WeeklyTaskPlate(),
+                    SizedBox(height: 16),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

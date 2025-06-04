@@ -1,3 +1,6 @@
+// Dart imports:
+import 'dart:math';
+
 // Flutter imports:
 import 'package:flutter/material.dart';
 
@@ -6,7 +9,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_animations/flutter_map_animations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:latlong2/latlong.dart';
 import 'package:location/location.dart';
 
 // Project imports:
@@ -43,7 +45,7 @@ class _MapPageState extends ConsumerState<MapPage>
 
   @override
   Widget build(BuildContext context) {
-    final postData = ref.watch(postStreamProvider);
+    final postData = ref.watch(getPostsProvider);
     final currentLocation = ref.watch(locationProvider);
 
     useEffect(() {
@@ -99,9 +101,7 @@ class _MapPageState extends ConsumerState<MapPage>
               child: Text(error.toString()),
             ),
             loading: () {
-              return Positioned(
-                left: 16,
-                top: 16,
+              return Center(
                 child: CircularProgressIndicator(),
               );
             },
@@ -122,23 +122,36 @@ class _MapPageState extends ConsumerState<MapPage>
                   ],
                 )
               : SizedBox.shrink(),
+
           // 現在地ボタン
           Positioned(
             bottom: 8,
             right: 8,
             child: Column(
-              spacing: 4,
+              spacing: 8,
               children: [
                 Container(
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: Theme.of(context).colorScheme.secondaryContainer),
+                    borderRadius: BorderRadius.circular(100),
+                    color: Theme.of(context).colorScheme.secondaryContainer,
+                  ),
                   child: Column(
                     children: [
+                      IconButton.filled(
+                        onPressed: () =>
+                            ref.read(getPostsProvider.notifier).refresh(),
+                        icon: Icon(Icons.refresh_rounded),
+                      ),
+                      SizedBox(
+                        height: 8,
+                      ),
                       IconButton.filledTonal(
-                          onPressed: () =>
-                              animatedMapController.animatedZoomIn(),
-                          icon: Icon(Icons.add)),
+                        onPressed: () => animatedMapController.animatedZoomIn(),
+                        icon: Icon(Icons.add),
+                      ),
+                      SizedBox(
+                        height: 4,
+                      ),
                       IconButton.filledTonal(
                           onPressed: () =>
                               animatedMapController.animatedZoomOut(),
@@ -157,7 +170,8 @@ class _MapPageState extends ConsumerState<MapPage>
                           );
                         },
                         child: const Icon(
-                          Icons.location_searching_rounded,
+                          // Icons.location_searching_rounded,
+                          Icons.navigation_rounded,
                         ),
                       )
                     : SizedBox.shrink(),

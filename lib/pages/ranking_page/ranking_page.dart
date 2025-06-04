@@ -14,7 +14,7 @@ class RankingPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final userStream = ref.watch(userStreamProvider);
+    final userStream = ref.watch(getUsersProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -28,19 +28,23 @@ class RankingPage extends HookConsumerWidget {
             users
                 .sort((a, b) => b.cumulativePoint.compareTo(a.cumulativePoint));
 
-            return ListView.separated(
-              itemCount: users.length,
-              itemBuilder: (context, index) {
-                return RankingItem(
-                  profile: users[index],
-                  index: index,
-                );
-              },
-              separatorBuilder: (BuildContext context, int index) {
-                return SizedBox(
-                  height: 8,
-                );
-              },
+            return RefreshIndicator(
+              onRefresh: () async =>
+                  ref.read(getUsersProvider.notifier).refresh(),
+              child: ListView.separated(
+                itemCount: users.length,
+                itemBuilder: (context, index) {
+                  return RankingItem(
+                    profile: users[index],
+                    index: index,
+                  );
+                },
+                separatorBuilder: (BuildContext context, int index) {
+                  return SizedBox(
+                    height: 8,
+                  );
+                },
+              ),
             );
           },
           error: (object, stacktrace) {
