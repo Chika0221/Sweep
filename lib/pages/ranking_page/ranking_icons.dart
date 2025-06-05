@@ -32,7 +32,9 @@ class RankingIcons extends HookConsumerWidget {
               (index + 1).toString(),
               style: TextStyle(
                 fontSize: 26,
-                color: Colors.white,
+                color: (ranking != Rankings.other)
+                    ? Colors.white
+                    : Theme.of(context).colorScheme.onSurface,
               ),
             ),
           ),

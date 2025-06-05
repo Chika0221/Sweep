@@ -16,10 +16,10 @@ final getUsersProvider =
 class GetUsersNotifier extends AutoDisposeAsyncNotifier<List<Profile>> {
   @override
   FutureOr<List<Profile>> build() async {
-    return _fetchPosts();
+    return _fetchUsers();
   }
 
-  Future<List<Profile>> _fetchPosts() async {
+  Future<List<Profile>> _fetchUsers() async {
     try {
       final collection = FirebaseFirestore.instance.collection("user");
       final querySnapshot = await collection.get();
@@ -37,7 +37,7 @@ class GetUsersNotifier extends AutoDisposeAsyncNotifier<List<Profile>> {
   Future<void> refresh() async {
     state = const AsyncValue.loading();
     try {
-      final users = await _fetchPosts();
+      final users = await _fetchUsers();
       state = AsyncValue.data(users);
     } catch (e, stackTrace) {
       state = AsyncValue.error(e, stackTrace);

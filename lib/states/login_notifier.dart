@@ -135,6 +135,8 @@ class LoginNotifier extends Notifier<String> {
         .doc(state)
         .update({"fcmToken": token});
 
+    print("pririririri:${state}");
+
     ref.watch(analyticsProvider).logLogin();
   }
 }
