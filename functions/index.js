@@ -1,4 +1,3 @@
-
 const {onSchedule} = require("firebase-functions/v2/scheduler");
 const { onDocumentUpdated, onDocumentCreated } = require("firebase-functions/v2/firestore");
 const {onCall, HttpsError, onRequest } = require("firebase-functions/v2/https");
@@ -311,12 +310,78 @@ exports.userTaskUpdate = onDocumentUpdated(
 //   }
 // );
 
-exports.communicationFromTrashbox = onRequest(
+
+exports.trashReportFromTrashbox = onRequest(
   {
     region: "asia-northeast2",
     cors: false,
   },
-  (request, response) => {
-    response.status(200).send("communicationSuccessful!");
+  async (request, response) => {
+    if (request.method != "POST") {
+      response.status(405).send("Method not allowed.");
+      return;
+    }
+
+    console.log("リクエスト受信");
+
+    const trashBoxId = request.headers["id"];
+    const contentType = request.headers["content-type"];
+    const queryType = request.query["type"];
+
+    if (!trashBoxId) {
+      response.status(400).send("id is missing.");
+      return;
+    } else if (contentType != "application/json") {
+      response.status(400).send("Content-Type must be application/json.");
+      return;
+    }
+
+    const trashBoxDoc = fs.collection("trashBox").doc(trashBoxId);
+
+    const docSnapshot = await trashBoxDoc.get();
+    if (!docSnapshot.exists) {
+      response.status(400).send("TrashBoxId does not exist.");
+      return;
+    }
+
+    const requestBody = request.body;
+
+    switch (queryType) {
+      case "discard": {
+        const uid = requestBody["uid"];
+        const weight = requestBody["weight"];
+        const boxWeight = requestBody["boxWeight"];
+        console.log(`Request Body uid: ${uid}  weight: ${weight}  boxWeight: ${boxWeight}`);
+        const discardId = crypto.randomUUID();
+        fs.collection("discard").doc(discardId).set({
+          discardId: discardId,
+          time: new Date(),
+          uid: uid,
+          weight: weight
+        });
+        
+        trashBoxDoc.update({weight: boxWeight});
+
+        addPoint(uid, 1);
+        updateTask("box", 1, uid);
+    
+        break;
+      }
+      case "state": {
+
+        const boxWeight = requestBody["boxWeight"];
+    
+        trashBoxDoc.update({weight: boxWeight});
+        break;
+      }
+      default:
+        response.status(400).send("query is missing.");
+        return;
+    }
+
+    response.status(200).send("successful!");
   }
 );
+
+
+
