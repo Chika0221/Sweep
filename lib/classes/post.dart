@@ -68,7 +68,8 @@ class Post with _$Post {
 
 enum PostType {
   trash(displayName: "ゴミ"),
-  trashCan(displayName: "ゴミ箱");
+  trashCan(displayName: "ゴミ箱"),
+  trashBox(displayName: "スマートゴミ箱");
 
   const PostType({required this.displayName});
 

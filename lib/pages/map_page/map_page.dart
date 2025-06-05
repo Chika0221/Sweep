@@ -14,9 +14,12 @@ import 'package:location/location.dart';
 // Project imports:
 import 'package:sweep/classes/post.dart';
 import 'package:sweep/pages/map_page/currentLocationContainer.dart';
+import 'package:sweep/pages/map_page/filter_block.dart';
 import 'package:sweep/pages/map_page/trash_maker_child.dart';
+import 'package:sweep/pages/map_page/trashbox_dialog.dart';
 import 'package:sweep/pages/timaline_page/post_item.dart';
 import 'package:sweep/states/get_posts_provider.dart';
+import 'package:sweep/states/get_trashbox_provider.dart';
 import 'package:sweep/states/location_notifier.dart';
 
 class MapPage extends StatefulHookConsumerWidget {
@@ -46,13 +49,14 @@ class _MapPageState extends ConsumerState<MapPage>
   @override
   Widget build(BuildContext context) {
     final postData = ref.watch(getPostsProvider);
+    final trashBoxData = ref.watch(getTrashBoxsProvider);
     final currentLocation = ref.watch(locationProvider);
 
     useEffect(() {
       ref.read(locationProvider.notifier).getCurrentLocation();
     }, []);
 
-    return Expanded(
+    return SafeArea(
       child: FlutterMap(
         mapController: animatedMapController.mapController,
         options: MapOptions(
@@ -66,6 +70,8 @@ class _MapPageState extends ConsumerState<MapPage>
           TileLayer(
             urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
           ),
+
+          // ユーザーの投稿情報
           postData.when(
             data: (data) {
               return MarkerLayer(
@@ -97,9 +103,56 @@ class _MapPageState extends ConsumerState<MapPage>
                 ),
               );
             },
-            error: (error, stackTrace) => Center(
-              child: Text(error.toString()),
-            ),
+            error: (error, stackTrace) {
+              return Center(
+                child: Text(error.toString()),
+              );
+            },
+            loading: () {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            },
+          ),
+
+          trashBoxData.when(
+            data: (data) {
+              print("wa------:${data.length}");
+
+              return MarkerLayer(
+                markers: List.generate(
+                  data.length,
+                  (index) {
+                    final trashBox = data[index];
+                    return Marker(
+                      point: trashBox.location,
+                      width: 50,
+                      height: 50,
+                      alignment: Alignment.center,
+                      rotate: true,
+                      child: GestureDetector(
+                        onTapDown: (details) {
+                          showDialog(
+                            context: context,
+                            builder: (context) => Dialog(
+                              child: TrashboxDialog(trashBox: trashBox),
+                            ),
+                          );
+                        },
+                        child: TrashMakerChild(
+                          type: PostType.trashBox,
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              );
+            },
+            error: (error, stackTrace) {
+              return Center(
+                child: Text(error.toString()),
+              );
+            },
             loading: () {
               return Center(
                 child: CircularProgressIndicator(),
@@ -123,6 +176,9 @@ class _MapPageState extends ConsumerState<MapPage>
                 )
               : SizedBox.shrink(),
 
+          // フィルターブロック
+          FilterBlock(),
+
           // 現在地ボタン
           Positioned(
             bottom: 8,
@@ -138,8 +194,10 @@ class _MapPageState extends ConsumerState<MapPage>
                   child: Column(
                     children: [
                       IconButton.filled(
-                        onPressed: () =>
-                            ref.read(getPostsProvider.notifier).refresh(),
+                        onPressed: () {
+                          ref.read(getPostsProvider.notifier).refresh();
+                          ref.read(getTrashBoxsProvider.notifier).refresh();
+                        },
                         icon: Icon(Icons.refresh_rounded),
                       ),
                       SizedBox(
