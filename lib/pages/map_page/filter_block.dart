@@ -9,18 +9,20 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:sweep/classes/post.dart';
 import 'package:sweep/states/filter_provider.dart';
 import 'package:sweep/states/get_posts_provider.dart';
+import 'package:sweep/states/get_trashbox_provider.dart';
 import 'package:sweep/states/get_users_provider.dart';
 
 class FilterBlock extends HookConsumerWidget {
-  const FilterBlock({super.key});
+  const FilterBlock({
+    super.key,
+    required this.filterOptions,
+  });
+
+  final List<PostType> filterOptions;
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedFilters = ref.watch(filterProvider);
-    final filterOptions = [
-      PostType.trash,
-      PostType.trashCan,
-      PostType.trashBox
-    ];
 
     return AnimatedContainer(
       duration: const Duration(milliseconds: 200),
@@ -52,6 +54,7 @@ class FilterBlock extends HookConsumerWidget {
                 }
                 ref.read(filterProvider.notifier).state = newSelectedFilters;
                 ref.read(getPostsProvider.notifier).filterPosts(ref);
+                ref.read(getTrashBoxsProvider.notifier).filterTrashBoxs(ref);
               },
             ),
           );

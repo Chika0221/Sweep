@@ -117,8 +117,6 @@ class _MapPageState extends ConsumerState<MapPage>
 
           trashBoxData.when(
             data: (data) {
-              print("wa------:${data.length}");
-
               return MarkerLayer(
                 markers: List.generate(
                   data.length,
@@ -161,23 +159,28 @@ class _MapPageState extends ConsumerState<MapPage>
           ),
 
           // 現在地ピン
-          (currentLocation != null)
-              ? MarkerLayer(
-                  markers: [
-                    Marker(
-                      point: currentLocation!,
-                      child: Currentlocationcontainer(
-                        diameter: 32,
-                        backgroundColor: Theme.of(context).colorScheme.primary,
-                        lineColor: Theme.of(context).colorScheme.surface,
-                      ),
-                    ),
-                  ],
-                )
-              : SizedBox.shrink(),
+          if (currentLocation != null)
+            MarkerLayer(
+              markers: [
+                Marker(
+                  point: currentLocation!,
+                  child: Currentlocationcontainer(
+                    diameter: 32,
+                    backgroundColor: Theme.of(context).colorScheme.primary,
+                    lineColor: Theme.of(context).colorScheme.surface,
+                  ),
+                ),
+              ],
+            ),
 
           // フィルターブロック
-          FilterBlock(),
+          FilterBlock(
+            filterOptions: [
+              PostType.trash,
+              PostType.trashCan,
+              PostType.trashBox,
+            ],
+          ),
 
           // 現在地ボタン
           Positioned(
@@ -217,22 +220,21 @@ class _MapPageState extends ConsumerState<MapPage>
                     ],
                   ),
                 ),
-                (currentLocation != null)
-                    ? FloatingActionButton(
-                        shape: CircleBorder(),
-                        onPressed: () {
-                          animatedMapController.animateTo(
-                            dest: currentLocation,
-                            zoom: 15.0,
-                            rotation: 0,
-                          );
-                        },
-                        child: const Icon(
-                          // Icons.location_searching_rounded,
-                          Icons.navigation_rounded,
-                        ),
-                      )
-                    : SizedBox.shrink(),
+                if (currentLocation != null)
+                  FloatingActionButton(
+                    shape: CircleBorder(),
+                    onPressed: () {
+                      animatedMapController.animateTo(
+                        dest: currentLocation,
+                        zoom: 15.0,
+                        rotation: 0,
+                      );
+                    },
+                    child: const Icon(
+                      // Icons.location_searching_rounded,
+                      Icons.navigation_rounded,
+                    ),
+                  ),
               ],
             ),
           ),

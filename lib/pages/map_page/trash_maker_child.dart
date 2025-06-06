@@ -16,7 +16,11 @@ class TrashMakerChild extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(16),
-      child: SvgPicture.asset("assets/images/markers/${type.name}.svg"),
+      child: SvgPicture.asset(
+        "assets/images/markers/${type.name}.svg",
+        width: 50,
+        height: 50,
+      ),
     );
   }
 }

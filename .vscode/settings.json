@@ -2,5 +2,6 @@
     "java.configuration.updateBuildConfiguration": "interactive",
     "codic.case": "camelCase",
     "cmake.sourceDirectory": "C:/hackathon/ryu/sweep/linux",
-    "git.ignoreLimitWarning": true
+    "git.ignoreLimitWarning": true,
+    "svg.preview.background": "transparent"
 }

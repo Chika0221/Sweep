@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$TrashBox {
 
- String get trashBoxId; LatLng get location; int get weight;
+ String get name; String get trashBoxId; LatLng get location; int get maxWeight; int get weight;
 /// Create a copy of TrashBox
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -29,16 +29,16 @@ $TrashBoxCopyWith<TrashBox> get copyWith => _$TrashBoxCopyWithImpl<TrashBox>(thi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is TrashBox&&(identical(other.trashBoxId, trashBoxId) || other.trashBoxId == trashBoxId)&&(identical(other.location, location) || other.location == location)&&(identical(other.weight, weight) || other.weight == weight));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TrashBox&&(identical(other.name, name) || other.name == name)&&(identical(other.trashBoxId, trashBoxId) || other.trashBoxId == trashBoxId)&&(identical(other.location, location) || other.location == location)&&(identical(other.maxWeight, maxWeight) || other.maxWeight == maxWeight)&&(identical(other.weight, weight) || other.weight == weight));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,trashBoxId,location,weight);
+int get hashCode => Object.hash(runtimeType,name,trashBoxId,location,maxWeight,weight);
 
 @override
 String toString() {
-  return 'TrashBox(trashBoxId: $trashBoxId, location: $location, weight: $weight)';
+  return 'TrashBox(name: $name, trashBoxId: $trashBoxId, location: $location, maxWeight: $maxWeight, weight: $weight)';
 }
 
 
@@ -49,7 +49,7 @@ abstract mixin class $TrashBoxCopyWith<$Res>  {
   factory $TrashBoxCopyWith(TrashBox value, $Res Function(TrashBox) _then) = _$TrashBoxCopyWithImpl;
 @useResult
 $Res call({
- String trashBoxId, LatLng location, int weight
+ String name, String trashBoxId, LatLng location, int maxWeight, int weight
 });
 
 
@@ -66,11 +66,13 @@ class _$TrashBoxCopyWithImpl<$Res>
 
 /// Create a copy of TrashBox
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? trashBoxId = null,Object? location = null,Object? weight = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? name = null,Object? trashBoxId = null,Object? location = null,Object? maxWeight = null,Object? weight = null,}) {
   return _then(_self.copyWith(
-trashBoxId: null == trashBoxId ? _self.trashBoxId : trashBoxId // ignore: cast_nullable_to_non_nullable
+name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+as String,trashBoxId: null == trashBoxId ? _self.trashBoxId : trashBoxId // ignore: cast_nullable_to_non_nullable
 as String,location: null == location ? _self.location : location // ignore: cast_nullable_to_non_nullable
-as LatLng,weight: null == weight ? _self.weight : weight // ignore: cast_nullable_to_non_nullable
+as LatLng,maxWeight: null == maxWeight ? _self.maxWeight : maxWeight // ignore: cast_nullable_to_non_nullable
+as int,weight: null == weight ? _self.weight : weight // ignore: cast_nullable_to_non_nullable
 as int,
   ));
 }
@@ -82,11 +84,13 @@ as int,
 @JsonSerializable()
 
 class _TrashBox implements TrashBox {
-  const _TrashBox({required this.trashBoxId, required this.location, this.weight = 0});
+  const _TrashBox({required this.name, required this.trashBoxId, required this.location, required this.maxWeight, this.weight = 0});
   factory _TrashBox.fromJson(Map<String, dynamic> json) => _$TrashBoxFromJson(json);
 
+@override final  String name;
 @override final  String trashBoxId;
 @override final  LatLng location;
+@override final  int maxWeight;
 @override@JsonKey() final  int weight;
 
 /// Create a copy of TrashBox
@@ -102,16 +106,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TrashBox&&(identical(other.trashBoxId, trashBoxId) || other.trashBoxId == trashBoxId)&&(identical(other.location, location) || other.location == location)&&(identical(other.weight, weight) || other.weight == weight));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TrashBox&&(identical(other.name, name) || other.name == name)&&(identical(other.trashBoxId, trashBoxId) || other.trashBoxId == trashBoxId)&&(identical(other.location, location) || other.location == location)&&(identical(other.maxWeight, maxWeight) || other.maxWeight == maxWeight)&&(identical(other.weight, weight) || other.weight == weight));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,trashBoxId,location,weight);
+int get hashCode => Object.hash(runtimeType,name,trashBoxId,location,maxWeight,weight);
 
 @override
 String toString() {
-  return 'TrashBox(trashBoxId: $trashBoxId, location: $location, weight: $weight)';
+  return 'TrashBox(name: $name, trashBoxId: $trashBoxId, location: $location, maxWeight: $maxWeight, weight: $weight)';
 }
 
 
@@ -122,7 +126,7 @@ abstract mixin class _$TrashBoxCopyWith<$Res> implements $TrashBoxCopyWith<$Res>
   factory _$TrashBoxCopyWith(_TrashBox value, $Res Function(_TrashBox) _then) = __$TrashBoxCopyWithImpl;
 @override @useResult
 $Res call({
- String trashBoxId, LatLng location, int weight
+ String name, String trashBoxId, LatLng location, int maxWeight, int weight
 });
 
 
@@ -139,11 +143,13 @@ class __$TrashBoxCopyWithImpl<$Res>
 
 /// Create a copy of TrashBox
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? trashBoxId = null,Object? location = null,Object? weight = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? name = null,Object? trashBoxId = null,Object? location = null,Object? maxWeight = null,Object? weight = null,}) {
   return _then(_TrashBox(
-trashBoxId: null == trashBoxId ? _self.trashBoxId : trashBoxId // ignore: cast_nullable_to_non_nullable
+name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+as String,trashBoxId: null == trashBoxId ? _self.trashBoxId : trashBoxId // ignore: cast_nullable_to_non_nullable
 as String,location: null == location ? _self.location : location // ignore: cast_nullable_to_non_nullable
-as LatLng,weight: null == weight ? _self.weight : weight // ignore: cast_nullable_to_non_nullable
+as LatLng,maxWeight: null == maxWeight ? _self.maxWeight : maxWeight // ignore: cast_nullable_to_non_nullable
+as int,weight: null == weight ? _self.weight : weight // ignore: cast_nullable_to_non_nullable
 as int,
   ));
 }

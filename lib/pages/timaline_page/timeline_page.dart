@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 // Project imports:
+import 'package:sweep/classes/post.dart';
+import 'package:sweep/pages/map_page/filter_block.dart';
 import 'package:sweep/states/get_posts_provider.dart';
 
 import 'package:sweep/pages/timaline_page/post_item.dart'; // 各投稿を表示するウィジェット (別途作成が必要)
@@ -26,6 +28,15 @@ class TimelinePage extends HookConsumerWidget {
               surfaceTintColor: Colors.blue,
               pinned: false,
               floating: true,
+              bottom: PreferredSize(
+                preferredSize: Size(double.infinity, 64),
+                child: FilterBlock(
+                  filterOptions: [
+                    PostType.trash,
+                    PostType.trashCan,
+                  ],
+                ),
+              ),
             ),
             postData.when(
               loading: () => SliverToBoxAdapter(

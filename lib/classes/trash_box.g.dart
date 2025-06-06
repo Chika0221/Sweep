@@ -7,13 +7,20 @@ part of 'trash_box.dart';
 // **************************************************************************
 
 _TrashBox _$TrashBoxFromJson(Map<String, dynamic> json) => _TrashBox(
-  trashBoxId: json['trashBoxId'] as String,
-  location: LatLng.fromJson(json['location'] as Map<String, dynamic>),
-  weight: (json['weight'] as num?)?.toInt() ?? 0,
-);
+      name: json['name'] as String,
+      trashBoxId: json['trashBoxId'] as String,
+      location: LatLng(
+        (json['location'] as GeoPoint).latitude,
+        (json['location'] as GeoPoint).longitude,
+      ),
+      maxWeight: (json['maxWeight'] as num).toInt(),
+      weight: (json['weight'] as num?)?.toInt() ?? 0,
+    );
 
 Map<String, dynamic> _$TrashBoxToJson(_TrashBox instance) => <String, dynamic>{
-  'trashBoxId': instance.trashBoxId,
-  'location': instance.location,
-  'weight': instance.weight,
-};
+      'name': instance.name,
+      'trashBoxId': instance.trashBoxId,
+      'location': instance.location,
+      'maxWeight': instance.maxWeight,
+      'weight': instance.weight,
+    };

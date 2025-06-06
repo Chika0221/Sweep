@@ -21,11 +21,48 @@ class TrashboxDialog extends HookConsumerWidget {
       padding: EdgeInsets.all(16),
       child: Column(
         mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          LinearProgressIndicator(
-            value: 0.8,
-            borderRadius: BorderRadius.circular(100),
-          )
+          Wrap(children: [
+            Text(
+              trashBox.name,
+              style: Theme.of(context).textTheme.headlineSmall,
+            ),
+          ]),
+          const SizedBox(height: 16),
+          SizedBox(
+            height: 64,
+            width: double.infinity,
+            child: Stack(
+              children: [
+                LinearProgressIndicator(
+                  borderRadius: BorderRadius.circular(16),
+                  value: trashBox.weight / trashBox.maxWeight,
+                  minHeight: 64,
+                ),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Chip(
+                      backgroundColor:
+                          Theme.of(context).colorScheme.secondaryContainer,
+                      label: Text(
+                        "${(trashBox.weight / 1000)}kg",
+                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onSecondaryContainer,
+                              fontWeight: FontWeight.bold,
+                            ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          // Add more information or actions related to the trashBox here
         ],
       ),
     );
