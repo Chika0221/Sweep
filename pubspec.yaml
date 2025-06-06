@@ -121,7 +121,8 @@ flutter:
     - assets/images/markers/trashCan.svg
     - assets/images/markers/trashBox.svg
     - assets/images/coin.png
-    - assets/icons/
+    - assets/icons/icon_android_foreground.png
+    - assets/icons/icon_ios.png
     # - assets/fonts
 
   fonts:

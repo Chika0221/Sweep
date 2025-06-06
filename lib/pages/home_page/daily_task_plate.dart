@@ -39,7 +39,7 @@ class DailyTaskPlate extends HookConsumerWidget {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
                       color: (!task.isComplete)
-                          ? Theme.of(context).colorScheme.tertiaryContainer
+                          ? Theme.of(context).colorScheme.primaryContainer
                           : Theme.of(context).colorScheme.surfaceContainerHigh,
                     ),
                     child: ListTile(

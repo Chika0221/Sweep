@@ -17,11 +17,24 @@ class SignButton extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return SignInButton(
-      elevation: 1,
-      btnText: "${type.name}でサインイン",
-      buttonType: type,
-      onPressed: onTap,
+    return Container(
+      padding: EdgeInsets.symmetric(
+        vertical: 4,
+        horizontal: 8,
+      ),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(100),
+        color: Theme.of(context).colorScheme.surfaceContainerHighest,
+      ),
+      child: SignInButton(
+        elevation: 0,
+        btnText: "${type.name}でサインイン",
+        buttonType: type,
+        onPressed: onTap,
+        btnColor: Theme.of(context).colorScheme.surfaceContainerHighest,
+        btnTextColor: Theme.of(context).colorScheme.onSurface,
+        buttonSize: ButtonSize.medium,
+      ),
     );
   }
 }
