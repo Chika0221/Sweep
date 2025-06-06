@@ -4,7 +4,6 @@ import 'package:flutter/rendering.dart';
 
 // Package imports:
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:wave/config.dart';
@@ -42,7 +41,6 @@ class NamePlate extends HookConsumerWidget {
     final Profile profile = ref.watch(profileProvider);
 
     final analytics = ref.watch(analyticsProvider);
-
 
     // useEffect(() {
     //   if (profile?.uid != "") {
