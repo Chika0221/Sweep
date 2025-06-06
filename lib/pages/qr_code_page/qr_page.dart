@@ -6,6 +6,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 // Project imports:
+import 'package:sweep/states/get_users_provider.dart';
 import 'package:sweep/states/login_notifier.dart';
 import 'package:sweep/states/profile_provider.dart';
 
@@ -37,9 +38,11 @@ class QRPage extends HookConsumerWidget {
                   color: Colors.white,
                 ),
                 padding: EdgeInsets.all(16),
-                child: QrImageView(
-                  data: profile!.uid,
-                ),
+                child: (profile.uid != null)
+                    ? QrImageView(
+                        data: profile.uid,
+                      )
+                    : SizedBox.shrink(),
               ),
               SizedBox.shrink(),
             ],

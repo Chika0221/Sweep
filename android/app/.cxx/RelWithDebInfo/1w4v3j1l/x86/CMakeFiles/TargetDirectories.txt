@@ -1,0 +1,2 @@
+C:/hackathon/ryu/sweep/android/app/.cxx/RelWithDebInfo/1w4v3j1l/x86/CMakeFiles/edit_cache.dir
+C:/hackathon/ryu/sweep/android/app/.cxx/RelWithDebInfo/1w4v3j1l/x86/CMakeFiles/rebuild_cache.dir

@@ -9,7 +9,7 @@ const otsuCityOfficePosition = LatLng(35.01889586284015, 135.85529483505871);
 class LocationNotifier extends Notifier<LatLng> {
   @override
   build() {
-    return otsuCityOfficePosition;
+    return LatLng(0, 0);
   }
 
   Future<void> getCurrentLocation() async {
