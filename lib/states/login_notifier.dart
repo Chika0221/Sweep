@@ -21,6 +21,10 @@ class LoginNotifier extends Notifier<String> {
   String verificationId = "";
   String resendTokenString = "";
 
+  Future<void> signInWithApple() async {
+    
+  }
+
   Future<void> signInWithGoogle() async {
     final GoogleSignIn googleSignIn = GoogleSignIn();
     try {
