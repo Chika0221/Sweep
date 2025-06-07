@@ -84,6 +84,7 @@ dependencies:
   firebase_analytics: ^11.4.6
   cloud_functions: ^5.5.1
   flutter_launcher_icons: ^0.14.3
+  sign_in_with_apple: ^7.0.1
   
 
   

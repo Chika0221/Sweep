@@ -7,22 +7,42 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 // Project imports:
 import 'package:sweep/pages/main_page.dart';
 import 'package:sweep/states/analytics_provider.dart';
 
 class LoginNotifier extends Notifier<String> {
+  
   @override
-  String build() => "";
+  String build() {
+    return "";
+  }
 
   final FirebaseAuth auth = FirebaseAuth.instance;
   late User? tempUser;
   String verificationId = "";
   String resendTokenString = "";
 
+
+  Future<void> initSignIn(User user) async {
+    firebaseFirestoreSignIn(user);
+    state = user.uid;
+  }
+
   Future<void> signInWithApple() async {
-    
+    final result = await SignInWithApple.getAppleIDCredential(scopes: [
+      AppleIDAuthorizationScopes.email,
+      AppleIDAuthorizationScopes.fullName,
+    ],);
+
+    final oauthProvider = OAuthProvider("apple.com");
+    final credential = oauthProvider.credential(
+      idToken: result.identityToken,
+      accessToken: result.authorizationCode,
+    );
+    await firebaseAuthSignIn(credential);
   }
 
   Future<void> signInWithGoogle() async {
@@ -119,8 +139,8 @@ class LoginNotifier extends Notifier<String> {
     } else {
       // init
       final data = {
-        "displayName": newUser.displayName!,
-        "photoURL": newUser.photoURL!,
+        "displayName": newUser.displayName??"Sweeper",
+        "photoURL": newUser.photoURL??"https://avatar.iran.liara.run/public",
         "email": newUser.email,
         "uid": newUser.uid,
         "point": 0,

@@ -2,6 +2,7 @@
 import 'dart:io';
 
 // Flutter imports:
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -46,6 +47,8 @@ Future<void> main() async {
 
   final app = MyApp();
   final providerScope = ProviderScope(child: app);
+
+
 
   runApp(providerScope);
 }
