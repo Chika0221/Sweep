@@ -45,143 +45,143 @@ class LoginPage extends HookConsumerWidget {
 
     useEffect(() {
       if (userInit != null) {
-        ref.watch(loginProvider.notifier).initSignIn(userInit!);
+        ref.read(loginProvider.notifier).initSignIn(userInit!);
         goNextPage();
       }
+
+      return null;
     }, []);
 
     return Scaffold(
-      body: Container(
-        child: Column(
-          children: [
-            Expanded(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    height: 32,
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.width * 0.6,
-                    width: MediaQuery.of(context).size.width * 0.6,
-                    child: Image.asset(
-                      "assets/icons/icon_android_foreground.png",
-                    ),
-                  ),
-                  Text(
-                    "みんなで一緒にきれいな街を目指しましょう",
-                    style: Theme.of(context).textTheme.labelLarge,
-                  ),
-                ],
-              ),
-            ),
-            WaveWidget(
-              config: CustomConfig(
-                colors: [
-                  Theme.of(context).colorScheme.primaryFixedDim,
-                  Theme.of(context).colorScheme.primary,
-                  Theme.of(context).colorScheme.primaryContainer,
-                ],
-                durations: [
-                  4000,
-                  6000,
-                  5000,
-                ],
-                heightPercentages: [
-                  0.60,
-                  0.64,
-                  0.80,
-                ],
-              ),
-              size: Size(double.infinity, 200),
-              waveAmplitude: 0,
-            ),
-            Expanded(
-              child: Ink(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      Theme.of(context).colorScheme.primaryContainer,
-                      Theme.of(context).colorScheme.primary,
-                    ],
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
+      body: Column(
+        children: [
+          Expanded(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  height: 32,
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.width * 0.6,
+                  width: MediaQuery.of(context).size.width * 0.6,
+                  child: Image.asset(
+                    "assets/icons/icon_android_foreground.png",
                   ),
                 ),
-                child: Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(32),
-                    child: Container(
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(30),
-                        color: Theme.of(context).colorScheme.surface,
-                      ),
-                      padding: EdgeInsets.all(32),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          // Spacer(),
-                          // TextField(
-                          //     controller: phoneNumberController.value,
-                          //     decoration: InputDecoration(
-                          //       hintText: "電話番号",
-                          //       border: OutlineInputBorder(),
-                          //     ),
-                          //     keyboardType: TextInputType.phone),
-                          // Spacer(),
-                          // SizedBox(
-                          //   width: double.infinity,
-                          //   child: FilledButton(
-                          //     onPressed: () {
-                          //       ref
-                          //           .read(loginProvider.notifier)
-                          //           .signInWithPhoneNumber(
-                          //             context,
-                          //             phoneNumberController.value.text,
-                          //           );
-                          //       goAuthPage();
-                          //     },
-                          //     child: Text("ログイン"),
-                          //   ),
-                          // ),
-                          // TextButton(
-                          //   onPressed: () {},
-                          //   child: Text("アカウント作成"),
-                          // ),
+                Text(
+                  "みんなで一緒にきれいな街を目指しましょう",
+                  style: Theme.of(context).textTheme.labelLarge,
+                ),
+              ],
+            ),
+          ),
+          WaveWidget(
+            config: CustomConfig(
+              colors: [
+                Theme.of(context).colorScheme.primaryFixedDim,
+                Theme.of(context).colorScheme.primary,
+                Theme.of(context).colorScheme.primaryContainer,
+              ],
+              durations: [
+                4000,
+                6000,
+                5000,
+              ],
+              heightPercentages: [
+                0.60,
+                0.64,
+                0.80,
+              ],
+            ),
+            size: Size(double.infinity, 200),
+            waveAmplitude: 0,
+          ),
+          Expanded(
+            child: Ink(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    Theme.of(context).colorScheme.primaryContainer,
+                    Theme.of(context).colorScheme.primary,
+                  ],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                ),
+              ),
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(32),
+                  child: Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30),
+                      color: Theme.of(context).colorScheme.surface,
+                    ),
+                    padding: EdgeInsets.all(32),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        // Spacer(),
+                        // TextField(
+                        //     controller: phoneNumberController.value,
+                        //     decoration: InputDecoration(
+                        //       hintText: "電話番号",
+                        //       border: OutlineInputBorder(),
+                        //     ),
+                        //     keyboardType: TextInputType.phone),
+                        // Spacer(),
+                        // SizedBox(
+                        //   width: double.infinity,
+                        //   child: FilledButton(
+                        //     onPressed: () {
+                        //       ref
+                        //           .read(loginProvider.notifier)
+                        //           .signInWithPhoneNumber(
+                        //             context,
+                        //             phoneNumberController.value.text,
+                        //           );
+                        //       goAuthPage();
+                        //     },
+                        //     child: Text("ログイン"),
+                        //   ),
+                        // ),
+                        // TextButton(
+                        //   onPressed: () {},
+                        //   child: Text("アカウント作成"),
+                        // ),
+                        SignButton(
+                          onTap: () async {
+                            await ref
+                                .read(loginProvider.notifier)
+                                .signInWithGoogle();
+                            goNextPage();
+                          },
+                          type: ButtonType.google,
+                        ),
+                        if (Platform.isIOS) ...[
+                          SizedBox(
+                            height: 16,
+                          ),
                           SignButton(
                             onTap: () async {
                               await ref
                                   .read(loginProvider.notifier)
-                                  .signInWithGoogle();
+                                  .signInWithApple();
                               goNextPage();
                             },
-                            type: ButtonType.google,
+                            type: ButtonType.apple,
                           ),
-                          if (Platform.isIOS) ...[
-                            SizedBox(
-                              height: 16,
-                            ),
-                            SignButton(
-                              onTap: () async {
-                                await ref
-                                    .read(loginProvider.notifier)
-                                    .signInWithApple();
-                                goNextPage();
-                              },
-                              type: ButtonType.apple,
-                            ),
-                          ],
                         ],
-                      ),
+                      ],
                     ),
                   ),
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
