@@ -1,4 +1,4 @@
-package com.example.sweep
+package hackathon.ms.sweep
 
 import io.flutter.embedding.android.FlutterActivity
 
