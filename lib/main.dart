@@ -15,9 +15,11 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 // Project imports:
 import 'package:sweep/firebase_options.dart';
 import 'package:sweep/pages/login_page/login_page.dart';
+import 'package:sweep/pages/main_page.dart';
 import 'package:sweep/scripts/notification_script.dart';
 import 'package:sweep/states/analytics_provider.dart';
 import 'package:sweep/states/fcmtoken_provider.dart';
+import 'package:sweep/states/login_notifier.dart';
 
 GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -70,12 +72,19 @@ class MyApp extends HookConsumerWidget {
     final analytics = ref.watch(analyticsProvider);
     final analyticsObserver = ref.watch(analyticsObserverProvider);
 
+    useEffect(() {
+      if (userInit != null) {
+        ref.read(loginProvider.notifier).initSignIn(userInit!);
+      }
+      return null;
+    }, []);
+
     // FirebaseAnalyticsに送信
     analytics.logAppOpen();
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: LoginPage(),
+      home: (ref.watch(loginProvider) != "") ? MainPage() : LoginPage(),
       themeMode: ThemeMode.light,
       darkTheme: ThemeData.dark(),
       theme: ThemeData(

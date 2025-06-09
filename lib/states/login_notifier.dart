@@ -14,7 +14,6 @@ import 'package:sweep/pages/main_page.dart';
 import 'package:sweep/states/analytics_provider.dart';
 
 class LoginNotifier extends Notifier<String> {
-  
   @override
   String build() {
     return "";
@@ -25,17 +24,17 @@ class LoginNotifier extends Notifier<String> {
   String verificationId = "";
   String resendTokenString = "";
 
-
   Future<void> initSignIn(User user) async {
     firebaseFirestoreSignIn(user);
-    state = user.uid;
   }
 
   Future<void> signInWithApple() async {
-    final result = await SignInWithApple.getAppleIDCredential(scopes: [
-      AppleIDAuthorizationScopes.email,
-      AppleIDAuthorizationScopes.fullName,
-    ],);
+    final result = await SignInWithApple.getAppleIDCredential(
+      scopes: [
+        AppleIDAuthorizationScopes.email,
+        AppleIDAuthorizationScopes.fullName,
+      ],
+    );
 
     final oauthProvider = OAuthProvider("apple.com");
     final credential = oauthProvider.credential(
@@ -139,8 +138,8 @@ class LoginNotifier extends Notifier<String> {
     } else {
       // init
       final data = {
-        "displayName": newUser.displayName??"Sweeper",
-        "photoURL": newUser.photoURL??"https://avatar.iran.liara.run/public",
+        "displayName": newUser.displayName ?? "Sweeper",
+        "photoURL": newUser.photoURL ?? "https://avatar.iran.liara.run/public",
         "email": newUser.email,
         "uid": newUser.uid,
         "point": 0,

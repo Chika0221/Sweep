@@ -43,15 +43,6 @@ class LoginPage extends HookConsumerWidget {
       );
     }
 
-    useEffect(() {
-      if (userInit != null) {
-        ref.read(loginProvider.notifier).initSignIn(userInit!);
-        goNextPage();
-      }
-
-      return null;
-    }, []);
-
     return Scaffold(
       body: Column(
         children: [
