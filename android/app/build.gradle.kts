@@ -37,6 +37,15 @@ android {
             signingConfig = signingConfigs.getByName("debug")
         }
     }
+
+    signingConfigs {
+        release {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
+            storePassword keystoreProperties['storePassword']
+        }
+    }
 }
 
 flutter {
