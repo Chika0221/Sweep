@@ -1,8 +1,11 @@
+// Dart imports:
+import 'dart:io';
+
 // Flutter imports:
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -12,6 +15,7 @@ import 'package:wave/config.dart';
 import 'package:wave/wave.dart';
 
 // Project imports:
+import 'package:sweep/main.dart';
 import 'package:sweep/pages/login_page/login_auth_page.dart';
 import 'package:sweep/pages/login_page/sign_button.dart';
 import 'package:sweep/pages/main_page.dart';
@@ -24,7 +28,7 @@ class LoginPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     Future<void> goNextPage() async {
-      await Navigator.of(context).pushReplacement(
+      Navigator.of(context).pushReplacement(
         MaterialPageRoute(
           builder: (context) => MainPage(),
         ),
@@ -39,17 +43,12 @@ class LoginPage extends HookConsumerWidget {
       );
     }
 
-    FirebaseAuth.instance
-      .authStateChanges()
-      .listen((User? user) {
-        if (user == null) {
-          print('User is currently signed out!');
-        } else {
-          print('User is signed in!');
-          ref.watch(loginProvider.notifier).initSignIn(user);
-          goNextPage();
-        }
-      });
+    useEffect(() {
+      if (userInit != null) {
+        ref.watch(loginProvider.notifier).initSignIn(userInit!);
+        goNextPage();
+      }
+    }, []);
 
     return Scaffold(
       body: Container(
@@ -160,16 +159,20 @@ class LoginPage extends HookConsumerWidget {
                             },
                             type: ButtonType.google,
                           ),
-                          SizedBox(
-                            height: 16,
-                          ),
-                          SignButton(
-                            onTap: () async {
-                              await ref.read(loginProvider.notifier).signInWithApple();
-                              goNextPage();
-                            },
-                            type: ButtonType.apple,
-                          ),
+                          if (Platform.isIOS) ...[
+                            SizedBox(
+                              height: 16,
+                            ),
+                            SignButton(
+                              onTap: () async {
+                                await ref
+                                    .read(loginProvider.notifier)
+                                    .signInWithApple();
+                                goNextPage();
+                              },
+                              type: ButtonType.apple,
+                            ),
+                          ],
                         ],
                       ),
                     ),

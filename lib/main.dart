@@ -2,11 +2,11 @@
 import 'dart:io';
 
 // Flutter imports:
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:firebase_app_installations/firebase_app_installations.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -20,6 +20,8 @@ import 'package:sweep/states/analytics_provider.dart';
 import 'package:sweep/states/fcmtoken_provider.dart';
 
 GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
+User? userInit = null;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -48,7 +50,14 @@ Future<void> main() async {
   final app = MyApp();
   final providerScope = ProviderScope(child: app);
 
-
+  FirebaseAuth.instance.authStateChanges().listen((User? user) {
+    if (user == null) {
+      print('User is currently signed out!');
+    } else {
+      print('User is signed in!');
+      userInit = user;
+    }
+  });
 
   runApp(providerScope);
 }

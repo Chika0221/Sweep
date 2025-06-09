@@ -11,7 +11,9 @@ import 'package:wave/wave.dart';
 import 'package:sweep/pages/home_page/continuous_login_plate.dart';
 import 'package:sweep/pages/home_page/daily_task_plate.dart';
 import 'package:sweep/pages/home_page/diary_plate.dart';
+import 'package:sweep/pages/home_page/feedback_plate.dart';
 import 'package:sweep/pages/home_page/name_plate.dart';
+import 'package:sweep/pages/home_page/plate_magin.dart';
 import 'package:sweep/pages/home_page/point_plate.dart';
 import 'package:sweep/pages/home_page/weekly_task_plate.dart';
 import 'package:sweep/states/fcmtoken_provider.dart';
@@ -38,6 +40,8 @@ class HomePage extends HookConsumerWidget {
                     DiaryPlate(),
                     SizedBox(height: 16),
                     ContinuousLoginPlate(),
+                    SizedBox(height: 16),
+                    FeedbackPlate(),
                     SizedBox(height: 16),
                     DailyTaskPlate(),
                     SizedBox(height: 16),
