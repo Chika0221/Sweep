@@ -159,6 +159,7 @@ class LoginNotifier extends Notifier<String> {
         .update({"fcmToken": token});
 
     ref.watch(analyticsProvider).logLogin();
+    print("なう：${state}");
   }
 }
 
