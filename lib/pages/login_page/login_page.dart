@@ -147,7 +147,7 @@ class LoginPage extends HookConsumerWidget {
                             await ref
                                 .read(loginProvider.notifier)
                                 .signInWithGoogle();
-                            goNextPage();
+                            // goNextPage();
                           },
                           type: ButtonType.google,
                         ),
@@ -160,7 +160,7 @@ class LoginPage extends HookConsumerWidget {
                               await ref
                                   .read(loginProvider.notifier)
                                   .signInWithApple();
-                              goNextPage();
+                              // goNextPage();
                             },
                             type: ButtonType.apple,
                           ),
