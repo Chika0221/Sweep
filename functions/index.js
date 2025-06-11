@@ -21,7 +21,7 @@ function updateTask(type, step, uid, doc = null){
     taskDoc.update({isComplete: true});
   }
   if(type != "box"){
-    (taskDoc = weeklyTask.doc(type)).update({progress: admin.firestore.FieldValue.increment(step)});
+    (taskDoc = weeklyTask.doc(type)).update({progress: taskDoc.get("progress") + step});
     if (taskDoc.get("progress") >= taskDoc.get("step")){
       taskDoc.update({isComplete: true})
     }
@@ -31,7 +31,7 @@ function updateTask(type, step, uid, doc = null){
 
 
 // userにポイント追加
-async function addPoint(uid, point){
+async function addPoint(uid, point, title = null){
 
   console.log("ポイント付与");
 
@@ -52,12 +52,14 @@ async function addPoint(uid, point){
     progress: admin.firestore.FieldValue.increment(point) 
   });
 
-  sendPointUpNotification(token, point);
+  sendPointUpNotification(token, point, title);
 }
 
 // ポイントアップの通知
-function sendPointUpNotification(token, point){
-  const title = "ポイント獲得";
+function sendPointUpNotification(token, point,title = null){
+  if (title == null) {
+    title = "ポイント獲得！";
+  }
   const body = `${point} ポイント獲得！`;
 
   const message = {
@@ -151,7 +153,7 @@ exports.trashPost = onDocumentCreated(
     console.log(`UID:${userId}, 獲得ポイント:${point}`);
 
     // ユーザーにポイント追加
-    addPoint(userId, point);
+    addPoint(userId, point,"投稿ポイント");
     updateTask("post", 1, userId);
   },
 );
@@ -226,7 +228,7 @@ exports.userTaskUpdate = onDocumentUpdated(
     const uid = event.params.userId;
     const point = afterValue.point;
     if(beforeValue.isComplete == false && afterValue.isComplete == true){
-      addPoint(uid,point);
+      addPoint(uid,point,"タスク完了！");
     }else{
       console.log("falseです");
     }
@@ -362,7 +364,7 @@ exports.trashReportFromTrashbox = onRequest(
         
         trashBoxDoc.update({weight: boxWeight});
 
-        addPoint(uid, 1);
+        addPoint(uid, 1,"ゴミ捨て完了");
         updateTask("box", 1, uid);
     
         break;
