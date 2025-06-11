@@ -124,8 +124,21 @@ exports.weeklyTaskReset = onSchedule(
     region: "asia-northeast2"
   },
   async (event) => {
+
+    var one = {id:"",point:0};
+    var two = {id:"",point:0};
+    var three = {id:"",point:0};
+
     const snapshot = await fs.collection("user").get();
     snapshot.forEach(async (userDoc) => {
+
+      var cumPoint = user.ref.get("cumulativePoint");
+      if(cumPoint > one.point){
+        three = two;
+        two = one;
+        one = {id: userDoc.id, point: cumPoint};
+      }
+
       userDoc.ref.update({
         cumulativePoint: 0,
       });
@@ -137,6 +150,22 @@ exports.weeklyTaskReset = onSchedule(
         });
       });
     }); 
+
+    fs.collection("user").doc(one.id).update({
+      point: admin.firestore.FieldValue.increment(20),
+    
+    });
+    addPoint((one.id), 20, "週間ランキング1位！");
+    fs.collection("user").doc(two.id).update({
+      point: admin.firestore.FieldValue.increment(15),
+    });
+    addPoint((two.id), 15, "週間ランキング2位！"),
+
+    fs.collection("user").doc(three.id).update({
+      point: admin.firestore.FieldValue.increment(10),
+      
+    });
+    addPoint((three.id), 10, "週間ランキング3位！");
   }
 );
 
