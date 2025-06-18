@@ -196,13 +196,26 @@ class _PostPageState extends ConsumerState<PostPage>
             ),
           ),
           PostMargin(
-            child: TextField(
-              controller: textController.value,
-              maxLength: 50,
-              maxLines: 2,
-              minLines: 1,
-              decoration:
-                  InputDecoration(hintText: "コメント", border: InputBorder.none),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                TextField(
+                  controller: textController.value,
+                  maxLength: 50,
+                  maxLines: 2,
+                  minLines: 1,
+                  decoration: InputDecoration(
+                    hintText: "コメント",
+                    border: InputBorder.none,
+                    errorText: textController.value.text.isEmpty
+                        ? "コメントを入力してください"
+                        : null,
+                  ),
+                  onChanged: (value) {
+                    setState(() {}); // エラー表示のため再描画
+                  },
+                ),
+              ],
             ),
           ),
           PostMargin(
@@ -266,20 +279,34 @@ class _PostPageState extends ConsumerState<PostPage>
             width: double.infinity,
             child: FilledButton(
                 onPressed: () {
-                  postData.value =
-                      postData.value.copyWith(imagePaths: imagePaths.value);
-                  postData.value = postData.value
-                      .copyWith(comment: textController.value.text);
-                  postData.value = postData.value
-                      .copyWith(type: segmentedButtonSelected.value.first);
+                  if (textController.value.text.isNotEmpty) {
+                    postData.value =
+                        postData.value.copyWith(imagePaths: imagePaths.value);
+                    postData.value = postData.value
+                        .copyWith(comment: textController.value.text);
+                    postData.value = postData.value
+                        .copyWith(type: segmentedButtonSelected.value.first);
 
-                  ref.read(postProvider.notifier)
-                    ..set(postData.value)
-                    ..submit();
+                    ref.read(postProvider.notifier)
+                      ..set(postData.value)
+                      ..submit();
 
-                  // firebaseanaluticsにpostを送信
-                  ref.watch(analyticsProvider).logEvent(name: "post",parameters: {});
-                  Navigator.of(context).pop();
+                    // firebaseanaluticsにpostを送信
+                    ref
+                        .watch(analyticsProvider)
+                        .logEvent(name: "post", parameters: {});
+                    Navigator.of(context).pop();
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text(
+                        "コメントを入力してください",
+                        style: TextStyle(
+                            color: Theme.of(context).colorScheme.onError),
+                      ),
+                      backgroundColor: Theme.of(context).colorScheme.error,
+                      behavior: SnackBarBehavior.floating,
+                    ));
+                  }
                 },
                 child: Text("投稿する")),
           ),

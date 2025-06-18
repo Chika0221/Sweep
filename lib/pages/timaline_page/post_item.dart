@@ -8,14 +8,21 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 // Project imports:
 import 'package:sweep/classes/post.dart';
 import 'package:sweep/pages/post_page/post_image_preview_page.dart';
+import 'package:sweep/scripts/firebase_update_script.dart';
+import 'package:sweep/states/get_posts_provider.dart';
 
-import 'package:sweep/scripts/firebase_update_script.dart'; // Postモデルをインポート
+import 'package:sweep/states/post_notifier.dart'; // Postモデルをインポート
 
 class PostItem extends HookConsumerWidget {
-  const PostItem({super.key, required this.post, this.showNiceButton = true});
+  const PostItem(
+      {super.key,
+      required this.post,
+      this.showNiceButton = true,
+      this.showDeleteButton = false});
 
   final Post post;
   final bool showNiceButton;
+  final bool showDeleteButton;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -41,9 +48,20 @@ class PostItem extends HookConsumerWidget {
               SizedBox(
                 width: 8,
               ),
-              Chip(
-                label: Text(post.type.displayName),
-              ),
+              (showDeleteButton)
+                  ? IconButton(
+                      onPressed: () async {
+                        await FirebaseUpdateScript().deletePost(post);
+                        ref.read(getPostsProvider.notifier).refresh();
+                      },
+                      icon: Icon(
+                        Icons.delete_rounded,
+                        color: Theme.of(context).colorScheme.error,
+                      ),
+                    )
+                  : Chip(
+                      label: Text(post.type.displayName),
+                    ),
             ],
           ),
           const SizedBox(height: 16.0),

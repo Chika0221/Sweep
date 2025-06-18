@@ -6,7 +6,7 @@ const functionsV1 = require("firebase-functions/v1");
 admin.initializeApp();
 const fs = admin.firestore();
 
-function updateTask(type, step, uid, doc = null){
+async function updateTask(type, step, uid, doc = null){
 
   if(doc != null){
     dailyTask = doc.collection("dailyTask");
@@ -21,12 +21,15 @@ function updateTask(type, step, uid, doc = null){
     taskDoc.update({isComplete: true});
   }
   if(type != "box"){
-    (taskDoc = weeklyTask.doc(type)).update({progress: taskDoc.get("progress") + step});
-    if (taskDoc.get("progress") >= taskDoc.get("step")){
-      taskDoc.update({isComplete: true})
+    wTaskDoc = weeklyTask.doc(type);
+    var progress = wTaskDoc.get("progress");
+    const nowStep = wTaskDoc.get("step");
+    await wTaskDoc.update({progress: admin.firestore.FieldValue.increment(step)});
+    progress = progress + step;
+    if (progress >= nowStep){
+      wTaskDoc.update({isComplete: true});
     }
   }
-  
 }
 
 
@@ -42,13 +45,13 @@ async function addPoint(uid, point, title = null){
 
   console.log(`fcmtoken:${token}`);
 
-  doc.update({
+  await doc.update({
     point: admin.firestore.FieldValue.increment(point),
     cumulativePoint: admin.firestore.FieldValue.increment(point),
   });  
 
   // weeklyタスク更新
-  doc.collection("weeklyTask").doc("get_point").update({ 
+  await doc.collection("weeklyTask").doc("get_point").update({ 
     progress: admin.firestore.FieldValue.increment(point) 
   });
 

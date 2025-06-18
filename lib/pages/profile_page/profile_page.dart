@@ -2,11 +2,15 @@
 import 'package:flutter/material.dart';
 
 // Package imports:
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 // Project imports:
 import 'package:sweep/classes/profile.dart';
 import 'package:sweep/pages/home_page/plate_magin.dart';
+import 'package:sweep/scripts/firebase_update_script.dart';
+import 'package:sweep/states/get_users_provider.dart';
+import 'package:sweep/states/login_notifier.dart';
 import 'package:sweep/states/profile_provider.dart';
 
 import 'package:sweep/widgets/achievements_list.dart'; // Added import
@@ -16,6 +20,14 @@ class ProfilePage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final profile = ref.watch(profileProvider);
+
+    final textController = useState(TextEditingController(text: ""));
+
+    useEffect(() {
+      return () {
+        textController.dispose();
+      };
+    }, []);
 
     return Scaffold(
       appBar: AppBar(
@@ -40,6 +52,53 @@ class ProfilePage extends HookConsumerWidget {
                       title: Text(
                         profile.displayName,
                         style: Theme.of(context).textTheme.headlineSmall,
+                      ),
+                      trailing: IconButton.filledTonal(
+                        onPressed: () async {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: Text("ユーザー名変更"),
+                                content: TextField(
+                                  controller: textController.value,
+                                  decoration: InputDecoration(
+                                    border: OutlineInputBorder(),
+                                    hintText: profile.displayName,
+                                  ),
+                                ),
+                                actions: [
+                                  FilledButton(
+                                    onPressed: () async {
+                                      if (textController
+                                          .value.text.isNotEmpty) {
+                                        await FirebaseUpdateScript()
+                                            .updateField(
+                                          CollectionName.user,
+                                          profile.uid,
+                                          "displayName",
+                                          textController.value.text,
+                                        );
+                                        ref
+                                            .read(getUsersProvider.notifier)
+                                            .refresh();
+                                      }
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Text("変更"),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Text("閉じる"),
+                                  )
+                                ],
+                              );
+                            },
+                          );
+                        },
+                        icon: Icon(Icons.edit_rounded),
                       ),
                     ),
                   ),
@@ -67,14 +126,16 @@ class ProfilePage extends HookConsumerWidget {
                       subtitle: Text('${profile.continuousCount} 日'),
                     ),
                   ),
-                  const SizedBox(height: 20), // Added space before achievements section
+                  const SizedBox(
+                      height: 20), // Added space before achievements section
                   // Achievements Section
                   Text(
                     'アチーブメント', // Achievements Title
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
                   const SizedBox(height: 8),
-                  const Expanded( // Added Expanded to allow ListView to scroll
+                  const Expanded(
+                    // Added Expanded to allow ListView to scroll
                     child: AchievementsList(),
                   ),
                 ],

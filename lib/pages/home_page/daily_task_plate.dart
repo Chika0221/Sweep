@@ -7,6 +7,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 // Project imports:
 import 'package:sweep/pages/home_page/plate_magin.dart';
+import 'package:sweep/scripts/firebase_update_script.dart';
+import 'package:sweep/states/profile_provider.dart';
 import 'package:sweep/states/tasks_provider.dart';
 
 class DailyTaskPlate extends HookConsumerWidget {
@@ -15,6 +17,7 @@ class DailyTaskPlate extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final tasks = ref.watch(dailyTaskProvider);
+    final profile = ref.watch(profileProvider);
 
     return PlateMagin(
       child: Column(
@@ -35,28 +38,38 @@ class DailyTaskPlate extends HookConsumerWidget {
                 itemBuilder: (context, index) {
                   final task = data[index];
 
-                  return Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      color: (!task.isComplete)
-                          ? Theme.of(context).colorScheme.primaryContainer
-                          : Theme.of(context).colorScheme.surfaceContainerHigh,
-                    ),
-                    child: ListTile(
-                      title: Text(
-                        task.name,
-                        style: TextStyle(
-                          decoration: (task.isComplete)
-                              ? TextDecoration.lineThrough
-                              : TextDecoration.none,
-                          fontWeight: (!task.isComplete)
-                              ? FontWeight.bold
-                              : FontWeight.normal,
-                        ),
+                  return InkWell(
+                    onTap: () async {
+                      if (task.name == "ログイン") {
+                        await FirebaseUpdateScript().completeTask(profile.uid,
+                            CollectionName.dailyTask, TaskType.login);
+                      }
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        color: (!task.isComplete)
+                            ? Theme.of(context).colorScheme.primaryContainer
+                            : Theme.of(context)
+                                .colorScheme
+                                .surfaceContainerHigh,
                       ),
-                      trailing: (task.isComplete)
-                          ? Icon(Icons.check_rounded)
-                          : SizedBox.shrink(),
+                      child: ListTile(
+                        title: Text(
+                          task.name,
+                          style: TextStyle(
+                            decoration: (task.isComplete)
+                                ? TextDecoration.lineThrough
+                                : TextDecoration.none,
+                            fontWeight: (!task.isComplete)
+                                ? FontWeight.bold
+                                : FontWeight.normal,
+                          ),
+                        ),
+                        trailing: (task.isComplete)
+                            ? Icon(Icons.check_rounded)
+                            : SizedBox.shrink(),
+                      ),
                     ),
                   );
                 },
