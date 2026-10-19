@@ -43,7 +43,7 @@ Future<void> main() async {
     criticalAlert: true,
     provisional: true,
     sound: true,
-  );
+);
 
   NotificationScript().msgListener();
 
@@ -59,7 +59,7 @@ Future<void> main() async {
       print('User is signed in!');
       userInit = user;
     }
-  });
+});
 
   runApp(providerScope);
 }
